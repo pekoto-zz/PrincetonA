@@ -17,5 +17,9 @@ public class InsertionSortTests {
         InsertionSort.sort(arr);
 
         assertEquals(4, arr[0]);
+        assertEquals(21, arr[1]);
+        assertEquals(56, arr[2]);
+        assertEquals(192, arr[3]);
+        assertEquals(324, arr[4]);
     }
 }
