@@ -1,5 +1,26 @@
 package com.pekoto.datastructures;
 
+/**
+ * A kind of priority queue.
+ * A complete (perfectly balanced except from trailing nodes) binary tree (each parent has at most two children).
+ * 
+ * Allows you to quickly find the max/min element.
+ * 
+ * Performance:
+ * * put: O(log n)
+ * * removeMax/Min: O(log n)
+ * 
+ * Implementation:
+ * * put: adds a node at the end of the tree then SWIMs it up
+ *        (swim: keep swapping child node with parent while parent is bigger and not past top of heap)
+ * 
+ * * removeMax: swaps the top (max/min) node with the last node, removes it for return, and SINKS top node down
+ *              (sink: keep swapping parent node with LARGER child while parent node is smaller and not past bottom of heap)
+ * 
+ * Gotcha: Start indexing at 1 to make the maths easier
+ * 
+ * @param <T> The type to be stored on the heap (comparable)
+ */
 public class BinaryHeap<T extends Comparable<T>> {
 
     private static final int DEFAULT_SIZE = 11;
@@ -16,6 +37,14 @@ public class BinaryHeap<T extends Comparable<T>> {
         arr = (T[]) new Comparable[initialSize+1];
     }
     
+    /**
+     * 1. Check for resize
+     * 2. Add new value to bottom of heap
+     * 3. Swim the new element to its correct position
+     * 4. Increment next element pointer
+     * 
+     * @param value The element to put on to the end of the heap
+     */
     public void put(T value) {
         if(nextElementIndex == arr.length) {
             resize(arr.length*2);
@@ -26,6 +55,14 @@ public class BinaryHeap<T extends Comparable<T>> {
         nextElementIndex++;
     }
     
+    /**
+     * After a new node has been added to the bottom of the heap:
+     * 1. While not past the top of the heap
+     * 2. And while the child is bigger than its parent
+     * 3. Swap the child with its parent
+     * 
+     * @param childIndex The index of the node that was just added
+     */
     private void swim(int childIndex) {
         int parentIndex = childIndex/2;
         
@@ -36,6 +73,18 @@ public class BinaryHeap<T extends Comparable<T>> {
         }
     }
     
+    /**
+     * Returns the node with the largest (smallest) value
+     * 1. Decrement next element pointer
+     * 2. Swap the largest node with the last node
+     * 3. Save largest value for return
+     * 4. Get rid of the reference
+     * 5. Sink the new top node to its correct position
+     * 6. Check for resize
+     * 7. Return the max value
+     * 
+     * @return The largest/smallest node in the heap
+     */
     public T removeMax() {
         nextElementIndex--;
         swap(1, nextElementIndex);
