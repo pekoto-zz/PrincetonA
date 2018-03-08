@@ -6,6 +6,10 @@ package com.pekoto.datastructures;
  * 
  * Allows you to quickly find the max/min element.
  * 
+ * Parent node = nodeIndex/2
+ * Child node one = nodeIndex*2
+ * Child node two = nodeIndex*2+1
+ * 
  * Performance:
  * * put: O(log n)
  * * removeMax/Min: O(log n)
