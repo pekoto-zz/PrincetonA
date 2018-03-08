@@ -104,6 +104,14 @@ public class BinaryHeap<T extends Comparable<T>> {
         return value;
     }
     
+    /**
+     * Sink down a node into the correct place
+     * 1. Get the child indices
+     * 2. While the node is not off the end of the heap and a child is greater than this node
+     * 3. Swap the node with the greatest child
+     * 
+     * @param parentIndex The index of the node to sink down
+     */
     private void sink(int parentIndex) {
         int childOneIndex = parentIndex*2;
         int childTwoIndex = childOneIndex+1;
