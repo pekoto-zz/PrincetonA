@@ -116,7 +116,7 @@ public class BinaryHeap<T extends Comparable<T>> {
         int childOneIndex = parentIndex*2;
         int childTwoIndex = childOneIndex+1;
         
-        while(parentIndex < nextElementIndex-1 && (lessThan(parentIndex, childOneIndex) || lessThan(parentIndex, childTwoIndex))) {
+        while(childOneIndex < nextElementIndex && (lessThan(parentIndex, childOneIndex) || lessThan(parentIndex, childTwoIndex))) {
             int maxChildIndex = max(childOneIndex, childTwoIndex);
             swap(parentIndex, maxChildIndex);
             parentIndex = maxChildIndex;

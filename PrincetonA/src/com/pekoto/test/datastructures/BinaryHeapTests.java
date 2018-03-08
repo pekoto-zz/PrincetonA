@@ -27,6 +27,21 @@ public class BinaryHeapTests {
     }
     
     @Test
+    public void testPutEven() {
+        BinaryHeap<Integer> heap = new BinaryHeap<Integer>();
+        
+        heap.put(7);
+        heap.put(8);
+        heap.put(-1);
+        heap.put(5);
+        heap.put(1);
+        heap.put(9);
+        
+        assertEquals(6, heap.size());
+        assertEquals(Integer.valueOf(9), heap.removeMax());
+    }
+    
+    @Test
     public void testRemoveAllAndShrink() {
         BinaryHeap<Integer> heap = new BinaryHeap<Integer>();
         
