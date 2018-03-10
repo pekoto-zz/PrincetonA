@@ -34,19 +34,13 @@ public class HeapSortTests {
         
         sorter.sort(arr);
         
-        for(int i = 0; i < arr.length; i++) {
-            System.out.print(String.format("%d ", arr[i]));
-        }
-        System.out.println();
-        
-       /* assertEquals(Integer.valueOf(-12), arr[0]);
+        assertEquals(Integer.valueOf(-12), arr[0]);
         assertEquals(Integer.valueOf(1), arr[1]);
         assertEquals(Integer.valueOf(3), arr[2]);
         assertEquals(Integer.valueOf(4), arr[3]);
         assertEquals(Integer.valueOf(25), arr[4]);
         assertEquals(Integer.valueOf(300), arr[5]);
-        assertEquals(Integer.valueOf(592), arr[6]); */
-    
+        assertEquals(Integer.valueOf(592), arr[6]);
     }
     
     @Test
