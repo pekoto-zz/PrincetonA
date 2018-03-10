@@ -93,11 +93,11 @@ public class BinaryHeap<T extends Comparable<T>> {
      */
     public T removeMax() {
         nextElementIndex--;
-        swap(1, nextElementIndex);
+        swap(TOP_OF_HEAP, nextElementIndex);
         T value = arr[nextElementIndex];
         arr[nextElementIndex] = null;
         
-        sink(1);
+        sink(TOP_OF_HEAP);
         
         if(nextElementIndex == arr.length/4) {
             resize(arr.length/2);

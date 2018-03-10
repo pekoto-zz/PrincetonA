@@ -89,7 +89,7 @@ public class HeapSort<T extends Comparable<T>> {
     
     private boolean lessThan(T [] arr, int indexOne, int indexTwo) {
         if(indexTwo >= arr.length) {
-            return false
+            return false;
         } else if(arr[indexTwo] == null) {
             return false;
         } else if (arr[indexOne] == null) {
