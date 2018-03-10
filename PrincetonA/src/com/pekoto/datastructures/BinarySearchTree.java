@@ -214,6 +214,14 @@ public class BinarySearchTree<K extends Comparable<K>, V> {
         return size(root);
     }
     
+    private int size(Node node) {
+        if(node == null) {
+            return 0;
+        } else {
+            return node.count;
+        }
+    }
+    
     /**
      * Finds the number of elements in the tree less than and including a given key
      * 
@@ -244,14 +252,6 @@ public class BinarySearchTree<K extends Comparable<K>, V> {
             return 1 + size(node.left) + lessThan(node.right, key);
         } else {
             return 1 + size(node.left);
-        }
-    }
-    
-    private int size(Node node) {
-        if(node == null) {
-            return 0;
-        } else {
-            return node.count;
         }
     }
     
