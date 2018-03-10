@@ -28,6 +28,7 @@ package com.pekoto.datastructures;
 public class BinaryHeap<T extends Comparable<T>> {
 
     private static final int DEFAULT_SIZE = 11;
+    private static final int TOP_OF_HEAP = 1;
     private T[] arr;
     
     // Set the root at one to make the math easier
@@ -70,7 +71,8 @@ public class BinaryHeap<T extends Comparable<T>> {
     private void swim(int childIndex) {
         int parentIndex = childIndex/2;
         
-        while(childIndex > 0 && lessThan(parentIndex, childIndex)) {
+        // 1 = top of the heap, we can't swim farther than that
+        while(childIndex > TOP_OF_HEAP && lessThan(parentIndex, childIndex)) {
             swap(parentIndex, childIndex);
             childIndex = parentIndex;
             parentIndex /= 2;
@@ -114,14 +116,27 @@ public class BinaryHeap<T extends Comparable<T>> {
      */
     private void sink(int parentIndex) {
         int childOneIndex = parentIndex*2;
-        int childTwoIndex = childOneIndex+1;
+        int childTwoIndex;
+        int maxChildIndex;
         
-        while(childOneIndex < nextElementIndex && (lessThan(parentIndex, childOneIndex) || lessThan(parentIndex, childTwoIndex))) {
-            int maxChildIndex = max(childOneIndex, childTwoIndex);
-            swap(parentIndex, maxChildIndex);
-            parentIndex = maxChildIndex;
-            childOneIndex = parentIndex*2;
-            childTwoIndex = childOneIndex+1;
+        while(childOneIndex < nextElementIndex) {
+            
+            // The next element pointer is null, so if childOneIndex == nextElementPointer-1,
+            // there is no space for a second child
+            if(childOneIndex <= nextElementIndex-2) {
+                childTwoIndex = childOneIndex+1;
+                maxChildIndex = max(childOneIndex, childTwoIndex);                
+            } else {
+                maxChildIndex = childOneIndex;
+            }
+            
+            if(lessThan(parentIndex, maxChildIndex)) {
+                swap(parentIndex, maxChildIndex);
+                parentIndex = maxChildIndex;
+                childOneIndex = parentIndex*2;   
+            } else {
+                break;
+            }
         }
     }
     
@@ -132,13 +147,7 @@ public class BinaryHeap<T extends Comparable<T>> {
     }
     
     private boolean lessThan(int indexOne, int indexTwo) {
-        if(arr[indexTwo] == null) {
-            return false;
-        } else if (arr[indexOne] == null) {
-            return false;
-        } else {
-            return arr[indexOne].compareTo(arr[indexTwo]) < 0;
-        }
+         return arr[indexOne].compareTo(arr[indexTwo]) < 0;
     }
     
     private int max(int indexOne, int indexTwo) {
