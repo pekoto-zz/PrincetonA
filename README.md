@@ -1,5 +1,5 @@
 # PrincetonA
-Data structures, algorithms, and exercises for the Princeton Algorithms I/II courses.
+Data structures and algorithms for the Princeton Algorithms I/II courses.
 
 https://www.coursera.org/learn/algorithms-part1
 
