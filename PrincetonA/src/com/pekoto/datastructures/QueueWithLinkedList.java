@@ -20,13 +20,13 @@ import java.util.Iterator;
  */
 public class QueueWithLinkedList<T> implements Iterable<T> {
 
-    private Node<T> start;
-    private Node<T> end;
+    private Node start;
+    private Node end;
     private int size = 0;
 
-    private class Node<T> {
+    private class Node {
         T value;
-        Node<T> next;
+        Node next;
 
         Node(T value) {
             this.value = value;
@@ -42,8 +42,8 @@ public class QueueWithLinkedList<T> implements Iterable<T> {
      * @param value The object to add onto the back of the queue
      */
     public void enqueue(T value) {
-        Node<T> oldEnd = end;
-        end = new Node<T>(value);
+        Node oldEnd = end;
+        end = new Node(value);
 
         // 1 item queue
         if(start == null) {
@@ -116,7 +116,7 @@ public class QueueWithLinkedList<T> implements Iterable<T> {
     }
 
     private class ListIterator implements Iterator<T> {
-        private Node<T> current = start;
+        private Node current = start;
 
         public boolean hasNext() {
             return current != null;

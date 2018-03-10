@@ -29,12 +29,12 @@ import java.util.Iterator;
  */
 public class StackWithLinkedList<T> implements Iterable<T> {
 
-    private Node<T> top;
+    private Node top;
     private int size;
 
-    private class Node<T> {
+    private class Node {
         T value;
-        Node<T> next;
+        Node next;
 
         Node(T value) {
             this.value = value;
@@ -51,9 +51,9 @@ public class StackWithLinkedList<T> implements Iterable<T> {
      * @param value The value to put on the stack
      */
     public void push(T value) {
-        Node<T> oldTop = top;
+        Node oldTop = top;
 
-        top = new Node<T>(value);
+        top = new Node(value);
         top.next = oldTop;
 
         size++;
@@ -104,7 +104,7 @@ public class StackWithLinkedList<T> implements Iterable<T> {
     }
 
     private class ListIterator implements Iterator<T> {
-        private Node<T> current = top;
+        private Node current = top;
 
         public boolean hasNext() {
             return current != null;
