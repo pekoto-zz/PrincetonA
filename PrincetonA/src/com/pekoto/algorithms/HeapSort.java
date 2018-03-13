@@ -34,7 +34,7 @@ public class HeapSort<T extends Comparable<T>> {
 
         // Heapify
         // Bottom up, sink each node down to the correct position
-        for(int parentIndex = (endOfHeapIndex/2)+1; parentIndex >= 0; parentIndex--) {
+        for(int parentIndex = (endOfHeapIndex/2); parentIndex >= 0; parentIndex--) {
             sink(arr, parentIndex, endOfHeapIndex);
         }
 
