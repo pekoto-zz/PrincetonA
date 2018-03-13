@@ -23,7 +23,7 @@ public class HeapSort<T extends Comparable<T>> {
      * In practice, tends to be slower than quicksort since the inner loop is longer/lack of caching
      * 
      * GOTCHA: The array is 0-based, making it slightly harder than a binary heap.
-     * bottom up parent index = (arr.length-1)/2 + 1 (first node with children)
+     * bottom up parent index = (arr.length-1)/2 (first node with children)
      * Child node one = (parent index*2) + 1
      * 
      * @param arr The array to be sorted
@@ -34,7 +34,7 @@ public class HeapSort<T extends Comparable<T>> {
 
         // Heapify
         // Bottom up, sink each node down to the correct position
-        for(int parentIndex = (endOfHeapIndex/2)+1; parentIndex >= 0; parentIndex--) {
+        for(int parentIndex = (endOfHeapIndex/2); parentIndex >= 0; parentIndex--) {
             sink(arr, parentIndex, endOfHeapIndex);
         }
 
