@@ -105,6 +105,19 @@ public class HashMapWithChaining<T, V> {
         arr[hash] = delete(arr[hash], key);
     }
     
+    /**
+     * Delete a node from the linked list
+     * 
+     * 1. Pass in the node to delete from and key
+     * 2. If the node is null, return
+     * 3. If we have found our node to delete, return the next node in the chain
+     * 4. Otherwise, recurse -- delete from the next node in the chain
+     * 5. Return the node
+     * 
+     * @param node The node chain to delete from
+     * @param key The key to delete
+     * @return The path to this node without the deleted node
+     */
     public Node delete(Node node, T key) {
         if (node == null) {
             return null;
