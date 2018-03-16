@@ -47,10 +47,10 @@ public class Bag<T> implements Iterable<T> {
     
     // Iterable implementation
     public Iterator<T> iterator()  {
-        return new ListIterator<T>(first);  
+        return new ListIterator(first);  
     }
 
-    private class ListIterator<T> implements Iterator<T> {
+    private class ListIterator implements Iterator<T> {
         private Node<T> current;
 
         public ListIterator(Node<T> first) {
