@@ -40,8 +40,8 @@ public class DepthFirstSearch {
     private int [] edgeTo;
     private int startingIndex;
     
-    public DepthFirstSearch(GraphAsAdjacencyList graph, int startingIndex) {
-        this.startingIndex = startingIndex;
+    public DepthFirstSearch(GraphAsAdjacencyList graph, int startingVertex) {
+        this.startingIndex = startingVertex;
         this.visited = new boolean[graph.numOfVertices()];
         this.edgeTo = new int[graph.numOfVertices()];
         
@@ -50,7 +50,7 @@ public class DepthFirstSearch {
             edgeTo[i] = NOT_CONNECTED;
         }
         
-        depthFirstSearch(graph, startingIndex);
+        depthFirstSearch(graph, startingVertex);
     }
     
     /**
@@ -58,9 +58,10 @@ public class DepthFirstSearch {
      * 
      * 1. Mark this vertex as visited
      * 2. For each adjacent vertex
-     *  2.1 If it's been visited, return
+     *  2.1 If it hasn't been visited...
      *  2.2 Recurse the search from this vertex
      *  2.3 Mark the edge of this adjacent vertex as being from the previous vertex
+     *  2.4 If it has been visited, move on to next vertex
      * 
      * @param graph The graph to search
      * @param vertexIndex The current vertex to search from (initially starting index)
@@ -69,12 +70,10 @@ public class DepthFirstSearch {
         visited[vertexIndex] = true;
         
         for(int adjacentVertex: graph.adjacentVertices(vertexIndex)) {
-            if(visited[adjacentVertex]) {
-                return;
+            if(!visited[adjacentVertex]) {
+                depthFirstSearch(graph, adjacentVertex);
+                edgeTo[adjacentVertex] = vertexIndex;
             }
-            
-            depthFirstSearch(graph, adjacentVertex);
-            edgeTo[adjacentVertex] = vertexIndex;
         }
     }
     
@@ -103,9 +102,11 @@ public class DepthFirstSearch {
         
         StackWithLinkedList<Integer> stack = new StackWithLinkedList<Integer>();
         
-        for(int vertex = destinationVertex; edgeTo[vertex] != startingIndex; vertex = edgeTo[vertex]) {
+        for(int vertex = edgeTo[destinationVertex]; vertex != startingIndex; vertex = edgeTo[vertex]) {
             stack.push(vertex);
         }
+        
+        stack.push(startingIndex);
         
         return stack;
     }
