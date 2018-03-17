@@ -40,6 +40,8 @@ public class BreadthFirstSearch {
     
     private int [] edgeTo;
     private int [] distanceTo;
+    private boolean [] visited;
+
     private int startingVertex;
     
     public BreadthFirstSearch(GraphAsAdjacencyList graph, int startingVertex) {
@@ -47,10 +49,7 @@ public class BreadthFirstSearch {
         this.startingVertex = startingVertex;
         this.edgeTo = new int[graph.numOfVertices()];
         this.distanceTo = new int[graph.numOfVertices()];
-        
-        for(int i = 0; i < graph.numOfVertices(); i++) {
-            edgeTo[i] = NOT_CONNECTED;
-        }
+        this.visited = new boolean[graph.numOfVertices()];
         
         breadthFirstSearch(graph, startingVertex);
     }
@@ -90,10 +89,11 @@ public class BreadthFirstSearch {
                 
                 // If the edge hasn't been connected yet,
                 // connect it and add it to the queue
-                if(edgeTo[adjacentVertex] == NOT_CONNECTED) {
+                if(!visited[adjacentVertex]) {
                     edgeTo[adjacentVertex] = vertex;
                     distanceTo[adjacentVertex] = distance;
                     queue.enqueue(adjacentVertex);
+                    visited[adjacentVertex] = true;
                 }
             }
         }
@@ -108,7 +108,7 @@ public class BreadthFirstSearch {
      *          false otherwise 
      */
     public boolean pathExists(int vertex) {
-        return edgeTo[vertex] != NOT_CONNECTED;
+        return visited[vertex];
     }
     
     /**

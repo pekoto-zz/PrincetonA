@@ -33,8 +33,6 @@ import com.pekoto.datastructures.StackWithLinkedList;
  *      -- Wind back up the edgeTo array until you hit the starting vertex index
  */
 public class DepthFirstSearch {
-
-    private final int NOT_CONNECTED = -1;
     
     private boolean [] visited;
     private int [] edgeTo;
@@ -44,11 +42,6 @@ public class DepthFirstSearch {
         this.startingIndex = startingVertex;
         this.visited = new boolean[graph.numOfVertices()];
         this.edgeTo = new int[graph.numOfVertices()];
-        
-        // Initialise edges as not connected
-        for(int i = 0; i < edgeTo.length; i++) {
-            edgeTo[i] = NOT_CONNECTED;
-        }
         
         depthFirstSearch(graph, startingVertex);
     }
@@ -86,7 +79,7 @@ public class DepthFirstSearch {
      *          false otherwise 
      */
     public boolean pathExists(int destinationVertex) {
-        return edgeTo[destinationVertex] != NOT_CONNECTED;
+        return visited[destinationVertex];
     }
     
     /**
