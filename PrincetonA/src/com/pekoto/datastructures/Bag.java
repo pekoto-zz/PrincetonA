@@ -45,6 +45,16 @@ public class Bag<T> implements Iterable<T> {
         return size;
     }
     
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        
+        for(Node<T> node = first; node != null; node = node.next) {
+            sb.append(String.format("%s | ", node.value.toString()));
+        }
+        
+        return sb.toString();
+    }
+    
     // Iterable implementation
     public Iterator<T> iterator()  {
         return new ListIterator(first);  
