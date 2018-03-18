@@ -4,9 +4,12 @@ package com.pekoto.datastructures;
  * A representation of an undirected graph
  * implemented using adjacency lists.
  * 
+ * This is very similar to the GraphAsAdjacencyList class,
+ * but the adjacency lists contain weighted edges (see Edge.java) instead of just Integers.
+ * 
  * The main class holds an array of bags (linked list).
  * Every element in this array is a vertex in the graph,
- * and the linked list at each element is a list of adjacent vertices.
+ * and the linked list at each element is a list of adjacent edges.
  * 
  * Performance:
  * Insert an edge: O(1) -- just add a new element to the linked list
@@ -16,26 +19,27 @@ package com.pekoto.datastructures;
  * Space: 
  * O(V+E) -- number of edges and vertices
  */
-public class GraphAsAdjacencyList {
+public class EdgeWeightedGraph {
 
     private final int numOfVertices;
+    private int numOfEdges;
 
     // An array of bags (linked list)
     // Each bag holds the adjacent vertices
     // Vertices are stored as Integers -- they can be mapped to data using hash maps
-    private Bag<Integer>[] vertices;
+    private Bag<Edge>[] vertices;
     
     /**
      * Initialise an array of bags, with one bag for each vertex
      *  
      * @param numOfVertices The number of vertices in this graph
      */
-    public GraphAsAdjacencyList(int numOfVertices) {
+    public EdgeWeightedGraph(int numOfVertices) {
         this.numOfVertices = numOfVertices;
-        vertices = (Bag<Integer>[]) new Bag[numOfVertices];
+        vertices = (Bag<Edge>[]) new Bag[numOfVertices];
         
         for(int vertex = 0; vertex < numOfVertices; vertex++) {
-            vertices[vertex] = new Bag<Integer>();
+            vertices[vertex] = new Bag<Edge>();
         }
     }
     
@@ -46,14 +50,20 @@ public class GraphAsAdjacencyList {
      * @param v The first vertex index
      * @param w The second vertex index
      */
-    public void addEdge(int v, int w) {
-        vertices[v].add(w);
+    public void addEdge(Edge edge) {
+
+        int v = edge.either();
+        int w = edge.other(v);
         
+        vertices[v].add(edge);
+
         // No need to add the reverse edge if we're adding a loop
         // (node connected to itself)
-        if(v != w) {            
-            vertices[w].add(v);
+        if(v != w) {
+            vertices[w].add(edge);
         }
+        
+        numOfEdges++;
     }
     
     /**
@@ -63,32 +73,15 @@ public class GraphAsAdjacencyList {
      * @param v The vertex index to query
      * @return The bag of vertex indices that are adjacent to the vertex v
      */
-    public Iterable<Integer> adjacentVertices(int v) {
+    public Iterable<Edge> adjacentVertices(int v) {
         return vertices[v];
-    }
-    
-    /**
-     * Returns the number of vertices incident to the vertex v
-     * (The size of the adjacency list for this vertex)
-     * 
-     * @param v The vertex index to query
-     * @return The number of vertices adjacent to the vertex at index v 
-     */
-    public int degree(int v) {
-        int degree = vertices[v].size();
-        
-        // Should return +1 if the node is connected to itself
-        // (I.e., there is a loop from the vertex to itself)
-        for(Integer adjacentVertex: vertices[v]) {
-            if(adjacentVertex.equals(v)) {
-                degree++;
-            }
-        }
-        
-        return degree;
     }
     
     public int numOfVertices() {
         return numOfVertices;
+    }
+    
+    private int numOfEdges() {
+        return numOfEdges;
     }
 }
