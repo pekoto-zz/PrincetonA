@@ -19,7 +19,7 @@ import com.pekoto.datastructures.DirectedGraph;
  *  1. For each node in the graph:
  *  2. If it hasn't been visited yet...
  *  3. Perform a depth first search on that node
- *      3.1 Mark that node as visied
+ *      3.1 Mark that node as visited
  *      3.2 Mark that node as appearing in the recursion stack
  *      3.3 For each adjacent node...
  *          3.3.1 If it's in the recursion stack -- error, we have a cycle
