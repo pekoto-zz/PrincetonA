@@ -4,21 +4,20 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import org.junit.Test;
-import com.pekoto.datastructures.GraphAsAdjacencyList;
+import com.pekoto.datastructures.DirectedGraph;
 
 /**
- * Unit tests for the GraphAsAdjacencyList class
+ * Unit tests for the DirectedGraph class
  */
-public class GraphAsAdjacencyListTests {
-
+public class DirectedGraphTests {
+    
     @Test
     public void testAdjacencyLists() {
-        GraphAsAdjacencyList graph = new GraphAsAdjacencyList(5);
+        DirectedGraph graph = new DirectedGraph(5);
         
         graph.addEdge(1, 2);
         graph.addEdge(2, 3);
         graph.addEdge(2, 4);
-        graph.addEdge(4, 4);
         
         ArrayList<Integer> adjacentToVertexZero = new ArrayList<Integer>();
 
@@ -39,60 +38,66 @@ public class GraphAsAdjacencyListTests {
         assertEquals(1, adjacentToVertexOne.size());
         assertEquals(Integer.valueOf(2), adjacentToVertexOne.get(0));
         
-        // Vertex 2 is connected to vertices 1, 3, and 4
+        // Vertex 2 is connected to vertices 3 and 4
         ArrayList<Integer> adjacentToVertexTwo = new ArrayList<Integer>();
         
         for(Integer adjacentNode: graph.adjacentVertices(2)) {
             adjacentToVertexTwo.add(adjacentNode);
         }
         
-        assertEquals(3, adjacentToVertexTwo.size());
+        assertEquals(2, adjacentToVertexTwo.size());
         assertEquals(Integer.valueOf(4), adjacentToVertexTwo.get(0));
         assertEquals(Integer.valueOf(3), adjacentToVertexTwo.get(1));
-        assertEquals(Integer.valueOf(1), adjacentToVertexTwo.get(2));
         
-        // Vertex 3 is connected to vertex 2
+        // Vertex 3 is connected to nothing
         ArrayList<Integer> adjacentToVertexThree = new ArrayList<Integer>();
         
         for(Integer adjacentNode: graph.adjacentVertices(3)) {
             adjacentToVertexThree.add(adjacentNode);
         }
         
-        assertEquals(1, adjacentToVertexThree.size());
-        assertEquals(Integer.valueOf(2), adjacentToVertexThree.get(0));
+        assertEquals(0, adjacentToVertexThree.size());
         
-        // Vertex 4 is connected to vertex 2 AND itself
+        // Vertex 4 is connected to nothing
         ArrayList<Integer> adjacentToVertexFour = new ArrayList<Integer>();
         
         for(Integer adjacentNode: graph.adjacentVertices(4)) {
             adjacentToVertexFour.add(adjacentNode);
         }
         
-        assertEquals(2, adjacentToVertexFour.size());
-        assertEquals(Integer.valueOf(4), adjacentToVertexFour.get(0));
-        assertEquals(Integer.valueOf(2), adjacentToVertexFour.get(1));
+        assertEquals(0, adjacentToVertexFour.size());
     }
     
     @Test
     public void testNumOfVertices() {
-        GraphAsAdjacencyList graph = new GraphAsAdjacencyList(5);
+        DirectedGraph graph = new DirectedGraph(5);
         
         assertEquals(5, graph.numOfVertices());
     }
     
     @Test
-    public void testDegree() {
-        GraphAsAdjacencyList graph = new GraphAsAdjacencyList(5);
+    public void testNumOfEdges() {
+        DirectedGraph graph = new DirectedGraph(5);
         
         graph.addEdge(1, 2);
         graph.addEdge(2, 3);
         graph.addEdge(2, 4);
-        graph.addEdge(4, 4);
+        
+        assertEquals(3, graph.numOfEdges());
+    }
+    
+    @Test
+    public void testDegree() {
+        DirectedGraph graph = new DirectedGraph(5);
+        
+        graph.addEdge(1, 2);
+        graph.addEdge(2, 3);
+        graph.addEdge(2, 4);
         
         assertEquals(0, graph.degree(0));
         assertEquals(1, graph.degree(1));
-        assertEquals(3, graph.degree(2));
-        assertEquals(1, graph.degree(3));
-        assertEquals(3, graph.degree(4));
+        assertEquals(2, graph.degree(2));
+        assertEquals(0, graph.degree(3));
+        assertEquals(0, graph.degree(4));
     }
 }

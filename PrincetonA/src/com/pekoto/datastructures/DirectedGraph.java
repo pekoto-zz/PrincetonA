@@ -1,8 +1,12 @@
 package com.pekoto.datastructures;
 
 /**
- * A representation of an undirected graph
- * implemented using adjacency lists.
+ * A class representing a directed graph (aka, a digraph).
+ * Implemented using adjacency lists.
+ * 
+ * This is very similar to the graph class (GraphAsAdjacencyList),
+ * except that when edges are added, they are only added to the vertex in
+ * question's linked list.
  * 
  * The main class holds an array of bags (linked list).
  * Every element in this array is a vertex in the graph,
@@ -10,27 +14,28 @@ package com.pekoto.datastructures;
  * 
  * Performance:
  * Insert an edge: O(1) -- just add a new element to the linked list
- * Check if there is an edge between two vertices: degree(V) -- number of connected vertices at V (size of linked list)
- * Get all vertices adjacent to a given vertice: degree(V) -- number of connected vertices at V (size of linked list)
+ * Check if there is an edge between two vertices: outdegree(V) -- number of outgoing vertices at V (size of linked list)
+ * Get all vertices adjacent to a given vertice: outdegree(V) -- number of outgoing vertices at V (size of linked list)
  * 
  * Space: 
  * O(V+E) -- number of edges and vertices
  */
-public class GraphAsAdjacencyList {
-
+public class DirectedGraph {
+    
     private final int numOfVertices;
 
     // An array of bags (linked list)
     // Each bag holds the adjacent vertices
     // Vertices are stored as Integers -- they can be mapped to data using hash maps
     private Bag<Integer>[] vertices;
+    private int numOfEdges = 0;
     
     /**
      * Initialise an array of bags, with one bag for each vertex
      *  
      * @param numOfVertices The number of vertices in this graph
      */
-    public GraphAsAdjacencyList(int numOfVertices) {
+    public DirectedGraph(int numOfVertices) {
         this.numOfVertices = numOfVertices;
         vertices = (Bag<Integer>[]) new Bag[numOfVertices];
         
@@ -41,19 +46,17 @@ public class GraphAsAdjacencyList {
     
     /**
      * Connect two vertices by adding an edge between them
-     * (Add an edge to each vertice's adjacency list)
+     * (Add an edge to the vertex's adjacency list)
+     * 
+     * Note: This differs from an undirected graph in that
+     * the edge is only added in one direction (it's not added from w to v)
      * 
      * @param v The first vertex index
      * @param w The second vertex index
      */
     public void addEdge(int v, int w) {
         vertices[v].add(w);
-        
-        // No need to add the reverse edge if we're adding a loop
-        // (node connected to itself)
-        if(v != w) {            
-            vertices[w].add(v);
-        }
+        numOfEdges++;
     }
     
     /**
@@ -90,5 +93,9 @@ public class GraphAsAdjacencyList {
     
     public int numOfVertices() {
         return numOfVertices;
+    }
+    
+    public int numOfEdges() {
+        return numOfEdges;
     }
 }
