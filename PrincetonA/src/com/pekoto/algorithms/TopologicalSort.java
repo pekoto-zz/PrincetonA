@@ -29,7 +29,7 @@ import com.pekoto.datastructures.DirectedGraph;
  *  4. Finally, we have all of the nodes on the stack in reverse order
  *  5. Pop the nodes off of the stack to return the correct topological ordering
  *          
- *  Performance: O(V+E) -- same as Depth First Search
+ *  Performance: O(V+E) -- same as Depth First Search (linear)
  *  Space: O(V) -- same as Depth First Search
  *          
  */
