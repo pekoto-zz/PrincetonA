@@ -81,7 +81,7 @@ public class EdgeWeightedGraph {
         return numOfVertices;
     }
     
-    private int numOfEdges() {
+    public int numOfEdges() {
         return numOfEdges;
     }
 }
