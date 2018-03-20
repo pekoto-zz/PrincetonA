@@ -1,11 +1,11 @@
 package com.pekoto.datastructures;
 
 /**
- * A representation of an undirected, weighted graph
+ * A representation of a directed, weighted graph
  * implemented using adjacency lists.
  * 
- * This is very similar to the GraphAsAdjacencyList class,
- * but the adjacency lists contain weighted edges (see Edge.java) instead of just Integers.
+ * This is very similar to the EdgeWeightedGraph class,
+ * but the adjacency lists contain directed weighted edges (see DirectedEdge.java) instead of just Edges.
  * 
  * The main class holds an array of bags (linked list).
  * Every element in this array is a vertex in the graph,
@@ -19,7 +19,7 @@ package com.pekoto.datastructures;
  * Space: 
  * O(V+E) -- number of edges and vertices
  */
-public class EdgeWeightedGraph {
+public class EdgeWeightedDirectedGraph {
 
     private final int numOfVertices;
     private int numOfEdges;
@@ -27,41 +27,33 @@ public class EdgeWeightedGraph {
     // An array of bags (linked list)
     // Each bag holds the adjacent vertices
     // Vertices are stored as Integers -- they can be mapped to data using hash maps
-    private Bag<Edge>[] vertices;
+    private Bag<DirectedEdge>[] vertices;
     
     /**
      * Initialise an array of bags, with one bag for each vertex
      *  
      * @param numOfVertices The number of vertices in this graph
      */
-    public EdgeWeightedGraph(int numOfVertices) {
+    public EdgeWeightedDirectedGraph(int numOfVertices) {
         this.numOfVertices = numOfVertices;
-        vertices = (Bag<Edge>[]) new Bag[numOfVertices];
+        vertices = (Bag<DirectedEdge>[]) new Bag[numOfVertices];
         
         for(int vertex = 0; vertex < numOfVertices; vertex++) {
-            vertices[vertex] = new Bag<Edge>();
+            vertices[vertex] = new Bag<DirectedEdge>();
         }
     }
     
     /**
      * Connect two vertices by adding an edge between them
-     * (Add an edge to each vertice's adjacency list)
+     * (Add an edge to the from vertice's adjacency list)
      * 
-     * @param v The first vertex index
-     * @param w The second vertex index
+     * @param edge The edge to add
      */
-    public void addEdge(Edge edge) {
+    public void addEdge(DirectedEdge edge) {
 
-        int v = edge.either();
-        int w = edge.other(v);
+        int v = edge.from();
         
         vertices[v].add(edge);
-
-        // No need to add the reverse edge if we're adding a loop
-        // (node connected to itself)
-        if(v != w) {
-            vertices[w].add(edge);
-        }
         
         numOfEdges++;
     }
@@ -73,7 +65,7 @@ public class EdgeWeightedGraph {
      * @param v The vertex index to query
      * @return The bag of vertex indices that are adjacent to the vertex v
      */
-    public Iterable<Edge> adjacentVertices(int v) {
+    public Iterable<DirectedEdge> adjacentVertices(int v) {
         return vertices[v];
     }
     
