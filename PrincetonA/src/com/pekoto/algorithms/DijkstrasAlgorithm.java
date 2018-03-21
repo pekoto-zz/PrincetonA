@@ -26,6 +26,8 @@ import com.pekoto.datastructures.EdgeWeightedDirectedGraph;
  * 
  * So performance is E log(V) -- log(V) for binary heap put/get/update * E edges
  * 
+ * Note: Will not work with edges that have -ve weights
+ * 
  * Uses:
  * - Maps applications, etc. etc. (many)
  * - Precompute the paths and then just read from arrays
