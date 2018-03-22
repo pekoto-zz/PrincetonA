@@ -26,7 +26,10 @@ import com.pekoto.datastructures.EdgeWeightedDirectedGraph;
  * 
  * So performance is E log(V) -- log(V) for binary heap put/get/update * E edges
  * 
- * Note: Will not work with edges that have -ve weights
+ * Note: Strictly speaking, the algorithm should not work for -ve weights. There
+ *       should be a check to make sure items on the queue are only processed once,
+ *       guaranteeing performance. With -ve weights, we can end up with the same vertex
+ *       being put on the queue more than once.
  * 
  * Uses:
  * - Maps applications, etc. etc. (many)
@@ -59,6 +62,9 @@ public class DijkstrasAlgorithm {
         
         priorityQueue.add(new WeightIndex(sourceVertex, 0.0));
         
+        // At this point we could do a check to see if vertex was processed already.
+        // Will guarantee performance, but as a result won't work if the graph has
+        // -ve weights.
         while(!priorityQueue.isEmpty()) {
             // Get next vertex closest to the source
             int closestVertex = priorityQueue.poll().index;
