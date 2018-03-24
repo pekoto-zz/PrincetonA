@@ -1,11 +1,17 @@
 package com.pekoto.test.algorithms;
 
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Test;
+
+import com.pekoto.algorithms.LsdRadixSort;
+
 /**
  * Unit tests for the LsdRadixSort class.
  */
 public class LsdRadixSortTests {
 	
-  @Test
+    @Test
 	public void testSorts() {
 		
 		String [] arr = {
