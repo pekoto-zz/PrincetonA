@@ -1,5 +1,7 @@
 package com.pekoto.datastructures;
 
+import java.util.LinkedList;
+
 /**
  * A basic trie data structure, where each node contains R (size of radix) children.
  * The trie is made up of nodes. Each node represents a character, and has R children,
@@ -150,5 +152,95 @@ public class RWayTrie<T> {
         //  charIndex+1 = look at the next node in the key
         // So we step down the trie and iterate along our key at the same time
         return get(node.children[nextChar], key, charIndex+1);
+    }
+    
+    /**
+     * Returns all of the keys that have been added to the trie
+     * 
+     * 1. Pass in the root, prefix, and list of keys
+     * 2. If the node is null, return
+     * 3. If the node has hit the end of a string (value != null)
+     *    add the current prefix to the list of keys
+     * 4. Recursively call from each child in each node
+     * 
+     * @return All of the keys added to the trie
+     */
+    public Iterable<String> keys() {
+        LinkedList<String> keys = new LinkedList<String>();
+        traverseTree(root, "", keys);
+        return keys;
+    }
+    
+    private void traverseTree(Node node, String prefix, LinkedList<String> keys) {    
+        if(node == null) {
+            return;
+        }
+        
+        if(node.value != null) {
+            keys.add(prefix);
+        }
+        
+        for(char chr = 0; chr < this.radixSize; chr++) {
+            traverseTree(node.children[chr], prefix + chr, keys);
+        }
+    }
+    
+    /**
+     * Returns all keys starting with a given prefix
+     * 
+     * 1. Get the node with this prefix
+     * 2. If the node is null, return
+     * 3. If the node has hit the end of a string (value != null)
+     *    add the current prefix to the list of keys
+     * 4. Recursively call from each child in each node
+     * 
+     * @param prefix The prefix to search for
+     * @return All keys starting with this prefix
+     */
+    public Iterable<String> keysWithPrefix(String prefix) {
+        LinkedList<String> keys = new LinkedList<String>();
+        Node prefixNode = get(root, prefix, 0);
+        traverseTree(prefixNode, prefix, keys);
+        return keys;
+    }
+    
+    /**
+     * Returns the longest prefix from the trie that
+     * matches a given input key.
+     * 
+     * Uses a modified search algorithm to how many nodes we
+     * can go down while matching this key, and then
+     * takes a substring of this length from the input key.
+     * 
+     * @param key The key to search for prefixes
+     * @return The longest prefix that matches this key
+     */
+    public String longestPrefix(String key) {
+        int longestKeyLen = get(root, key, 0, 0);
+        return key.substring(0, longestKeyLen);
+    }
+    
+    private int get(Node node, String key, int charIndex, int length) {
+        if(node == null) {
+            return length;
+        }
+        
+        // Only update length when we reach a valid word
+        if(node.value != null) {
+            length = charIndex;
+        }
+        
+        // We finished searching the length of our key
+        if(charIndex == key.length()) {
+            return length;
+        }
+        
+        char nextChar = key.charAt(charIndex);
+        
+        // Think of it as:
+        //  node.children = go down to the next node in the trie
+        //  charIndex+1 = look at the next node in the key
+        // So we step down the trie and iterate along our key at the same time
+        return get(node.children[nextChar], key, charIndex+1, length);
     }
 }
