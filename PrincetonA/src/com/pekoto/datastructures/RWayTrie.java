@@ -89,6 +89,10 @@ public class RWayTrie<T> {
             return node;
         }
         
+        // Think of it as:
+        //  node.children = go down to the next node in the trie
+        //  charIndex+1 = look at the next node in the key
+        // So we step down the trie and iterate along our key at the same time
         char nextChar = key.charAt(charIndex);
         node.children[nextChar] = add(node.children[nextChar], key, value, charIndex+1);
         
@@ -141,6 +145,10 @@ public class RWayTrie<T> {
         
         char nextChar = key.charAt(charIndex);
         
+        // Think of it as:
+        //  node.children = go down to the next node in the trie
+        //  charIndex+1 = look at the next node in the key
+        // So we step down the trie and iterate along our key at the same time
         return get(node.children[nextChar], key, charIndex+1);
     }
 }
