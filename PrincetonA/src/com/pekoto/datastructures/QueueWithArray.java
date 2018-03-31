@@ -10,6 +10,8 @@ package com.pekoto.datastructures;
  * Disadvantages:
  * * Need to dynamically resize array
  * (But amortized analysis shows on average this will not affect order)
+ * * Can end up with wasted space since pointers are only reset
+ *   when everything has been dequeued
  *
  * Performance:
  * * enqueue O(1) (amortized -- O(n) worst case)
