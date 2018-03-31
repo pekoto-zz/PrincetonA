@@ -34,4 +34,14 @@ public class BitwiseOperatorsTests {
         assertEquals(-2, bitwise.not(1));
         assertEquals(-6, bitwise.not(5));
     }
+    
+    @Test
+    public void testShiftLeft() {
+        assertEquals(8, bitwise.shiftLeft(4, 1));
+    }
+    
+    @Test
+    public void testShiftRight() {
+        assertEquals(2, bitwise.shiftRight(4, 1));
+    }
 }

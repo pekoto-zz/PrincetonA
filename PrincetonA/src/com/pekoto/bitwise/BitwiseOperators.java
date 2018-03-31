@@ -88,4 +88,43 @@ public class BitwiseOperators {
     public int not(int a) {
         return ~a;
     }
+    
+    /**
+     * Shifts a's bits left by a given amount.
+     * 
+     * Shifting left once will multiply by 2,
+     * shifting left twice will multiply by 4, etc.
+     * 
+     * Example:
+     * 4 << 1 = 8
+     * 
+     * 0100 = 4
+     * 1000 = 8
+     * 
+     * @param a The int whose bits to shift
+     * @param amount The amount to shift a left by
+     * @return a's bits shifted left by amount
+     */
+    public int shiftLeft(int a, int amount) {
+        return a << amount;
+    }
+    
+    /**
+     * Shifts a's bits right by a given amount.
+     * 
+     * Shifting right once will divide by 2, etc.
+     * 
+     * Example:
+     * 4 >> 1 = 2
+     * 
+     * 0100 = 4
+     * 0010 = 2
+     * 
+     * @param a The int whose bits to shift
+     * @param amount The amount to shift a right by
+     * @return a's bits shifted right by amount
+     */
+    public int shiftRight(int a, int amount) {
+        return a >> amount;
+    }
 }
