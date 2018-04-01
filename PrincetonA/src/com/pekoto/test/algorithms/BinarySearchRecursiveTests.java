@@ -3,19 +3,19 @@ package com.pekoto.test.algorithms;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
-import com.pekoto.algorithms.BinarySearch;
+import com.pekoto.algorithms.BinarySearchRecursive;
 
 /**
- * Unit tests for the BinarySearcher class
+ * Unit tests for the BinarySearchIterative class
  */
-public class BinarySearchTests {
+public class BinarySearchRecursiveTests {
 
     @Test
     void testSearch_keyFoundInLowerHalf() {
         int [] arr = {12, 46, 72, 180, 2000, 482712};
         int key = 72;
 
-        int result = BinarySearch.search(arr, key);
+        int result = BinarySearchRecursive.search(arr, key);
 
         assertEquals(2, result);
     }
@@ -25,7 +25,7 @@ public class BinarySearchTests {
         int [] arr = {12, 46, 72, 180, 2000, 482712};
         int key = 2000;
 
-        int result = BinarySearch.search(arr, key);
+        int result = BinarySearchRecursive.search(arr, key);
 
         assertEquals(4, result);
     }
@@ -35,7 +35,7 @@ public class BinarySearchTests {
         int [] arr = {12, 46, 72, 180, 2000, 482712};
         int key = 12;
 
-        int result = BinarySearch.search(arr, key);
+        int result = BinarySearchRecursive.search(arr, key);
 
         assertEquals(0, result);
     }
@@ -45,7 +45,7 @@ public class BinarySearchTests {
         int [] arr = {12, 46, 72, 180, 2000, 482712};
         int key = 482712;
 
-        int result = BinarySearch.search(arr, key);
+        int result = BinarySearchRecursive.search(arr, key);
 
         assertEquals(5, result);
     }
@@ -55,7 +55,7 @@ public class BinarySearchTests {
         int [] arr = {12, 46, 72, 180, 2000, 482712};
         int key = 22;
 
-        int result = BinarySearch.search(arr, key);
+        int result = BinarySearchRecursive.search(arr, key);
 
         assertEquals(-1, result);
     }
