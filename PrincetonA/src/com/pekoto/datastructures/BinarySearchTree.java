@@ -319,4 +319,64 @@ public class BinarySearchTree<K extends Comparable<K>, V> {
         list.add(node.key);
         inorderTraversal(node.right, list);
     }
+    
+    /**
+     * Returns the list of nodes in preorder.
+     * (Top > bottom-left > bottom-right)
+     * 
+     * 1. Visit the root
+     * 2. Recursively visit the left subtree
+     * 3. Recursively visit the right subtree
+     * 
+     * Could be used to copy a tree
+     * 
+     * @return A list of pre-ordered keys
+     */
+    public ArrayList<K> preorderTraversal() {
+        ArrayList<K> keys = new ArrayList<K>();
+        
+        preorderTraversal(root, keys);
+        
+        return keys;
+    }
+    
+    private void preorderTraversal(Node node, ArrayList<K> keys) {
+        if(node == null) {
+            return;
+        }
+        
+        keys.add(node.key);
+        preorderTraversal(node.left, keys);
+        preorderTraversal(node.right, keys);
+    }
+    
+    /**
+     * Returns the list of nodes in postorder.
+     * (bottom-left > bottom-right > top)
+     * 
+     * 1. Recursively visit the left subtree
+     * 2. Recursively visit the right subtree
+     * 3. Visit the root
+     * 
+     * Could be used to delete a tree
+     * 
+     * @return A list of pre-ordered keys
+     */
+    public ArrayList<K> postorderTraversal() {
+        ArrayList<K> keys = new ArrayList<K>();
+        
+        postorderTraversal(root, keys);
+        
+        return keys;
+    }
+    
+    private void postorderTraversal(Node node, ArrayList<K> keys) {
+        if(node == null) {
+            return;
+        }
+        
+        postorderTraversal(node.left, keys);
+        postorderTraversal(node.right, keys);
+        keys.add(node.key);
+    }
 }

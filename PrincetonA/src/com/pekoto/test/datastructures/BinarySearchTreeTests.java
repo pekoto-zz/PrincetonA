@@ -213,4 +213,50 @@ public class BinarySearchTreeTests {
         assertEquals(Integer.valueOf(12), keys.get(4));
         assertEquals(Integer.valueOf(13), keys.get(5));
     }
+    
+    @Test
+    public void testPreorder() {
+        BinarySearchTree<Integer, Integer> bst = new BinarySearchTree<Integer, Integer>();
+        
+        bst.put(5, 5);
+        bst.put(3, 3);
+        bst.put(8, 8);
+        bst.put(2, 2);
+        bst.put(4, 4);
+        bst.put(7, 7);
+        bst.put(9, 9);
+        
+        ArrayList<Integer> nodes = bst.preorderTraversal();
+        
+        assertEquals(Integer.valueOf(5), nodes.get(0));
+        assertEquals(Integer.valueOf(3), nodes.get(1));
+        assertEquals(Integer.valueOf(2), nodes.get(2));
+        assertEquals(Integer.valueOf(4), nodes.get(3));
+        assertEquals(Integer.valueOf(8), nodes.get(4));
+        assertEquals(Integer.valueOf(7), nodes.get(5));
+        assertEquals(Integer.valueOf(9), nodes.get(6));
+    }
+    
+    @Test
+    public void testPostorder() {
+        BinarySearchTree<Integer, Integer> bst = new BinarySearchTree<Integer, Integer>();
+        
+        bst.put(5, 5);
+        bst.put(3, 3);
+        bst.put(8, 8);
+        bst.put(2, 2);
+        bst.put(4, 4);
+        bst.put(7, 7);
+        bst.put(9, 9);
+        
+        ArrayList<Integer> nodes = bst.postorderTraversal();
+        
+        assertEquals(Integer.valueOf(2), nodes.get(0));
+        assertEquals(Integer.valueOf(4), nodes.get(1));
+        assertEquals(Integer.valueOf(3), nodes.get(2));
+        assertEquals(Integer.valueOf(7), nodes.get(3));
+        assertEquals(Integer.valueOf(9), nodes.get(4));
+        assertEquals(Integer.valueOf(8), nodes.get(5));
+        assertEquals(Integer.valueOf(5), nodes.get(6));
+    }
 }
