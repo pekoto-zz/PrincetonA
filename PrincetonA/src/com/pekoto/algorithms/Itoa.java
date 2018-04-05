@@ -8,6 +8,7 @@ package com.pekoto.algorithms;
  * 3. Decrease the number by dividing by 10
  * 4. Add the remainder to the end of the char array
  * 5. If the number < 0, break -- we've finished
+ * 
  */
 public class Itoa {
     
