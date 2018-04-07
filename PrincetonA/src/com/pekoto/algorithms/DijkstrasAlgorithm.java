@@ -24,7 +24,7 @@ import com.pekoto.datastructures.EdgeWeightedDirectedGraph;
  * Typically uses a binary heap, which gives you log n for inserting/getting
  * the min element.
  * 
- * So performance is E log(V) -- log(V) for binary heap put/get/update * E edges
+ * So performance is V+E log(V) -- log(V) for binary heap put/get/update * V vertices + E edges
  * 
  * Note: Strictly speaking, the algorithm should not work for -ve weights. There
  *       should be a check to make sure items on the queue are only processed once,
