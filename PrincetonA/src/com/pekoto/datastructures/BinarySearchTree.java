@@ -379,4 +379,40 @@ public class BinarySearchTree<K extends Comparable<K>, V> {
         postorderTraversal(node.right, keys);
         keys.add(node.key);
     }
+    
+    /**
+     * Returns true if the tree is a valid binary search tree
+     * (Every left subtree is less than its parent,
+     *  and every right subtree is greater than its parent.)
+     *  
+     *  1. If the node is null, return true
+     *  2. If the node is less than min bound or more than max bound, return false:
+     *     This is not a valid BST.
+     *  3. Recursively call for left subtrees using current min bound + node key
+     *  4. Recursively call for right subtrees using node key + current max bound
+     * 
+     * (Assumes we are using integers for node keys)
+     * 
+     * Performance: O(n)
+     * 
+     * @return True if the tree is a valid binary search tree
+     */
+    public boolean isValid() {
+        return isValid(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+    
+    private boolean isValid(Node node, int minBound, int maxBound) {
+        
+        if(node == null) {
+            return true;
+        }
+        
+        // Change to <= or >= to allow dupe keys
+        if((int)node.key < minBound || (int)node.key > maxBound) {
+            return false;
+        }
+        
+        return isValid(node.left, minBound, (int)node.key) 
+            && isValid(node.right, (int)node.key, maxBound);
+    }
 }
