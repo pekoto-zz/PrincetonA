@@ -2,6 +2,7 @@ package com.pekoto.test.datastructures;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import org.junit.Test;
@@ -258,5 +259,18 @@ public class BinarySearchTreeTests {
         assertEquals(Integer.valueOf(9), nodes.get(4));
         assertEquals(Integer.valueOf(8), nodes.get(5));
         assertEquals(Integer.valueOf(5), nodes.get(6));
+    }
+    
+    @Test
+    public void testValidate() {
+        BinarySearchTree<Integer, Integer> bst = new BinarySearchTree<Integer, Integer>();
+        
+        bst.put(3, 3);
+        bst.put(2, 2);
+        bst.put(5, 5);
+        bst.put(4, 4);
+        bst.put(1, 1);
+        
+        assertTrue(bst.isValid());
     }
 }
