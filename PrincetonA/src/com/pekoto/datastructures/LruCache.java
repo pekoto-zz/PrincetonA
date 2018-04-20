@@ -91,6 +91,7 @@ public class LruCache<K, V> {
         } else {
             // Node already exists
             cachedNode.value = value;
+	    removeNode(cachedNode);
             setMostRecentlyUsed(cachedNode);
         }
     }
