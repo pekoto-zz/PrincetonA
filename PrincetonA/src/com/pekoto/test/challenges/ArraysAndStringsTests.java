@@ -21,4 +21,14 @@ public class ArraysAndStringsTests {
     public void testAreAllCharsUnique_False() {
         assertFalse(ArraysAndStrings.areAllCharsUnique("ABCA"));        
     }
+    
+    @Test
+    public void testArePermutations_True() {
+        assertTrue(ArraysAndStrings.arePermutations("ABCD", "CBAD"));
+    }
+    
+    @Test
+    public void testArePermutations_False() {
+        assertFalse(ArraysAndStrings.arePermutations("ABCD", "ABCZ"));
+    }
 }

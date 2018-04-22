@@ -35,4 +35,43 @@ public class ArraysAndStrings {
         
         return true;   
     }
+    
+    /**
+     * Returns true if two strings are permutations of each other.
+     * Assumes strings are not null and use extended ASCII characters.
+     * 
+     * Could also sort the strings and compare each element, if you
+     * wanted to avoid using array completely.
+     * 
+     * Performance: O(n)
+     * Space: O(1)
+     * 
+     * @param strOne
+     * @param strTwo
+     * @return true if strings are permutations of each other, false otherwise
+     */
+    public static boolean arePermutations(String strOne, String strTwo) {
+        
+        if(strOne.length() != strTwo.length()) {
+            return false;
+        }
+        
+        final int EXTENDED_ASCII_LENGTH = 256;
+        
+        int [] charCounts = new int[EXTENDED_ASCII_LENGTH];
+        
+        for(int i = 0; i < strOne.length(); i++) {
+            charCounts[strOne.charAt(i)]++;
+        }
+        
+        for(int i = 0; i < strTwo.length(); i++) {
+            charCounts[strTwo.charAt(i)]--;
+            
+            if(charCounts[strTwo.charAt(i)] < 0) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
 }
