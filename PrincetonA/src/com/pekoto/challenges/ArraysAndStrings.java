@@ -74,4 +74,59 @@ public class ArraysAndStrings {
         
         return true;
     }
+    
+    /**
+     * Returns true if two strings are only 1 edit away.
+     * 
+     * Performance: O(n) (where n is the length of the shorter string)
+     * 
+     * @param strOne
+     * @param strTwo
+     * @return True if the strings are 1 edit away, false otherwise
+     */
+    public static boolean oneAway(String strOne, String strTwo) {
+        
+        if(strOne.length() == strTwo.length()) {
+            return oneEditAway(strOne, strTwo);
+        } else if (strOne.length()-1 == strTwo.length()) {
+            return oneInsertAway(strTwo, strOne);
+        } else if (strTwo.length()-1 == strOne.length()) {
+            return oneInsertAway(strOne, strTwo);
+        } else {
+            return false;
+        }
+    }
+    
+    private static boolean oneEditAway(String strOne, String strTwo) {
+        boolean editMade = false;
+        
+        for(int i=0; i < strOne.length(); i++) {
+            if(strOne.charAt(i) != strTwo.charAt(i)) {
+                if(editMade) {
+                    return false;
+                } else {
+                    editMade = true;
+                }
+            }
+        }
+        
+        return true;
+    }
+    
+    private static boolean oneInsertAway(String shorter, String longer) {
+        boolean insertMade = false;
+        
+        for(int i=0, j=0; i < shorter.length(); i++, j++) {
+            if(shorter.charAt(i) != longer.charAt(j)) {
+                if(insertMade) {
+                    return false;
+                } else {
+                    insertMade = true;
+                    i--;
+                }
+            }
+        }
+        
+        return true;
+    }
 }

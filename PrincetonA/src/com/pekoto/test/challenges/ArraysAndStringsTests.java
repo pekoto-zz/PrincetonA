@@ -31,4 +31,12 @@ public class ArraysAndStringsTests {
     public void testArePermutations_False() {
         assertFalse(ArraysAndStrings.arePermutations("ABCD", "ABCZ"));
     }
+    
+    @Test
+    public void testOneAway() {
+        assertTrue(ArraysAndStrings.oneAway("pale", "ple"));
+        assertTrue(ArraysAndStrings.oneAway("pales", "pale"));
+        assertTrue(ArraysAndStrings.oneAway("pale", "bale"));
+        assertFalse(ArraysAndStrings.oneAway("pale", "bake"));
+    }
 }
