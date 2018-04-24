@@ -113,6 +113,40 @@ public class ArraysAndStrings {
         return true;
     }
     
+    private static boolean oneInsertAway(String shorter, String longer) {
+        boolean insertMade = false;
+        
+        for(int i=0, j=0; i < shorter.length(); i++, j++) {
+            if(shorter.charAt(i) != longer.charAt(j)) {
+                if(insertMade) {
+                    return false;
+                } else {
+                    insertMade = true;
+                    i--;
+                }
+            }
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Zeros out the entire row and column in an NxM matrix
+     * if an element in that row or column is 0.
+     * 
+     * There is an easier way to do this in O(n) space --
+     * just keep track of which rows and columns have 0 in them
+     * using boolean arrays.
+     * 
+     * The gotcha here is that you must do a read ahead
+     * to work out where the 0s are, otherwise you will end
+     * up zeroing out the whole matrix.
+     * 
+     * Performance: O(nm)
+     * Space: O(1)
+     * 
+     * @param matrix
+     */
     public static void zeroOut(int [][] matrix) {
 		boolean firstColHasZero = false;
 		boolean firstRowHasZero = false;
@@ -179,21 +213,30 @@ public class ArraysAndStrings {
 			matrix[row][col] = 0;
 		}
 	}
-    
-    private static boolean oneInsertAway(String shorter, String longer) {
-        boolean insertMade = false;
-        
-        for(int i=0, j=0; i < shorter.length(); i++, j++) {
-            if(shorter.charAt(i) != longer.charAt(j)) {
-                if(insertMade) {
-                    return false;
-                } else {
-                    insertMade = true;
-                    i--;
-                }
-            }
-        }
-        
-        return true;
-    }
+	
+	/**
+	 * Returns true if string two is a rotation of string two,
+	 * or false otherwise.
+	 * 
+	 * In this we can call isSubstring (contains) once.
+	 * We could also create a version that used O(1) space using pointers.
+	 * 
+	 * Performance: O(n) (assuming contains runs in O(n+m time -- we have to go through each char in both strings)
+	 * Space: O(n) (we create a new string when we duplicate string one)
+	 * 
+	 * @param strOne
+	 * @param strTwo
+	 * @return True if string two is a rotation of string two
+	 */
+	public static boolean isRotation(String strOne, String strTwo) {
+	    if(strOne.length() != strTwo.length()) {
+	        return false;
+	    }
+	    
+	    if(strOne.length() == 0) {
+	        return false;
+	    }
+	    
+	    return (strOne+strOne).contains(strTwo);
+	}
 }

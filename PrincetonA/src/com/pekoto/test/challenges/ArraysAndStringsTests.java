@@ -1,5 +1,6 @@
 package com.pekoto.test.challenges;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -50,7 +51,7 @@ public class ArraysAndStringsTests {
 				{17, 18, 19, 20}
 		};
 		
-		StringsAndArrays.zeroOut(matrix);
+		ArraysAndStrings.zeroOut(matrix);
 		
 		// Expected:
 		// 1  0 0 4
@@ -95,7 +96,7 @@ public class ArraysAndStringsTests {
 				{17, 18, 19, 20}
 		};
 		
-		StringsAndArrays.zeroOut(matrix);
+		ArraysAndStrings.zeroOut(matrix);
 		
 		// Expected:
 		// 0  0 0 0
@@ -140,7 +141,7 @@ public class ArraysAndStringsTests {
 				{0, 18, 19, 20}
 		};
 		
-		StringsAndArrays.zeroOut(matrix);
+		ArraysAndStrings.zeroOut(matrix);
 		
 		// Expected:
 		// 0 0 0 4
@@ -173,5 +174,15 @@ public class ArraysAndStringsTests {
 		assertEquals(0, matrix[4][1]);
 		assertEquals(0, matrix[4][2]);
 		assertEquals(0, matrix[4][3]);
+	}
+	
+	@Test
+	public void testIsRotation_True() {
+	    assertTrue(ArraysAndStrings.isRotation("waterbottle", "erbottlewat"));
+	}
+	
+	@Test
+	public void testIsRotation_False() {
+        assertFalse(ArraysAndStrings.isRotation("waterbottle", "erbottlawat"));
 	}
 }
