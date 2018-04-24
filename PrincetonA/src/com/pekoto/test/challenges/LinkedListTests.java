@@ -52,4 +52,37 @@ public class LinkedListTests {
         assertEquals(Integer.valueOf(5), arrayList.get(3));
         assertEquals(4, arrayList.size());
     }
+    
+    @Test
+    public void testGetKthElement() {
+        LinkedListNode node = new LinkedListNode(1);
+        node.appendToTail(2);
+        node.appendToTail(3);
+        node.appendToTail(4);
+        node.appendToTail(5);
+        
+        assertEquals(Integer.valueOf(4), LinkedLists.getKthElement(node, 2));
+    }
+    
+    @Test
+    public void testGetKthElement_Last() {
+        LinkedListNode node = new LinkedListNode(1);
+        node.appendToTail(2);
+        node.appendToTail(3);
+        node.appendToTail(4);
+        node.appendToTail(5);
+        
+        assertEquals(Integer.valueOf(5), LinkedLists.getKthElement(node, 1));
+    }
+    
+    @Test
+    public void testGetKthElement_First() {
+        LinkedListNode node = new LinkedListNode(1);
+        node.appendToTail(2);
+        node.appendToTail(3);
+        node.appendToTail(4);
+        node.appendToTail(5);
+        
+        assertEquals(Integer.valueOf(1), LinkedLists.getKthElement(node, 5));
+    }
 }
