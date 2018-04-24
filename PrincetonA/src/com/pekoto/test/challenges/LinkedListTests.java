@@ -85,4 +85,27 @@ public class LinkedListTests {
         
         assertEquals(Integer.valueOf(1), LinkedLists.getKthElement(node, 5));
     }
+    
+    @Test
+    public void testPartition() {
+        LinkedListNode node = new LinkedListNode(3);
+        node.appendToTail(5);
+        node.appendToTail(8);
+        node.appendToTail(5);
+        node.appendToTail(10);
+        node.appendToTail(2);
+        node.appendToTail(1);
+        
+        LinkedLists.partition(node, 5);
+        
+        ArrayList<Integer> arrayList = node.toArrayList();
+
+        assertEquals(Integer.valueOf(3), arrayList.get(0));
+        assertEquals(Integer.valueOf(2), arrayList.get(1));
+        assertEquals(Integer.valueOf(1), arrayList.get(2));
+        assertEquals(Integer.valueOf(5), arrayList.get(3));
+        assertEquals(Integer.valueOf(10), arrayList.get(4));
+        assertEquals(Integer.valueOf(5), arrayList.get(5));
+        assertEquals(Integer.valueOf(8), arrayList.get(6));
+    }
 }

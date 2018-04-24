@@ -101,4 +101,44 @@ public class LinkedLists {
         // Delete next node
         linkedListNode.setNext(next.getNext());
     }
+    
+    /**
+     * Partitions a linked list around 'partition' such that
+     * all < elements are on the left.
+     * 
+     * CTCI uses multiple lists and joins them together.
+     * We can do it slightly more efficiently by using a quicksort-like
+     * partition scheme or swapping lesser and greater elements.
+     * 
+     * Performance: O(n)
+     * Space: O(1)
+     * 
+     * @param linkedListNode
+     * @param partition
+     */
+    public static void partition(LinkedListNode linkedListNode, int partition) {
+        if(linkedListNode == null) {
+            throw new NullPointerException("Can't partition empty list");
+        }
+        
+        LinkedListNode greaterThanOrEqualPointer = linkedListNode;
+        LinkedListNode lessThanPointer;
+        
+        // Find the first element >= partition value
+        while(greaterThanOrEqualPointer.getValue() < partition) {
+            greaterThanOrEqualPointer = greaterThanOrEqualPointer.getNext();
+        }
+        
+        lessThanPointer = greaterThanOrEqualPointer.getNext();
+        
+        while(lessThanPointer != null) {
+            if(lessThanPointer.getValue() < partition) {
+                int temp = greaterThanOrEqualPointer.getValue();
+                greaterThanOrEqualPointer.setValue(lessThanPointer.getValue());
+                lessThanPointer.setValue(temp);
+                greaterThanOrEqualPointer = greaterThanOrEqualPointer.getNext();
+            }
+            lessThanPointer = lessThanPointer.getNext();
+        }
+    }
 }
