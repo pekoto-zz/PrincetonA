@@ -72,6 +72,18 @@ public class LinkedLists {
         return p2.getValue();
     }
     
+    /**
+     * Deletes a node from a singly linked list when
+     * only given access to that node.
+     * 
+     * Copy the value from the next node,
+     * and then delete the next node.
+     * 
+     * Performance: O(1)
+     * Space: O(1)
+     * 
+     * @param linkedListNode
+     */
     public static void deleteMiddleNode(LinkedListNode linkedListNode) {
         if(linkedListNode == null) {
             throw new NullPointerException("Can't delete null node");
