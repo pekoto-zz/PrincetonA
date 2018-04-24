@@ -71,4 +71,22 @@ public class LinkedLists {
         
         return p2.getValue();
     }
+    
+    public static void deleteMiddleNode(LinkedListNode linkedListNode) {
+        if(linkedListNode == null) {
+            throw new NullPointerException("Can't delete null node");
+        }
+        
+        if(linkedListNode.getNext() == null) {
+            throw new NullPointerException("Can't delete last node");
+        }
+        
+        LinkedListNode next = linkedListNode.getNext();
+        
+        // Copy value of next node into this node
+        linkedListNode.setValue(next.getValue());
+        
+        // Delete next node
+        linkedListNode.setNext(next.getNext());
+    }
 }

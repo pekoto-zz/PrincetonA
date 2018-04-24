@@ -26,6 +26,10 @@ public class LinkedListNode {
         return value;
     }
     
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
     public LinkedListNode getNext() {
         return next;
     }
