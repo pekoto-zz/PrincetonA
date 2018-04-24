@@ -25,6 +25,11 @@ public class SinglyLinkedList<T> implements Iterable<T>{
         }
     }
 
+    // 
+    public Node getRoot() {
+        return root;
+    }
+    
     /**
      * Adds a new value to the end of the linked list
      * 
