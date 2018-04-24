@@ -113,6 +113,73 @@ public class ArraysAndStrings {
         return true;
     }
     
+    public static void zeroOut(int [][] matrix) {
+		boolean firstColHasZero = false;
+		boolean firstRowHasZero = false;
+		
+		// Check if the first row has a 0
+		// If it has a zero, zero out the whole row
+		for(int col=0; col < matrix[0].length; col++) {
+			if(matrix[0][col] == 0) {
+				firstRowHasZero = true;
+				break;
+			}
+		}
+		
+		// Check if the first col has a 0
+		// If it has a zero, zero out the whole column
+		for(int row=0; row < matrix.length; row++) {
+			if(matrix[row][0] == 0) {
+				firstColHasZero = true;
+				break;
+			}
+		}
+		
+		// Go through the rest of the matrix, using the first row
+		// and col to mark if a zero was found
+		for(int row=1; row < matrix.length; row++) {
+			for(int col=1; col < matrix[0].length; col++) {
+				if(matrix[row][col] == 0) {
+					matrix[row][0] = 0;
+					matrix[0][col] = 0;
+				}
+			}
+		}
+		
+		// Zero out the rows and cols using the first row and col
+		for(int col=0; col < matrix[0].length; col++) {
+			if(matrix[0][col] == 0) {
+				zeroOutCol(matrix, col);
+			}
+		}
+		
+		for(int row=0; row < matrix.length; row++) {
+			if(matrix[row][0] == 0) {
+				zeroOutRow(matrix, row);
+			}
+		}
+		
+		if(firstColHasZero) {
+			zeroOutCol(matrix, 0);
+		}
+		
+		if(firstRowHasZero) {
+			zeroOutRow(matrix, 0);
+		}
+	}
+	
+	private static void zeroOutRow(int [][] matrix, int row) {
+		for(int col = 0; col < matrix[0].length; col++) {
+			matrix[row][col] = 0;
+		}
+	}
+	
+	private static void zeroOutCol(int [][] matrix, int col) {
+		for(int row = 0; row < matrix.length; row++) {
+			matrix[row][col] = 0;
+		}
+	}
+    
     private static boolean oneInsertAway(String shorter, String longer) {
         boolean insertMade = false;
         
