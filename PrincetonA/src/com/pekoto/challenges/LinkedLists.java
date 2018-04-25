@@ -1,6 +1,7 @@
 package com.pekoto.challenges;
 
 import java.util.HashSet;
+import java.util.Stack;
 
 public class LinkedLists {
 
@@ -184,5 +185,48 @@ public class LinkedLists {
 		}
 		
 		return result;
+	}
+	
+	/**
+	 * Returns true if the linked list is a palindrome.
+	 * 
+	 * We can also do this by reversing the linked list,
+	 * but this method shows a helpful technique:
+	 * using slow and fast pointers to find the middle of a linked list.
+	 * 
+	 * Performance: O(n)
+	 * Space: O(n)
+	 * 
+	 * @param linkedListNode
+	 * @return True if the linked list is a palindrome
+	 */
+	public static boolean isPalindrome(LinkedListNode linkedListNode) {
+	    
+	    LinkedListNode slowPointer = linkedListNode;
+	    LinkedListNode fastPointer = linkedListNode;
+	    
+	    Stack<Integer> stack = new Stack<Integer>();
+	    
+	    while(fastPointer != null && fastPointer.getNext() != null) {
+	        stack.push(slowPointer.getValue());
+	        slowPointer = slowPointer.getNext();
+	        fastPointer = fastPointer.getNext().getNext();
+	    }
+	    
+	    // Linked list has uneven number of nodes
+	    // Skip middle node
+	    if(fastPointer != null) {
+	        slowPointer = slowPointer.getNext();
+	    }
+	    
+	    while(slowPointer != null) {
+	        if(slowPointer.getValue() != stack.pop()) {
+	            return false;
+	        }
+	        
+	        slowPointer = slowPointer.getNext();
+	    }
+	    
+	    return true;   
 	}
 }

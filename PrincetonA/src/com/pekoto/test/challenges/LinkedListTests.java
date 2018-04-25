@@ -1,6 +1,8 @@
 package com.pekoto.test.challenges;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
@@ -161,5 +163,25 @@ public class LinkedListTests {
 		assertEquals(Integer.valueOf(7), list.get(0));
 		assertEquals(Integer.valueOf(2), list.get(1));
 		assertEquals(Integer.valueOf(6), list.get(2));
+	}
+	
+	@Test
+	public void testIsPalindrome_True() {
+	    LinkedListNode list = new LinkedListNode(1);
+	    list.appendToTail(2);
+	    list.appendToTail(2);
+	    list.appendToTail(1);
+	    
+	    assertTrue(LinkedLists.isPalindrome(list));
+	}
+	
+	@Test
+	public void testIsPalindrome_False() {
+	    LinkedListNode list = new LinkedListNode(1);
+	    list.appendToTail(2);
+	    list.appendToTail(3);
+	    list.appendToTail(4);
+	    
+	    assertFalse(LinkedLists.isPalindrome(list));
 	}
 }
