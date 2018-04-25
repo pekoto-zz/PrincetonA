@@ -108,4 +108,58 @@ public class LinkedListTests {
         assertEquals(Integer.valueOf(5), arrayList.get(5));
         assertEquals(Integer.valueOf(8), arrayList.get(6));
     }
+    
+    @Test
+	public void testAddInReverse() {
+		LinkedListNode one = new LinkedListNode(7);
+		one.appendToTail(1);
+		one.appendToTail(6);
+		
+		LinkedListNode two = new LinkedListNode(5);
+		two.appendToTail(9);
+		two.appendToTail(2);
+		
+		LinkedListNode result = LinkedLists.addInReverse(one, two);
+		ArrayList<Integer> list = result.toArrayList();
+		
+		assertEquals(Integer.valueOf(2), list.get(0));
+		assertEquals(Integer.valueOf(1), list.get(1));
+		assertEquals(Integer.valueOf(9), list.get(2));
+	}
+	
+	@Test
+	public void testAddInReverse_GrowDigits() {
+		LinkedListNode one = new LinkedListNode(7);
+		one.appendToTail(1);
+		one.appendToTail(6);
+		
+		LinkedListNode two = new LinkedListNode(5);
+		two.appendToTail(9);
+		two.appendToTail(4);
+		
+		LinkedListNode result = LinkedLists.addInReverse(one, two);
+		ArrayList<Integer> list = result.toArrayList();
+		
+		assertEquals(Integer.valueOf(2), list.get(0));
+		assertEquals(Integer.valueOf(1), list.get(1));
+		assertEquals(Integer.valueOf(1), list.get(2));
+		assertEquals(Integer.valueOf(1), list.get(3));
+	}
+	
+	@Test
+	public void testAddInReverse_LongerNumber() {
+		LinkedListNode one = new LinkedListNode(7);
+		one.appendToTail(1);
+		one.appendToTail(6);
+		
+		LinkedListNode two = new LinkedListNode(0);
+		two.appendToTail(1);
+		
+		LinkedListNode result = LinkedLists.addInReverse(one, two);
+		ArrayList<Integer> list = result.toArrayList();
+		
+		assertEquals(Integer.valueOf(7), list.get(0));
+		assertEquals(Integer.valueOf(2), list.get(1));
+		assertEquals(Integer.valueOf(6), list.get(2));
+	}
 }
