@@ -141,4 +141,48 @@ public class LinkedLists {
             lessThanPointer = lessThanPointer.getNext();
         }
     }
+    
+    /**
+	 * Given two linked lists representing integers in reverse order,
+	 * return a linked list representing the sum in reverse order.
+	 * 
+	 * Performance: O(n+m)
+	 * Space: O(n+m) (due to recursive calls)
+	 * 
+	 * @param nodeOne
+	 * @param nodeTwo
+	 * @return The sum of the two nodes, reversed, in a linked list
+	 */
+	public static LinkedListNode addInReverse(LinkedListNode nodeOne, LinkedListNode nodeTwo) {
+		return addInReverse(nodeOne, nodeTwo, 0);
+	}
+	
+	private static LinkedListNode addInReverse(LinkedListNode nodeOne, LinkedListNode nodeTwo, int carry) {
+		
+		if(nodeOne == null && nodeTwo == null && carry == 0) {
+			return null;
+		}
+		
+		int value = carry;
+		
+		if(nodeOne != null) {
+			value += nodeOne.getValue();
+		}
+		
+		if(nodeTwo != null) {
+			value += nodeTwo.getValue();
+		}
+		
+		LinkedListNode result = new LinkedListNode(value%10);
+		
+		if(nodeOne != null || nodeTwo != null) {
+			LinkedListNode next = addInReverse(nodeOne == null ? null : nodeOne.getNext(),
+									  		   nodeTwo == null ? null: nodeTwo.getNext(),
+									  		   value >= 10 ? 1 : 0);
+			
+			result.setNext(next);
+		}
+		
+		return result;
+	}
 }
