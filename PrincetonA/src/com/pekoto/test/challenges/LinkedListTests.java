@@ -184,4 +184,21 @@ public class LinkedListTests {
 	    
 	    assertFalse(LinkedLists.isPalindrome(list));
 	}
+	
+	@Test
+	public void testGetLoopStart() {
+	    LinkedListNode list = new LinkedListNode(1);
+	    list.appendToTail(2);
+	    
+	    LinkedListNode loopStart = new LinkedListNode(3);
+	    
+	    list.appendToTail(loopStart);
+	    
+	    list.appendToTail(4);
+	    list.appendToTail(5);
+	    
+	    list.appendToTail(loopStart);
+	    
+	    assertEquals(loopStart, LinkedLists.getLoopStart(list));
+	}
 }

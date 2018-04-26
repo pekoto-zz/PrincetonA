@@ -22,6 +22,16 @@ public class LinkedListNode {
         thisNode.next = newTail;
     }
     
+    public void appendToTail(LinkedListNode node) {
+        LinkedListNode thisNode = this;
+        
+        while(thisNode.next != null) {
+            thisNode = thisNode.next;
+        }
+        
+        thisNode.next = node;
+    }
+    
     public int getValue() {
         return value;
     }

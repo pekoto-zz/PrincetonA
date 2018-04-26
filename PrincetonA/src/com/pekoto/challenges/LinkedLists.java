@@ -229,4 +229,42 @@ public class LinkedLists {
 	    
 	    return true;   
 	}
+	
+	/**
+	 * Returns the node at the start of a linked list loop
+	 * 
+	 * Performance: O(n)
+	 * Space: O(1)
+	 * 
+	 * @param node
+	 * @return The node at the start of a linked list loop
+	 */
+	public static LinkedListNode getLoopStart(LinkedListNode node) {
+
+	    LinkedListNode slowPointer = node;
+	    LinkedListNode fastPointer = node;
+	    
+	    while(fastPointer != null && fastPointer.getNext() != null) {
+	        slowPointer = slowPointer.getNext();
+	        fastPointer = fastPointer.getNext().getNext();
+	        
+	        if(slowPointer == fastPointer) {
+	            break;
+	        }
+	    }
+	    
+	    if(fastPointer == null || fastPointer.getNext() == null) {
+	        // No loop exists
+	        return null;
+	    }
+	    
+	    slowPointer = node;
+	    
+	    while(slowPointer != fastPointer) {
+	        slowPointer = slowPointer.getNext();
+	        fastPointer = fastPointer.getNext();
+	    }
+	    
+	    return slowPointer;
+	}
 }
