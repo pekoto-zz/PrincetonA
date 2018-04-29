@@ -48,5 +48,4 @@ public class TreesAndGraphs {
             return Math.max(leftHeight, rightHeight) + 1;
         }
     }
-    
 }
