@@ -148,6 +148,10 @@ public class TreesAndGraphs {
      * Returns the total paths that sum to target sum
      * in a binary tree.
      * 
+     * This question is a bit confusing -- the paths have to go top down,
+     * BUT the elements in the path do not have to be contiguous, according to
+     * this solution.
+     * 
      * Performance: O(n)
      * Space: O(log n) avg., O(n) worst
      */
@@ -163,8 +167,8 @@ public class TreesAndGraphs {
 		runningSum += node.data;
 		
 		/* Count paths with sum ending at the current node. */
-		int sum = runningSum - targetSum;
-		int totalPaths = pathCount.getOrDefault(sum, 0);
+		int subtractToMakeTarget = runningSum - targetSum;
+		int totalPaths = pathCount.getOrDefault(subtractToMakeTarget, 0);
 		
 		/* If runningSum equals targetSum, then one additional path starts at root. Add in this path.*/
 		if (runningSum == targetSum) {

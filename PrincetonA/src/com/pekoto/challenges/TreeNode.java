@@ -32,4 +32,9 @@ public class TreeNode {
     public int size() {
         return size;
     }
+    
+    @Override
+    public String toString() {
+        return data+"";
+    }
 }
