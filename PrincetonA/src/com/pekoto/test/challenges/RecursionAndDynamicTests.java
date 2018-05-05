@@ -40,4 +40,17 @@ public class RecursionAndDynamicTests {
     	assertEquals(new Point(3, 2), path.get(5));
     	assertEquals(new Point(3, 3), path.get(6));
     }
+    
+    @Test
+    public void testGetSubsets() {
+        
+        ArrayList<Integer> set = new ArrayList<Integer>();
+        set.add(1);
+        set.add(2);
+        set.add(3);
+        
+        ArrayList<ArrayList<Integer>> subsets = RecursionAndDynamic.getSubsets(set);
+        
+        assertEquals(8, subsets.size());
+    }
 }
