@@ -217,4 +217,42 @@ public class RecursionAndDynamic {
     		towersOfHanoi(numOfDisks-1, buffer, destination, source);
     	}
     }
+    
+    public static ArrayList<String> permutationsWithoutDupes(String str) {
+        ArrayList<String> permutations = new ArrayList<String>();
+        permutationsWithoutDupes(str, permutations, str.length()-1);
+        
+        return permutations;
+    }
+    
+    private static void permutationsWithoutDupes(String str, ArrayList<String> permutations, int charIndex) {
+        if(charIndex == 0) {
+            permutations.add(str.charAt(0)+"");
+            return;
+        }
+        
+        charIndex--;
+        permutationsWithoutDupes(str, permutations, charIndex);
+        charIndex++;
+        
+        char newChar = str.charAt(charIndex);
+        
+        ArrayList<String> newPermutations = new ArrayList<String>();
+        for(String permutation: permutations) {
+            for(int i = 0; i < permutation.length(); i++) {
+                if(i == 0) {
+                    newPermutations.add(newChar + permutation);
+                } else {
+                    String front = permutation.substring(0, i);
+                    String back = permutation.substring(i, permutation.length());
+                    newPermutations.add(front + newChar + back);
+                }
+            }
+            
+            newPermutations.add(permutation + newChar);
+        }
+       
+        permutations.clear();
+        permutations.addAll(newPermutations);
+    }
 }

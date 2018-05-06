@@ -80,4 +80,17 @@ public class RecursionAndDynamicTests {
     	assertEquals(Integer.valueOf(3), destination.pop());
     	assertEquals(Integer.valueOf(4), destination.pop());
     }
+    
+    @Test
+    public void testPermutationsWithoutDupes() {
+        ArrayList<String> permutations = RecursionAndDynamic.permutationsWithoutDupes("ABC");
+        
+        assertEquals(6, permutations.size());
+        assertEquals("CBA", permutations.get(0));
+        assertEquals("BCA", permutations.get(1));
+        assertEquals("BAC", permutations.get(2));
+        assertEquals("CAB", permutations.get(3));
+        assertEquals("ACB", permutations.get(4));
+        assertEquals("ABC", permutations.get(5));
+    }
 }
