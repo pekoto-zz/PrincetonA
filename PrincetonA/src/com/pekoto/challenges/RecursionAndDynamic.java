@@ -130,4 +130,64 @@ public class RecursionAndDynamic {
         
         return allSubsets;
     }
+    
+    /*
+     * Returns the product of two numbers
+     * without using multiplication.
+     * 
+     * Point: We can think of the product as the number of
+     *        elements in an AxB matrix of two numbers A and B.
+     *        Instead of counting every element, though, we can
+     *        count the elements in a row and continuously double
+     *        until we reach the total number of rows.
+     *        Of course, we need a special condition if there are an odd
+     *        number of rows.
+     * 
+     * Performance: O(log s) -- where s is the smaller
+     *              of the two numbers.
+     */
+    public static int minProduct(int a, int b) {
+        int bigger = a < b ? b : a;
+        int smaller = a < b ? a : b;
+        
+        return minProductHelper(smaller, bigger);
+    }
+    
+    /*
+     * Treat the two numbers as rows and columns in a matrix.
+     * Divide down the rows until we have one, at which point the
+     * product is the column size. Then multiply these by 2 (add
+     * together, and add another column is odd), until we reach the
+     * number of rows.
+     * 
+     * rowCount and columnSize are not literally rows and columns in
+     * a matrix, but it helps to think of them as such conceptually.
+     */
+    private static int minProductHelper(int rowCount, int columnSize) {
+        if(rowCount == 0) {
+            return 0;
+        } else if (rowCount == 1) {
+            // 1 x bigger = bigger
+            return columnSize;
+        }
+        
+        int rowCountDividedByTwo = rowCount >> 1;
+        
+        // Can be thought of as "half the product" of the current recursion --
+        // the sum of elements in our matrix so far
+        int numOfElementsSoFar = minProductHelper(rowCountDividedByTwo, columnSize);
+        
+        if(rowCount % 2 == 0) {
+            return numOfElementsSoFar + numOfElementsSoFar;
+        } else {
+            // Odd numbers can be expressed as num*2 (i.e., num+num) + larger
+            // E.g., 31 = 15 + 15 + 1 (= 15*2 + 1)
+            // So 31*35 = 15 + 15 + 35 * 35 (= 15*2 + 35*1 * 35)
+            // Another way to think of it:
+            // We are doubling our numberOfElements so far each time until
+            // we reach the number of rows, but if the number of rows we
+            // are looking a is odd, add on another column after doubling.
+            return numOfElementsSoFar + numOfElementsSoFar + columnSize;
+        }
+    }
 }

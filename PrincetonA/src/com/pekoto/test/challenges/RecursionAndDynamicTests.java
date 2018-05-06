@@ -53,4 +53,9 @@ public class RecursionAndDynamicTests {
         
         assertEquals(8, subsets.size());
     }
+    
+    @Test
+    public void testMinProduct() {
+        assertEquals(56, RecursionAndDynamic.minProduct(7, 8));
+    }
 }
