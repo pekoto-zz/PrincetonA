@@ -3,6 +3,7 @@ package com.pekoto.challenges;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Stack;
 
 public class RecursionAndDynamic {
 
@@ -189,5 +190,31 @@ public class RecursionAndDynamic {
             // are looking a is odd, add on another column after doubling.
             return numOfElementsSoFar + numOfElementsSoFar + columnSize;
         }
+    }
+    
+    /*
+     * Shifts disks from source to destination using the rules
+     * of the Tower of Hanoi puzzle.
+     * 
+     * Point: Using the base case and build approach, we can
+     * 		  observe that any disk can be moved to any
+     *        other tower by using a third tower as a buffer.
+     *        E.g., move 1 and 2 to tower 3:
+     *         Move 1 to tower 2 (source > buffer)
+     *         Move 2 to tower 3 (source > destination)
+     *         Move 1 to tower 3 (buffer > destination)
+     *        
+     *        We can change which towers are source/buffer/destination
+     *        with alternate recursive calls.
+     */
+    public static void towersOfHanoi(int numOfDisks, Stack<Integer> source, Stack<Integer> destination, Stack<Integer> buffer) {
+    	if(numOfDisks > 0) {
+    		// Move disk from source to buffer, using destination as buffer
+    		towersOfHanoi(numOfDisks-1, source, buffer, destination);
+    		// Move disk from source to destination
+    		destination.push(source.pop());
+    		// Move disk from buffer to destination, using source as a buffer
+    		towersOfHanoi(numOfDisks-1, buffer, destination, source);
+    	}
     }
 }

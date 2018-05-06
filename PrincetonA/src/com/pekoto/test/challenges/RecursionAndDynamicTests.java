@@ -3,6 +3,7 @@ package com.pekoto.test.challenges;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 import org.junit.Test;
 
@@ -57,5 +58,26 @@ public class RecursionAndDynamicTests {
     @Test
     public void testMinProduct() {
         assertEquals(56, RecursionAndDynamic.minProduct(7, 8));
+    }
+    
+    @Test 
+    public void testTowersOfHanoi() {
+    	Stack<Integer> source = new Stack<Integer>();
+    	source.push(4);
+    	source.push(3);
+    	source.push(2);
+    	source.push(1);
+    	
+    	Stack<Integer> buffer = new Stack<Integer>();
+    	Stack<Integer> destination = new Stack<Integer>();
+    	
+    	RecursionAndDynamic.towersOfHanoi(4, source, destination, buffer);
+    	
+    	assertEquals(0, source.size());
+    	assertEquals(4, destination.size());
+    	assertEquals(Integer.valueOf(1), destination.pop());
+    	assertEquals(Integer.valueOf(2), destination.pop());
+    	assertEquals(Integer.valueOf(3), destination.pop());
+    	assertEquals(Integer.valueOf(4), destination.pop());
     }
 }
