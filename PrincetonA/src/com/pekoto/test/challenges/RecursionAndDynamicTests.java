@@ -3,6 +3,7 @@ package com.pekoto.test.challenges;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Stack;
 
 import org.junit.Test;
@@ -92,5 +93,17 @@ public class RecursionAndDynamicTests {
         assertEquals("ACB", permutations.get(3));
         assertEquals("CAB", permutations.get(4));
         assertEquals("CBA", permutations.get(5));
+    }
+    
+    @Test
+    public void testGetParenthesesPermutations() {
+        ArrayList<String> variations = RecursionAndDynamic.getParenthesesPermutations(3);
+        
+        assertEquals(5, variations.size());
+        assertEquals("((()))", variations.get(0));
+        assertEquals("(()())", variations.get(1));
+        assertEquals("(())()", variations.get(2));
+        assertEquals("()(())", variations.get(3));
+        assertEquals("()()()", variations.get(4));
     }
 }
