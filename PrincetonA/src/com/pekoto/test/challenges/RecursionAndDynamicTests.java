@@ -106,4 +106,9 @@ public class RecursionAndDynamicTests {
         assertEquals("()(())", variations.get(3));
         assertEquals("()()()", variations.get(4));
     }
+    
+    @Test
+    public void testMakeChange() {
+        assertEquals(6, RecursionAndDynamic.makeChange(15));
+    }
 }

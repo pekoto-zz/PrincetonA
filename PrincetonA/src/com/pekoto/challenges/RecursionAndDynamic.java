@@ -2,6 +2,7 @@ package com.pekoto.challenges;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Stack;
 
@@ -313,5 +314,51 @@ public class RecursionAndDynamic {
         // This will overwrite the left parenthesis above
         permutation[index] = ')';
         getParenthesesPermutations(permutations, leftRemaining, rightRemaining-1, permutation, index+1);
+    }
+    
+    /* 
+     * Calculates the number of ways we can make the n
+     * using 25s, 10s, 5s, and 1s.
+     */
+    public static int makeChange(int n) {
+        int [] coins = {25, 10, 5, 1};
+        int[][] map = new int[n+1][coins.length]; // memoization
+        return makeChange(n, coins, 0, map);
+    }
+    
+    private static int makeChange(int amount, int[] coins, int coinIndex, int [][] map) {
+        if(map[amount][coinIndex] > 0) {
+            return map[amount][coinIndex];
+        }
+        
+        if(coinIndex >= coins.length-1) {
+            // We can always make a variation using 1s
+            return 1;
+        }
+        
+        int coin = coins[coinIndex];
+        
+        int ways = 0;
+        
+        for(int numOfThisCoin = 0; numOfThisCoin * coin <= amount; numOfThisCoin++) {
+            // Get permutations for i * this coin
+            // E.g., If you have 25, try it with 0x25, 1x25, 2x25, 3x25, 4x25
+            //       as long as you're within the amount.
+            //       For each variation, we branch off to check variations for 
+            //       other coin amounts.
+            int amountRemaining = amount - (numOfThisCoin * coin);
+            
+            // Then, if you have, say, 0x25, add on the other ways you can make this amount using
+            // the next coin (coinIndex+1).
+            // We we come up with a list of reduced problems -- how do we make it for 0x25? We could use 10s.
+            // How do we make it for 0x10s? We could use 5s. How do we make it for 0x5s? We could use 1s.
+            // 1 = base case, return 1.
+            // How can we make it using 1x5s? Repeat for the amount-1x5, etc.
+            // Store this in the memo matrix.
+            ways += makeChange(amountRemaining, coins, coinIndex+1, map);
+        }
+        
+        map[amount][coinIndex] = ways;
+        return ways;
     }
 }
