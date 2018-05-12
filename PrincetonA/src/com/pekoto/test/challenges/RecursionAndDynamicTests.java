@@ -111,4 +111,10 @@ public class RecursionAndDynamicTests {
     public void testMakeChange() {
         assertEquals(6, RecursionAndDynamic.makeChange(15));
     }
+    
+    @Test
+    public void testEightQueens() {
+        ArrayList<Integer[]> results = RecursionAndDynamic.eightQueens();
+        assertEquals(91, results.size());
+    }
 }

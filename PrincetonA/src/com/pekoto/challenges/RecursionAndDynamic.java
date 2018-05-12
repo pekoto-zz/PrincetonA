@@ -361,4 +361,79 @@ public class RecursionAndDynamic {
         map[amount][coinIndex] = ways;
         return ways;
     }
+    
+    /*
+     * Finds all valid positions for 8 queens on an
+     * 8x8 grid (columns/rows/diagonals cannot overlap)
+     * 
+     * Worth noting this problem was proved NP complete.
+     * 
+     * Since we have 8 queens and 8 columns/rows, each queen
+     * must exist in a different row/column.
+     * 
+     * For row 1, we put a queen in each column one at a time,
+     * and then move on to the next row. If we find a valid position,
+     * we recurse. If we reach our max rows (grid size), we add the results
+     * and return. And then try the next column.
+     */
+    public static ArrayList<Integer[]> eightQueens() {
+        final int GRID_SIZE = 8;
+        
+        // Each Integer array will contain the column position
+        // for a queen
+        // E.g. results[0] = 7 == a queen in column 7, row 0
+        ArrayList<Integer[]> results = new ArrayList<Integer[]>();
+        Integer[] columnPositions = new Integer[GRID_SIZE];
+        
+        placeQueens(0, columnPositions, results, GRID_SIZE);
+        
+        return results;
+    }
+    
+    private static void placeQueens(int row, Integer[] columnPositions, ArrayList<Integer[]> results, int gridSize) {
+        if(row == gridSize) {
+            // We reached the last row, add results and return
+            results.add(columnPositions.clone());
+            return;
+        }
+        
+        for(int col=0; col < gridSize; col++) {
+            if(isValid(columnPositions, row, col)) {
+                columnPositions[row] = col; // Place queen
+                placeQueens(row+1, columnPositions, results, gridSize);
+            }
+        }
+        
+        // If we reach here and we haven't recursed, it means there
+        // are no valid positions for this row.
+        // We will return, popping back up the call stack.
+        // I.e., placing the piece in the row above in the next valid column and
+        // try going down a row again.
+    }
+    
+    private static boolean isValid(Integer[] columns, int currentRow, int currentColumn) {
+        for(int previousRow = 0; previousRow < currentRow; previousRow++) {
+            int previousColumn = columns[previousRow];
+        
+            // Check if this row/col in invalid as a queen spot in the next row
+            if(previousColumn == currentColumn) {
+                return false;
+            }
+            
+            // If the distance between columns == distance between rows
+            // we're on the same diagonal
+            int columnDistance = Math.abs(previousColumn - currentColumn);
+            
+            // Row1 is always greater than Row2
+            int rowDistance = currentRow-previousRow;
+            
+            if(columnDistance == rowDistance) {
+                return false;
+            }
+        }
+        
+        // If we reached this point we didn't detect any column/diagonal conflicts with previous rows.
+        // We don't need to check rows aren't the same since we are iterating over rows.
+        return true;
+    }
 }
