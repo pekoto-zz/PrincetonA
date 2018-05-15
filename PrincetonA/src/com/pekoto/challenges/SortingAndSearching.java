@@ -1,5 +1,9 @@
 package com.pekoto.challenges;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+
 public class SortingAndSearching {
 
     /*
@@ -22,5 +26,49 @@ public class SortingAndSearching {
                 a[nextElemIndex--] = b[bIndex--];
             }
         }
+    }
+    
+    /*
+     * Rearranges an array so that strings that
+     * are anagrams of each other end up next
+     * to each other.
+     * 
+     * Performance: O(n log n) -- or, I suppose,
+     *              O(n * s log s), where s is the len of the string
+     *              and n is the number of strings?
+     */
+    public static void sortAnagrams(String [] arr) {
+        HashMap<String, ArrayList<String>> mapList = new HashMap<String, ArrayList<String>>();
+        
+        // Group words by anagram
+        for(String s: arr) {
+            String key = sortChars(s);
+            
+            if(!mapList.containsKey(key)) {
+                mapList.put(key, new ArrayList<String>());
+            }
+            
+            mapList.get(key).add(s);
+        }
+        
+        // Convert hash map to array
+        int index = 0;
+        
+        for(String key: mapList.keySet()) {
+            ArrayList<String> list = mapList.get(key);
+            
+            for(String t: list) {
+                arr[index] = t;
+                index++;
+            }
+        }
+    }
+    
+    private static String sortChars(String s) {
+        char[] chrs = s.toCharArray();
+        
+        Arrays.sort(chrs);
+        
+        return new String(chrs);
     }
 }

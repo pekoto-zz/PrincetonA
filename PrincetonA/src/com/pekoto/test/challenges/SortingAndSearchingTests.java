@@ -24,4 +24,25 @@ public class SortingAndSearchingTests {
         assertEquals(10, a[5]);
         assertEquals(12, a[6]);
     }
+    
+    @Test
+    public void testSortAnagrams() {
+        String [] arr = {
+                "Test",
+                "Abcde",
+                "531",
+                "136",
+                "cdebA",
+                "seTt"
+        };
+        
+        SortingAndSearching.sortAnagrams(arr);
+        
+        assertEquals("Abcde", arr[0]);
+        assertEquals("cdebA", arr[1]);
+        assertEquals("531", arr[2]);
+        assertEquals("136", arr[3]);
+        assertEquals("Test", arr[4]);
+        assertEquals("seTt", arr[5]);
+    }
 }
