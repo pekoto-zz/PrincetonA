@@ -41,14 +41,14 @@ public class SortingAndSearching {
         HashMap<String, ArrayList<String>> mapList = new HashMap<String, ArrayList<String>>();
         
         // Group words by anagram
-        for(String s: arr) {
-            String key = sortChars(s);
+        for(String str: arr) {
+            String key = sortChars(str);
             
             if(!mapList.containsKey(key)) {
                 mapList.put(key, new ArrayList<String>());
             }
             
-            mapList.get(key).add(s);
+            mapList.get(key).add(str);
         }
         
         // Convert hash map to array
@@ -57,8 +57,8 @@ public class SortingAndSearching {
         for(String key: mapList.keySet()) {
             ArrayList<String> list = mapList.get(key);
             
-            for(String t: list) {
-                arr[index] = t;
+            for(String str: list) {
+                arr[index] = str;
                 index++;
             }
         }
