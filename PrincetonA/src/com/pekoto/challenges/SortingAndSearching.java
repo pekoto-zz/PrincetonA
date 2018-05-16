@@ -71,4 +71,37 @@ public class SortingAndSearching {
         
         return new String(chrs);
     }
+    
+    /*
+     * Searches for a key in a a data structure where
+     * the length isn't available.
+     * 
+     * Performance: O(log n)
+     */
+    public static int findInListy(Listy list, int key) {
+        int highIndex = 1;
+        
+        while(highIndex != -1 && highIndex < key) {
+            highIndex *= 2;
+        }
+        
+        return findInListy(list, key, highIndex/2, highIndex);
+    }
+    
+    private static int findInListy(Listy list, int key, int left, int right) {
+        while(left <= right) {
+            int mid = left + (right-left)/2;
+            
+            if(list.elementAt(mid) == key) {
+                return mid;
+            } else if (list.elementAt(mid) == -1 || list.elementAt(mid) > key) {
+                // If -1, we've gone of the end of the array, so search left
+                right = mid-1;
+            } else {
+                left = mid+1;
+            }
+        }
+        
+        return -1;
+    }
 }
