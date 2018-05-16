@@ -81,9 +81,12 @@ public class SortingAndSearching {
     public static int findInListy(Listy list, int key) {
         int highIndex = 1;
         
-        while(highIndex != -1 && highIndex < key) {
+        while(list.elementAt(highIndex) != -1 && list.elementAt(highIndex) < key) {
             highIndex *= 2;
         }
+        
+        // High index will now be either off the end of the array,
+        // or greater than our key. So we can use it in a binary search
         
         return findInListy(list, key, highIndex/2, highIndex);
     }
