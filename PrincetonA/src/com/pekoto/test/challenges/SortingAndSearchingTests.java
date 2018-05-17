@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import com.pekoto.challenges.Listy;
 import com.pekoto.challenges.SortingAndSearching;
 
 public class SortingAndSearchingTests {
@@ -44,5 +45,22 @@ public class SortingAndSearchingTests {
         assertEquals("136", arr[3]);
         assertEquals("Test", arr[4]);
         assertEquals("seTt", arr[5]);
+    }
+    
+    @Test
+    public void testFindInListy() {
+        
+        int [] arr = {5, 7, 9, 12, 44, 76};
+        
+        Listy list = new Listy(arr);
+    
+        assertEquals(-1, SortingAndSearching.findInListy(list, 69));
+        assertEquals(0, SortingAndSearching.findInListy(list, 5));
+        assertEquals(1, SortingAndSearching.findInListy(list, 7));
+        assertEquals(2, SortingAndSearching.findInListy(list, 9));
+        assertEquals(3, SortingAndSearching.findInListy(list, 12));
+        assertEquals(4, SortingAndSearching.findInListy(list, 44));
+        assertEquals(5, SortingAndSearching.findInListy(list, 76));
+
     }
 }
