@@ -29,7 +29,7 @@ public class BitArray {
     
     private boolean getIthBit(int index, int i) {
         int num = arr[index];
-        return (num & (1 << i)) != 0;
+        return (num & (1 << i)) == 1;
     }
     
     private void setIthBit(int index, int i) {

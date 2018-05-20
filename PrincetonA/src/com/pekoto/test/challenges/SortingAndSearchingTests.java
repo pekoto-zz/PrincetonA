@@ -1,6 +1,8 @@
 package com.pekoto.test.challenges;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -61,6 +63,22 @@ public class SortingAndSearchingTests {
         assertEquals(3, SortingAndSearching.findInListy(list, 12));
         assertEquals(4, SortingAndSearching.findInListy(list, 44));
         assertEquals(5, SortingAndSearching.findInListy(list, 76));
-
+    }
+    
+    @Test
+    public void testSortedMatrixSearch() {
+        
+        int [] [] matrix = {
+                {1,  2,  3,  4},
+                {10, 11, 12, 13},
+                {20, 21, 22, 23},
+                {30, 31, 32, 33},
+                {40, 41, 42, 43}
+        };
+        
+        assertTrue(SortingAndSearching.sortedMatrixSearch(matrix, 22));
+        assertTrue(SortingAndSearching.sortedMatrixSearch(matrix, 1));
+        assertTrue(SortingAndSearching.sortedMatrixSearch(matrix, 43));
+        assertFalse(SortingAndSearching.sortedMatrixSearch(matrix, -1));
     }
 }

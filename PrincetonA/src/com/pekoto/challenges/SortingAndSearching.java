@@ -107,4 +107,44 @@ public class SortingAndSearching {
         
         return -1;
     }
+    
+    /*
+     * Search a matrix where rows/columns are
+     * sorted in ascending order for a given value.
+     * 
+     * Point: 1. If our key < min column element,
+     *        our key is to the left.
+     *        2. If our key is > max column element,
+     *        our key is to the right.
+     *        3. If our key is < min row element,
+     *        our key is in the row above.
+     *        4. If our key is > max row element,
+     *        our key is in the row below.
+     *        
+     *        So using these rules, start in the top right and move left + down.
+     * 
+     * Note: There is a more efficient solution that involved
+     *       dividing the matrix into quadrants and using
+     *       a binary search approach.
+     */
+    public static boolean sortedMatrixSearch(int [][] matrix, int key) {
+        return sortedMatrixSearch(matrix, key, 0, matrix[0].length-1);
+    }
+    
+    private static boolean sortedMatrixSearch(int [][] matrix, int key, int row, int col) {
+        
+        while(col >= 0 && row < matrix.length) {
+            if(matrix[row][col] == key) {
+                return true;
+            } else if (key < matrix[row][col]) {
+                // Key is < min col value, move left
+                col--;
+            } else {
+                // Key is > row val, move down
+                row++;
+            }
+        }
+        
+        return false;
+    }
 }
