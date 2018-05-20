@@ -81,4 +81,17 @@ public class SortingAndSearchingTests {
         assertTrue(SortingAndSearching.sortedMatrixSearch(matrix, 43));
         assertFalse(SortingAndSearching.sortedMatrixSearch(matrix, -1));
     }
+    
+    @Test
+    public void testSortPeaksAndValleys() {
+        int [] arr = {5, 1, 3, 3, 2};
+        
+        SortingAndSearching.sortPeaksAndValleys(arr);
+        
+        assertEquals(5, arr[0]);
+        assertEquals(1, arr[1]);
+        assertEquals(3, arr[2]);
+        assertEquals(2, arr[3]);
+        assertEquals(3, arr[4]);
+    }
 }

@@ -147,4 +147,34 @@ public class SortingAndSearching {
         
         return false;
     }
+    
+    /* 
+     * Sorts an array of integers into "peaks" and "valleys"
+     * 
+     * Peak = higher than surrounding numbers
+     * Valley = lower than surrounding numbers
+     * 
+     * Point: We only need to check alternate elements
+     *        so we can increment by i+2. Just check the
+     *        properties hold, and if not rearrange so they do.
+     * 
+     * Performance: O(n)
+     */
+    public static void sortPeaksAndValleys(int[] array) {
+        for (int i = 1; i < array.length; i += 2) {
+            if (array[i-1] < array[i]) {
+                swap(array, i-1, i);
+            } 
+            
+            if (i+1 < array.length && array[i+1] < array[i]) {
+                swap(array, i+1, i);
+            }
+        }
+    }
+    
+    public static void swap(int[] array, int left, int right) {
+        int temp = array[left];
+        array[left] = array[right];
+        array[right] = temp;
+    }
 }
