@@ -99,6 +99,7 @@ class Producer extends Thread {
  * Gets an item from the queue and sleeps
  */
 class Consumer extends Thread {
+    
     private int numOfItemsToConsume;
     private Buffer sharedBuffer;
     
