@@ -33,4 +33,14 @@ public class ModerateChallengesTests {
         assertEquals(1.0, intersection.x, 0.1);
         assertEquals(1.0, intersection.y, 0.1);
     }
+    
+    @Test
+    public void testFindMinDifference() {
+        int [] a = {1, 3, 15, 11, 2};
+        int [] b = {23, 127, 235, 19, 8};
+        
+        int minDifference = ModerateChallenges.findSmallestDifference(a, b);
+        
+        assertEquals(3, minDifference);
+    }
 }

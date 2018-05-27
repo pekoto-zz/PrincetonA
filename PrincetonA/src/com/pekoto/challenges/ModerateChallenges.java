@@ -1,5 +1,7 @@
 package com.pekoto.challenges;
 
+import java.util.Arrays;
+
 public class ModerateChallenges {
 
     /*
@@ -32,8 +34,9 @@ public class ModerateChallenges {
      *        one and two.
      */
     public static LinePoint getIntersection(LinePoint lineOneStart, LinePoint lineOneEnd, LinePoint lineTwoStart, LinePoint lineTwoEnd) {
-        // Rearrange to make start before end and point one is before point two,
-        // to simplify logic.
+        // To simplify logic, ensure start point comes before
+        // end point for both lines, and that line one comes before
+        // line two.
         if(lineOneStart.x > lineOneEnd.x) {
             swap(lineOneStart, lineOneEnd);
         }
@@ -52,9 +55,11 @@ public class ModerateChallenges {
         Line lineTwo = new Line(lineTwoStart, lineTwoEnd);
         
         // If the lines are parallel, they intercept only if they have the same y
-        if(lineOne.slope == lineTwo.slope) {
-            if(lineOne.yIntercept == lineTwo.yIntercept && 
-                    isBetween(lineOneStart, lineTwoStart, lineOneEnd)) {
+        // intercept and start of line two is in line one.
+        // Lines are parallel if they share the same slope.
+        if(lineOne.slope == lineTwo.slope) {    // Lines are parallel
+            if(lineOne.yIntercept == lineTwo.yIntercept &&  // Lines have same y intercept
+                    isBetween(lineOneStart, lineTwoStart, lineOneEnd)) {    // Line two starts between line one's start and end
                 return lineTwoStart;
             }
             
@@ -84,6 +89,9 @@ public class ModerateChallenges {
         two.setLocation(x, y);
     }
     
+    /*
+     * Check if the middle point is between the start and end points
+     */
     private static boolean isBetween(LinePoint start, LinePoint middle, LinePoint end) {
         return isBetween(start.x, middle.x, end.x) &&
                isBetween(start.y, middle.y, end.y);
@@ -95,5 +103,41 @@ public class ModerateChallenges {
         } else {
             return start <= middle && middle <= end;
         }
+    }
+    
+    /*
+     * Finds the smallest difference between two
+     * elements in two arrays.
+     * 
+     * Point: If the arrays are sorted, moving the larger
+     * element can only increase the difference, so we move
+     * the smaller one each time.
+     */
+    public static int findSmallestDifference(int [] a, int [] b) {
+        if(a.length == 0 || b.length == 0) {
+            return -1;
+        }
+        
+        Arrays.sort(a);
+        Arrays.sort(b);
+        
+        int minDifference = Integer.MAX_VALUE;
+        
+        int aPointer = 0;
+        int bPointer = 0;
+        
+        while(aPointer < a.length && bPointer < b.length) {
+            if(Math.abs(a[aPointer] - b[bPointer]) < minDifference) {
+                minDifference = Math.abs(a[aPointer] - b[bPointer]);
+            }
+            
+            if(a[aPointer] < b[bPointer]) {
+                aPointer++;
+            } else {
+                bPointer++;
+            }
+        }
+        
+        return minDifference;
     }
 }
