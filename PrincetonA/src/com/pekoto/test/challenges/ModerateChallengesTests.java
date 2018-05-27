@@ -43,4 +43,14 @@ public class ModerateChallengesTests {
         
         assertEquals(3, minDifference);
     }
+    
+    @Test
+    public void testGetMaxA() {
+        assertEquals(4, ModerateChallenges.getMax(4, 2));
+    }
+    
+    @Test
+    public void testGetMaxB() {
+        assertEquals(4, ModerateChallenges.getMax(4, 2));
+    }
 }

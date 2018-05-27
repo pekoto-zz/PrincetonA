@@ -140,4 +140,36 @@ public class ModerateChallenges {
         
         return minDifference;
     }
+    
+    /*
+     * Returns the max of a and b without using comparison operators
+     * 
+     * Point: If we have a variable k that is 1 when a > b, and 0 otherwise,
+     *        we can do a * k and b * ~k to get the max value.
+     *        k=0 for the lower number, thus getting rid of it.
+     *        
+     * (This code has a potential overflow bug when the numbers have different signs.
+     *  See CTCI for a more robust solution.)
+     */
+    public static int getMax(int a, int b) {
+        int k = sign(a-b);
+        int inverseK = flip(k);
+        
+        return a*k + b*inverseK;
+    }
+    
+    // returns 1 if a is +ve, or 0 if a is -ve
+    // 1. a >> 31: Shift -ve indicator bit into 1 position
+    // 2. & it with 0001
+    // 3. This will give 1 if -ve bit is set (1),
+    //    so FLIP is to give us 1 if we have +ve
+    private static int sign(int a) {
+        int signBitShiftedToOnePos = a >> 31;
+        int isNegative = signBitShiftedToOnePos & 0x1;
+        return flip(isNegative);
+    }
+    
+    private static int flip(int bit) {
+        return 1^bit;
+    }
 }
