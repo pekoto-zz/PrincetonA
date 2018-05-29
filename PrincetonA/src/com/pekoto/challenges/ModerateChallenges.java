@@ -172,4 +172,110 @@ public class ModerateChallenges {
     private static int flip(int bit) {
         return 1^bit;
     }
+    
+    /*
+     * Returns the year the most people were alive using sorting.
+     * 
+     * This works kind of like a merge sort:
+     * 1. Sort the births and deaths
+     * 2. If the next lowest year is a birth year,
+     *    increment the people alive and check if we have a new record
+     * 3. If the next lowest year is a death year,
+     *    decrement the number of people alive
+     * 
+     * Performance: O(p log p), where p is the number of people
+     *              (The bottleneck is sorting)
+     */
+    public static int getMaxAliveUsingSorting(Person [] people, int minBirthYear) {
+        int [] births = getSortedYears(people, true);
+        int [] deaths = getSortedYears(people, false);
+        
+        int birthIndex = 0;
+        int deathIndex = 0;
+        int currentlyAlive = 0;
+        int maxAlive = 0;
+        int yearWithMostAlive = minBirthYear;
+        
+        while(birthIndex < births.length) {
+            if(births[birthIndex] <= deaths[deathIndex]) {
+                currentlyAlive++;
+                if(currentlyAlive > maxAlive) {
+                    maxAlive = currentlyAlive;
+                    yearWithMostAlive = births[birthIndex];
+                }
+                birthIndex++;
+            } else if(deaths[deathIndex] < births[birthIndex]) {
+                currentlyAlive--;
+                deathIndex++;
+            }
+        }
+        
+        return yearWithMostAlive;
+    }
+    
+    private static int[] getSortedYears(Person [] people, boolean getBirthYear) {
+        int [] years = new int[people.length];
+        
+        for(int i=0; i<people.length; i++) {
+            years[i] = getBirthYear ? people[i].getBirthYear() : people[i].getDeathYear();
+        }
+        
+        Arrays.sort(years);
+        
+        return years;
+    }
+    
+    /*
+     * Get the year the most people were alive be calculating
+     * the population change for each year and cumulatively adding them up.
+     * 
+     * 1. Set up an array of years
+     * 2. Increment elements for birth year
+     * 3. Decrement elements for death year + 1
+     * 4. Iterate through this delta array, cumulatively adding,
+     *    and update max year if we hit a new max value
+     * 
+     * Performance: O(R + P), where P is the number of people, and R is the range of years.
+     * (This may not be better than the sorting approach -- it depends)
+     */
+    public static int getMaxAliveUsingDeltas(Person [] people, int minBirthYear, int maxDeathYear) {
+        
+        int [] populationDeltas = calculatePopulationDeltas(people, minBirthYear, maxDeathYear);
+        int maxYear = getMaxYear(populationDeltas);
+        
+        return maxYear + minBirthYear;
+    }
+    
+    private static int[] calculatePopulationDeltas(Person [] people, int minBirthYear, int maxDeathYear) {
+        int [] populationDeltas = new int [maxDeathYear-minBirthYear+2];
+    
+        for(Person p : people) {
+            int birthIndex = p.getBirthYear()-minBirthYear;
+            populationDeltas[birthIndex]++;
+            
+            // +1 because people are counted living in
+            // the year they die
+            int deathIndex = p.getDeathYear()-minBirthYear+1;
+            populationDeltas[deathIndex]--;
+        }
+        
+        return populationDeltas;
+    }
+    
+    private static int getMaxYear(int [] populationDeltas) {
+        int maxYear = 0;
+        int maxAlive = 0;
+        int currentlyAlive = 0;
+        
+        for(int year = 0; year < populationDeltas.length; year++) {
+            currentlyAlive += populationDeltas[year];
+            
+            if(currentlyAlive > maxAlive) {
+                maxAlive = currentlyAlive;
+                maxYear = year;
+            }
+        }
+        
+        return maxYear;
+    }
 }

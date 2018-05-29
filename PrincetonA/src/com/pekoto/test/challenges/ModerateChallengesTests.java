@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import com.pekoto.challenges.LinePoint;
 import com.pekoto.challenges.ModerateChallenges;
+import com.pekoto.challenges.Person;
 import com.pekoto.challenges.SimpleTuple;
 
 /*
@@ -52,5 +53,39 @@ public class ModerateChallengesTests {
     @Test
     public void testGetMaxB() {
         assertEquals(4, ModerateChallenges.getMax(4, 2));
+    }
+    
+    @Test
+    public void testGetMaxAliveUsingSorting() {
+        
+        Person p1 = new Person(1901, 1990);
+        Person p2 = new Person(1901, 1983);
+        Person p3 = new Person(1902, 1902);
+        Person p4 = new Person(1905, 1972);
+        Person p5 = new Person(1903, 1904);
+        Person p6 = new Person(1905, 1999);
+        
+        Person [] people = { p1, p2, p3, p4, p5, p6 };
+        
+        int maxYear = ModerateChallenges.getMaxAliveUsingSorting(people, 1901);
+        
+        assertEquals(1905, maxYear);
+    }
+    
+    @Test
+    public void testGetMaxAliveUsingDeltas() {
+        
+        Person p1 = new Person(1901, 1990);
+        Person p2 = new Person(1901, 1983);
+        Person p3 = new Person(1902, 1902);
+        Person p4 = new Person(1905, 1972);
+        Person p5 = new Person(1903, 1904);
+        Person p6 = new Person(1905, 1999);
+        
+        Person [] people = { p1, p2, p3, p4, p5, p6 };
+        
+        int maxYear = ModerateChallenges.getMaxAliveUsingDeltas(people, 1901, 1999);
+        
+        assertEquals(1905, maxYear);
     }
 }
