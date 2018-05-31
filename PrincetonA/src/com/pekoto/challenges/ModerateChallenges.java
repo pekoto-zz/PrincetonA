@@ -278,4 +278,98 @@ public class ModerateChallenges {
         
         return maxYear;
     }
+    
+    /*
+     * Finds the two indices that, if the elements between
+     * those indices would be sorted, the entire array would be sorted.
+     * 
+     * Think about it:
+     * The array can be split into:
+     * Left (sorted)
+     * Middle (out of order)
+     * Right (sorted)
+     * 
+     * For the entire array to be sorted, the max of left needs to be <
+     * middle, and the min of the right side > middle.
+     * 
+     * So we shrink the left and right subsequences until these conditions are met.
+     */
+    public static SimpleTuple findUnsortedSequence(int [] arr) {
+        int leftEnd = getEndOfLeftSubsequence(arr);
+        
+        if(leftEnd == arr.length-1) {
+            // Array fully sorted
+            return null;
+        }
+        
+        int rightStart = getStartOfRightSubsequence(arr);
+        
+        int maxIndex = leftEnd;  // End of the left side (all elements right must be bigger than this)
+        int minIndex = rightStart;  // Start of the right side (all elements left must be smaller than this)
+        
+        // Iterate middle to get elements less/greater than
+        // the min/max elements in the left/right sides 
+        for(int i = leftEnd+1; i < rightStart; i++) {
+            if(arr[i] < arr[minIndex]) {
+                minIndex = i;
+            }
+            
+            if(arr[i] > arr[maxIndex]) {
+                maxIndex = i;
+            }
+        }
+        
+        int leftIndex = shrinkLeft(arr, minIndex, leftEnd);
+        int rightIndex = shrinkRight(arr, maxIndex, rightStart);
+        
+        return new SimpleTuple(leftIndex, rightIndex);
+    }
+    
+    private static int getEndOfLeftSubsequence(int [] arr) {
+        // Iterate over the array until we hit an element that
+        // is smaller than the one before it (i.e., go from ascending > descending order)
+        for(int i = 1; i < arr.length; i++) {
+            if(arr[i] < arr[i-1]) {
+                return i-1;
+            }
+        }
+        
+        return arr.length-1;
+    }
+    
+    private static int getStartOfRightSubsequence(int [] arr) {
+        // Iterate down the array until we fin an element that is
+        // bigger than the element after it (i.e., go from descending > ascending order)
+        for(int i = arr.length-2; i >= 0; i--) {
+            if(arr[i] > arr[i+1]) {
+                return i+1;
+            }
+        }
+        
+        return 0;
+    }
+    
+    private static int shrinkLeft(int[] arr, int minIndex, int leftEnd) {
+        int midRightMin = arr[minIndex];
+        
+        for(int i = leftEnd-1; i >= 0; i--) {
+            if(arr[i] <= midRightMin) {
+                return i+1;
+            }
+        }
+        
+        return 0;
+    }
+    
+    private static int shrinkRight(int[] arr, int maxIndex, int rightStart) {
+        int leftMidMax = arr[maxIndex];
+        
+        for(int i = rightStart; i < arr.length; i++) {
+            if(arr[i] >= leftMidMax) {
+                return i-1;
+            }
+        }
+        
+        return 0;
+    }
 }

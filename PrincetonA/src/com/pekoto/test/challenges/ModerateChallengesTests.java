@@ -88,4 +88,14 @@ public class ModerateChallengesTests {
         
         assertEquals(1905, maxYear);
     }
+    
+    @Test
+    public void testFindUnsortedSequence() {
+        int [] arr = {1, 2, 4, 7, 10, 11, 7, 12, 6, 7, 16, 18, 19};
+        
+        SimpleTuple result = ModerateChallenges.findUnsortedSequence(arr);
+        
+        assertEquals(3, result.getA());
+        assertEquals(9, result.getB());
+    }
 }
