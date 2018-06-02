@@ -281,7 +281,7 @@ public class ModerateChallenges {
     
     /*
      * Finds the two indices that, if the elements between
-     * those indices would be sorted, the entire array would be sorted.
+     * those indices are sorted, the entire array would be sorted.
      * 
      * Think about it:
      * The array can be split into:
@@ -292,7 +292,12 @@ public class ModerateChallenges {
      * For the entire array to be sorted, the max of left needs to be <
      * middle, and the min of the right side > middle.
      * 
-     * So we shrink the left and right subsequences until these conditions are met.
+     * So we...
+     * 1. Find the max value of the left+mid sections
+     * 2. Find the min value of the mid+right sections
+     * 3. Shrink the left subsequence until we hit an element < than min (2)
+     * 4. Shrink the right subsequence until we hit an element > than max (1)
+     * 
      */
     public static SimpleTuple findUnsortedSequence(int [] arr) {
         int leftEnd = getEndOfLeftSubsequence(arr);
@@ -304,23 +309,24 @@ public class ModerateChallenges {
         
         int rightStart = getStartOfRightSubsequence(arr);
         
-        int maxIndex = leftEnd;  // End of the left side (all elements right must be bigger than this)
-        int minIndex = rightStart;  // Start of the right side (all elements left must be smaller than this)
+        int maxOfLeftAndMid = leftEnd;  // Right must start at an element > than this
+        int minOfMidAndRight = rightStart;  // Left must end at an element < than this
         
         // Iterate middle to get elements less/greater than
         // the min/max elements in the left/right sides 
         for(int i = leftEnd+1; i < rightStart; i++) {
-            if(arr[i] < arr[minIndex]) {
-                minIndex = i;
+            if(arr[i] < arr[minOfMidAndRight]) {
+                minOfMidAndRight = i;
             }
             
-            if(arr[i] > arr[maxIndex]) {
-                maxIndex = i;
+            if(arr[i] > arr[maxOfLeftAndMid]) {
+                maxOfLeftAndMid = i;
             }
         }
         
-        int leftIndex = shrinkLeft(arr, minIndex, leftEnd);
-        int rightIndex = shrinkRight(arr, maxIndex, rightStart);
+        // Shrink the indices according to the conditions above
+        int leftIndex = shrinkLeft(arr, minOfMidAndRight, leftEnd);
+        int rightIndex = shrinkRight(arr, maxOfLeftAndMid, rightStart);
         
         return new SimpleTuple(leftIndex, rightIndex);
     }
