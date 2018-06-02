@@ -378,4 +378,31 @@ public class ModerateChallenges {
         
         return 0;
     }
+    
+    /* 
+     * Returns the max sum of contiguous elements in an array.
+     * 
+     * This will return 0 for an array of all negative numbers.
+     * My own solution in the notebook will return the minimum negative number.
+     * 
+     * This solution assumes we have at least 1 positive number in the array.
+     * Thus, if the running sum falls below 0, reset it, since the next
+     * positive number will be greater than it.
+     */
+    public static int getMaxSum(int [] arr) {
+        int maxSum = 0;
+        int runningSum = 0;
+        
+        for(int i = 0; i < arr.length; i++) {
+            runningSum += arr[i];
+            
+            if(maxSum < runningSum) {
+                maxSum = runningSum;
+            } else if (runningSum < 0) {
+                runningSum = 0;
+            }
+        }
+        
+        return maxSum;
+    }
 }

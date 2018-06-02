@@ -98,4 +98,11 @@ public class ModerateChallengesTests {
         assertEquals(3, result.getA());
         assertEquals(9, result.getB());
     }
+    
+    @Test
+    public void testGetMaxSum() {
+        int [] arr = {2, -8, 3, -2, 4, -10};
+        
+        assertEquals(5, ModerateChallenges.getMaxSum(arr));
+    }
 }
