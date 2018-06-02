@@ -1,6 +1,7 @@
 package com.pekoto.test.challenges;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -104,5 +105,10 @@ public class ModerateChallengesTests {
         int [] arr = {2, -8, 3, -2, 4, -10};
         
         assertEquals(5, ModerateChallenges.getMaxSum(arr));
+    }
+    
+    @Test
+    public void testDoesMatch() {
+        assertTrue(ModerateChallenges.doesMatch("ababb", "backbatbackbatbat"));
     }
 }

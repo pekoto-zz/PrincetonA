@@ -405,4 +405,96 @@ public class ModerateChallenges {
         
         return maxSum;
     }
+    
+    /*
+     * Returns true if a given string matches a pattern of As and Bs
+     * 
+     * E.g., aababa = CATCATGOCATGOCAT
+     * 
+     * 1. Treat the first char in the pattern as the "main" word, the other as the alt
+     * 2. Count the number of occurance of main and alt we can have, by counting chars in the pattern
+     * 3. Get the first index of alt character
+     * 4. Count the max size of the main string (string length/number of main char in pattern)
+     * 5. Now, for 0 to max size of main string...
+     *  5.1 Take the main string to be 0...mainSize
+     *  5.2 If alt fits in the pattern (altCount == 0, or remainingLength % alts == 0)
+     *  5.3 Get the index of alt (first index of alt * main size)
+     *  5.4 Get the size of alt (remaining length / alt count)
+     *  5.5 Get the alt substring (based on alt index + size)
+     *  5.6 Build a candidate...
+     *      5.6.1 Get the first char in the pattern, set it as main
+     *      5.6.2 Go through pattern...
+     *      5.6.3 If the char is main, insert main word
+     *      5.6.4 Otherwise insert alt word
+     *  5.7 If our candidate matches our value, return true -- we have a match!
+     * 
+     * Performance: O(n^2) (O(n) possibilities for main word, and then O(n) to build the candidate)
+     */
+    public static boolean doesMatch(String pattern, String value) {
+        if(pattern.length() == 0) {
+            return value.length() == 0;
+        }
+        
+        char mainChar = pattern.charAt(0);
+        char altChar = mainChar == 'a' ? 'b' : 'a';
+        int mainCount = countOf(pattern, mainChar);
+        int altCount = pattern.length()-mainCount;
+        
+        int firstAltIndex = pattern.indexOf(altChar);
+        
+        // The maximum length of the "main" word
+        // E.g., if A appears 4 times, and the string is 16 chars, A can't be more than 4 chars long
+        int maxSizeOfMain = value.length()/mainCount;   
+        
+        // Try different sizes for main. We know main must be at the start of the String.
+        for(int mainSize = 0; mainSize < maxSizeOfMain; mainSize++) {
+            int remainingLength = value.length() - mainSize * mainCount;
+            String main = value.substring(0, mainSize);
+            
+            // remainingLength % altCount == 0, i.e., alt string can fit into this pattern
+            // (Likewise for altCount == 0, technically the empty string could fit in)
+            if(altCount == 0 || remainingLength % altCount == 0) {
+                int altIndex = firstAltIndex * mainSize;
+                int altSize = altCount == 0 ? 0 : remainingLength/altCount;
+                
+                String alt = altCount == 0 ? "" : value.substring(altIndex,  altIndex + altSize);
+            
+                String candidate = buildFromPattern(pattern, main, alt);
+                
+                if(candidate.equals(value)) {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+    
+    private static int countOf(String pattern, char c) {
+        int count = 0;
+        
+        for(int i = 0; i < pattern.length(); i++) {
+            if(pattern.charAt(i) == c) {
+                count++;
+            }
+        }
+        
+        return count;
+    }
+    
+    private static String buildFromPattern(String pattern, String main, String alt) {
+        StringBuffer sb = new StringBuffer();
+        
+        char first = pattern.charAt(0);
+        
+        for(char c : pattern.toCharArray()) {
+            if(c == first) {
+                sb.append(main);
+            } else {
+                sb.append(alt);
+            }
+        }
+        
+        return sb.toString();
+    }
 }
