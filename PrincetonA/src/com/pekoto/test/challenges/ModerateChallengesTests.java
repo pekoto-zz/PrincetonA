@@ -3,6 +3,9 @@ package com.pekoto.test.challenges;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 
 import com.pekoto.challenges.LinePoint;
@@ -110,5 +113,23 @@ public class ModerateChallengesTests {
     @Test
     public void testDoesMatch() {
         assertTrue(ModerateChallenges.doesMatch("ababb", "backbatbackbatbat"));
+    }
+    
+    @Test 
+    public void testGetPondSizes() {
+        
+        int [][] matrix = {
+                {0, 2, 1, 0},
+                {0, 1, 0, 1},
+                {1, 1, 0, 1},
+                {0, 1, 0, 1}
+        };
+        
+        List<Integer> pondSizes = ModerateChallenges.getPondSizes(matrix);
+        
+        assertEquals(3, pondSizes.size());
+        assertEquals(Integer.valueOf(2), pondSizes.get(0));
+        assertEquals(Integer.valueOf(4), pondSizes.get(1));
+        assertEquals(Integer.valueOf(1), pondSizes.get(2));
     }
 }

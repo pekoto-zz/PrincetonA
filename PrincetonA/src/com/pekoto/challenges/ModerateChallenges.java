@@ -1,6 +1,8 @@
 package com.pekoto.challenges;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class ModerateChallenges {
 
@@ -496,5 +498,57 @@ public class ModerateChallenges {
         }
         
         return sb.toString();
+    }
+    
+    /*
+     * Return a list of contiguous 0 element block sizes
+     * 
+     * (Could tidy this up, but basically just a depth first search
+     *  through a matrix. Could also do a breath first search instead).
+     */
+    public static List<Integer> getPondSizes(int [][] matrix) {
+        int [][] neighbours = { 
+                {-1, -1}, {-1, 0}, {-1, 1},
+                {0, -1},           {0, 1},
+                {1, -1},  {1, 0},   {1, 1}
+        };
+        
+        boolean [][] visited = new boolean[matrix.length][matrix[0].length];
+        List<Integer> pondSizes = new ArrayList<Integer>();
+        
+        for(int row = 0; row < matrix.length; row++) {
+            for(int col = 0; col < matrix[0].length; col++) {
+                if(!visited[row][col]) {
+                    visited[row][col] = true;
+                    if(matrix[row][col] == 0) {
+                        pondSizes.add(dfs(matrix, row, col, visited, neighbours, 1));
+                    }
+                }
+            }
+        }
+        
+        return pondSizes;
+    }
+    
+    private static int dfs(int[][] matrix, int row, int col, boolean[][]visited, int[][] neighbours, int size) {
+        
+        for(int[] neighbour: neighbours) {
+            if(inRange(matrix, row, col, neighbour) && !visited[row+neighbour[0]][col+neighbour[1]]) {
+                visited[row+neighbour[0]][col+neighbour[1]] = true;               
+                if(matrix[row+neighbour[0]][col+neighbour[1]] == 0) {
+                    size = dfs(matrix, row+neighbour[0], col+neighbour[1], visited, neighbours, size+1);
+                }
+            }
+        }
+        
+        return size;
+    }
+    
+    private static boolean inRange(int[][] matrix, int row, int col, int[]neighbour) {
+        int newRow = row+neighbour[0];
+        int newCol = col+neighbour[1];
+        
+        return newRow >= 0 && newRow < matrix.length
+                && newCol >= 0 && newCol < matrix[0].length;
     }
 }
