@@ -3,6 +3,7 @@ package com.pekoto.challenges;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Stack;
 
 public class ModerateChallenges {
 
@@ -550,5 +551,123 @@ public class ModerateChallenges {
         
         return newRow >= 0 && newRow < matrix.length
                 && newCol >= 0 && newCol < matrix[0].length;
+    }
+    
+    /* 
+     * Parses a String representing an arithmetic expression
+     * and returns the result.
+     * 
+     * Basically a modified version of Disjkstra's two-stack
+     * method, except it account for operator precedence since
+     * there are no parenthesis.
+     */
+    public static double calculate(String expression) {
+        Stack<Double> numberStack = new Stack<Double>();
+        Stack<Operator> operatorStack = new Stack<Operator>();
+        
+        for(int i = 0; i < expression.length(); i++) {
+            try {
+                // Get number and push
+                int value = parseNextNumber(expression, i);
+                numberStack.push((double)value);
+                
+                // Get the operator
+                i += Integer.toString(value).length();
+                
+                if(i >= expression.length()) {
+                    break;
+                }
+                
+                // Collapse stack, push operator
+                Operator operator = parseNextOperator(expression, i);
+                collapseStack(operator, numberStack, operatorStack);
+                operatorStack.push(operator);
+            } catch(NumberFormatException nfe) {
+                return Integer.MIN_VALUE;
+            }
+        }
+
+        // Do a final collapse
+        collapseStack(Operator.BLANK, numberStack, operatorStack);
+        if(numberStack.size() == 1 && operatorStack.size() == 0) {
+            return numberStack.pop();
+        }
+        
+        return 0;
+    }
+    
+    private enum Operator {
+        ADD, SUBTRACT, MULTIPLY, DIVIDE, BLANK
+    }
+    
+    // Return the number that starts at offset
+    private static int parseNextNumber(String sequence, int offset) {
+        StringBuilder sb = new StringBuilder();
+        
+        while(offset < sequence.length() && Character.isDigit(sequence.charAt(offset))) {
+            sb.append(sequence.charAt(offset));
+            offset++;
+        }
+        
+        return Integer.parseInt(sb.toString());
+    }
+    
+    // Return the operator at offset
+    private static Operator parseNextOperator(String sequence, int offset) {
+        if(offset < sequence.length()) {
+            char op = sequence.charAt(offset);
+            switch(op) {
+            case '+': return Operator.ADD;
+            case '-': return Operator.SUBTRACT;
+            case '*': return Operator.MULTIPLY;
+            case '/': return Operator.DIVIDE;
+            }
+        }
+        
+        return Operator.BLANK;
+    }
+    
+    // Pop the top two numbers and apply the operator at the
+    // top of the operator stack. Push the result onto the numbers stack.
+    // Repeat this until the priority of future top > priority of top
+    public static void collapseStack(Operator futureTop, Stack<Double> numberStack, Stack<Operator> operatorStack) {
+        while(operatorStack.size() >= 1 && numberStack.size() >= 2) {
+            if(getOperatorPriority(futureTop) <= getOperatorPriority(operatorStack.peek())) {
+                double secondNum = numberStack.pop();
+                double firstNum = numberStack.pop();
+                Operator operator = operatorStack.pop();
+                
+                double result = applyOperator(firstNum, operator, secondNum);
+                numberStack.push(result);
+            } else {
+                break;
+            }
+        }
+    }
+    
+    // Operator priority =
+    // Division == multiplication > addition == subtraction
+    private static int getOperatorPriority(Operator operator) {
+        if(operator == Operator.ADD || operator == Operator.SUBTRACT) {
+            return 1;
+        } else if (operator == Operator.MULTIPLY || operator == Operator.DIVIDE) {
+            return 2;
+        } else {
+            return 0;
+        }
+    }
+    
+    private static double applyOperator(double left, Operator operator, double right) {
+        if(operator == Operator.ADD) {
+            return left + right;
+        } else if (operator == Operator.SUBTRACT) {
+            return left - right;
+        } else if (operator == Operator.MULTIPLY) {
+            return left * right;
+        } else if (operator == Operator.DIVIDE) {
+            return left / right;
+        } else {
+            return right;
+        }
     }
 }

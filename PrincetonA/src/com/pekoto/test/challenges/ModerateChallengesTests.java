@@ -132,4 +132,12 @@ public class ModerateChallengesTests {
         assertEquals(Integer.valueOf(4), pondSizes.get(1));
         assertEquals(Integer.valueOf(1), pondSizes.get(2));
     }
+    
+    @Test
+    public void testCalculate() {
+        // (2*3) + ((5/6)*3) + 15
+        double result = ModerateChallenges.calculate("2*3+5/6*3+15");
+        
+        assertEquals(23.5, result, 0.1);
+    }
 }
