@@ -560,6 +560,22 @@ public class ModerateChallenges {
      * Basically a modified version of Disjkstra's two-stack
      * method, except it account for operator precedence since
      * there are no parenthesis.
+     * 
+     * 1. Parse a number, put it on number stack
+     * 2. Parse an operator
+     * 3. Collapse the stack:
+     *  3.1 While you have at least 2 numbers and 1 operator on the stacks...
+     *  3.2 If the priority of the new operator (2) is <= top of the stack
+     *      (i.e., add/subtract < multiply/divide)
+     *  3.3 Pop two numbers from the stack, pop the operator, and push the result onto the number stack
+     * 4. Do a final collapse to get rid of final operators/numbers
+     * 
+     * Point: Step 3.2: Before we push a lower priority operator onto the stack,
+     *        we perform the higher priority operation. I.e., we do our multiply
+     *        and divide before our addition and subtraction.
+     *        We ensure high priority operations are done first.
+     *        
+     * (If unclear, run through an example. E.g., 2*3+5/6*3+15)
      */
     public static double calculate(String expression) {
         Stack<Double> numberStack = new Stack<Double>();
