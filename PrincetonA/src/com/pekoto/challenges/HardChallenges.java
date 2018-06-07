@@ -1,5 +1,7 @@
 package com.pekoto.challenges;
 
+import java.util.Random;
+
 public class HardChallenges {
     
     /*
@@ -28,5 +30,29 @@ public class HardChallenges {
         }
         
         return a;
+    }
+    
+    /*
+     * Returns a random set of m integers from an array
+     * Essentially the same as Knuth's shuffle algorithm.
+     */
+    public static int [] getRandomSet(int [] arr, int m) {
+        int [] randomSet = new int[m];
+        
+        for(int i = 0; i < m; i++) {
+            randomSet[i] = arr[i];
+        }
+        
+        Random rand = new Random();
+        
+        for(int i = m; i < arr.length; i++) {
+            int randomIndex = rand.nextInt(m);
+            
+            if(randomIndex < m) {
+                randomSet[randomIndex] = arr[i];
+            }
+        }
+        
+        return randomSet;
     }
 }
