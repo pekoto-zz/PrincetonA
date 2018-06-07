@@ -48,7 +48,7 @@ public class HardChallenges {
         for(int i = m; i < arr.length; i++) {
             int randomIndex = rand.nextInt(m);
             
-            if(randomIndex < m) {
+            if(randomIndex < i+1) {
                 randomSet[randomIndex] = arr[i];
             }
         }
