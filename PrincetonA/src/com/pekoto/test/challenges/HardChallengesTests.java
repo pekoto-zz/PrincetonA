@@ -2,6 +2,8 @@ package com.pekoto.test.challenges;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.List;
+
 import org.junit.Test;
 
 import com.pekoto.challenges.HardChallenges;
@@ -27,5 +29,19 @@ public class HardChallengesTests {
         }
         
         System.out.println();
+    }
+    
+    @Test
+    public void testGetAllSubarrays() {
+        int [] arr = {1, 2, 3, 4, 5};
+        
+        List<int[]> subarrays = HardChallenges.getAllSubarrays(arr);
+        
+        for(int[] subarray: subarrays) {
+            for(int i = 0; i < subarray.length; i++) {
+                System.out.print("[" + subarray[i] + "]");
+            }
+            System.out.println();
+        }
     }
 }

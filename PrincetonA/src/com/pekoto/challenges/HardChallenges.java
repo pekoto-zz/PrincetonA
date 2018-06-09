@@ -1,5 +1,7 @@
 package com.pekoto.challenges;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class HardChallenges {
@@ -54,5 +56,46 @@ public class HardChallenges {
         }
         
         return randomSet;
+    }
+    
+    /*
+     * Gets all subarrays. This is O(n^2), so rarely optimal,
+     * but it can be a useful brute force solution if you can't
+     * think of any other solution.
+     * 
+     * It starts checking from the longest subarray, which is generally
+     * what is asked for.
+     * 
+     * Note: This assumes you want at least 2 elements in the subarray
+     */
+    public static List<int[]> getAllSubarrays(int [] arr) {
+        
+        List<int[]> subarrays = new ArrayList<int[]>();
+        
+        for(int subarrayLength = arr.length-1; subarrayLength > 0; subarrayLength--) {
+            
+            // I.e., for a length 5 array, will be 0 on first iteration (1 length 5 array)
+            // then 1 for second iteration (2 length 4 arrays), etc.
+            int startOffsetCount = arr.length-1-subarrayLength;
+            
+            for(int start = 0; start <= startOffsetCount; start++) {
+                // Do some checking in this subarray
+                // E.g., equal number of letters and numbers
+                subarrays.add(getSubArray(arr, start, start + subarrayLength));
+            }
+        }
+        
+        return subarrays;
+    }
+    
+    private static int[] getSubArray(int [] arr, int start, int end) {
+        int [] subarray = new int[end-start+1];
+        
+        for(int i = start; i <= end; i++) {
+            int subarrayIndex = i-start;
+            subarray[subarrayIndex] = arr[i];
+        }
+        
+        return subarray;
     }
 }
