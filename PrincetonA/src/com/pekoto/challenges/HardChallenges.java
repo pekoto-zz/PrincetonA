@@ -1,7 +1,9 @@
 package com.pekoto.challenges;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Random;
 
 public class HardChallenges {
@@ -131,5 +133,73 @@ public class HardChallenges {
         } else {
             return roundUp / 10;
         }
+    }
+    
+    /*
+     * Gets the list of name frequencies, grouped by name synonym
+     * 
+     * 1. Construct a graph where each node contains a frequency count
+     * 2. Connected the graph nodes based on synonym
+     * 3. Perform a DFS on each connected component to get the true count
+     * 
+     * Performance: O(N+P), where N = number of names and P = pairs of synonyms
+     * 
+     */
+    public static HashMap<String, Integer> getTrueFrequencies(HashMap<String, Integer> nameFrequencies, String[][] synonyms) {
+        NameGraph graph = constructGraph(nameFrequencies);
+        connectEdges(graph, synonyms);
+        HashMap<String, Integer> trueFrequencies = getTrueFrequencies(graph);
+        
+        return trueFrequencies;
+    }
+    
+    // Create graph nodes keys on name, with value of frequency
+    private static NameGraph constructGraph(HashMap<String, Integer> nameFrequencies) {
+        NameGraph graph = new NameGraph();
+        
+        for(Entry<String, Integer> entry: nameFrequencies.entrySet()) {
+            graph.addNode(entry.getKey(), entry.getValue());
+        }
+        
+        return graph;
+    }
+    
+    // Connect edges based on synonym list
+    private static void connectEdges(NameGraph graph, String[][] synonyms) {
+        for(String [] entry : synonyms) {
+            graph.addEdge(entry[0], entry[1]);
+        }
+    }
+    
+    // Do a DFS of each connected component
+    private static HashMap<String, Integer> getTrueFrequencies(NameGraph graph) {
+        HashMap<String, Integer> trueFrequencies = new HashMap<String, Integer>();
+        
+        for(GraphNode node: graph.getNodes()) {
+            if(!node.visited()) {
+                int frequency = getComponentFrequency(node);
+                String name = node.getName();
+                trueFrequencies.put(name, frequency);
+            }
+        }
+        
+        return trueFrequencies;
+    }
+    
+    // Do a DFS of a component to get the total frequency for this component
+    private static int getComponentFrequency(GraphNode node) {
+        if(node.visited()) {
+            return 0;
+        }
+        
+        node.setVisited(true);
+        
+        int sum = node.getFrequency();
+        
+        for(GraphNode neighbour : node.getNeighbours()) {
+            sum += getComponentFrequency(neighbour);
+        }
+        
+        return sum;
     }
 }

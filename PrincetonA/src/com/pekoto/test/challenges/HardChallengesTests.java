@@ -2,6 +2,7 @@ package com.pekoto.test.challenges;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.junit.Test;
@@ -47,6 +48,34 @@ public class HardChallengesTests {
     
     @Test
     public void testGetNumOf2s() {
-        assertEquals(1, HardChallenges.getNumOf2s(12));
+        assertEquals(2, HardChallenges.getNumOf2s(12));
+    }
+    
+    @Test
+    public void testGetTrueFrequencies() {
+        HashMap<String, Integer> nameFrequencies = new HashMap<String, Integer>();
+        
+        nameFrequencies.put("John", 3);
+        nameFrequencies.put("Jonathan", 4);
+        nameFrequencies.put("Johnny", 3);
+        nameFrequencies.put("Chris", 1);
+        nameFrequencies.put("Kris", 3);
+        nameFrequencies.put("Brian", 2);
+        nameFrequencies.put("Bryan", 4);
+        nameFrequencies.put("Carleton", 4);
+        
+        String [][] synonyms = {
+                    {"John", "Jonathan"},
+                    {"Jonathan", "Johnny"},
+                    {"Chris", "Kris"},
+                    {"Brian", "Bryan"}
+        };
+        
+        HashMap<String, Integer> trueFrequencies = HardChallenges.getTrueFrequencies(nameFrequencies, synonyms);
+        
+        assertEquals(Integer.valueOf(6), trueFrequencies.get("Brian"));
+        assertEquals(Integer.valueOf(4), trueFrequencies.get("Kris"));
+        assertEquals(Integer.valueOf(4), trueFrequencies.get("Carleton"));
+        assertEquals(Integer.valueOf(10), trueFrequencies.get("Jonathan"));
     }
 }
