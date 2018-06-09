@@ -98,4 +98,38 @@ public class HardChallenges {
         
         return subarray;
     }
+    
+    /* 
+     * Counts the number of 2s in the range 0...n
+     */
+    public static int getNumOf2s(int n) {
+        int count = 0;
+        
+        int len = String.valueOf(n).length();
+        
+        for(int digit = 0; digit < len; digit++) {
+            count += count2sInRangeAtDigit(n, digit);
+        }
+        
+        return count;
+    }
+    
+    private static int count2sInRangeAtDigit(int n, int digit) {
+        int powerOf10 = (int) Math.pow(10, digit);
+        int nextPowerOf10 = powerOf10 * 10;
+        int right = n % powerOf10;
+        
+        int roundDown = n - n % nextPowerOf10;
+        int roundUp = roundDown + nextPowerOf10;
+        
+        int d = (n / powerOf10) % 10;
+    
+        if(d < 2) {
+            return roundDown / 10;
+        } else if (d == 2) {
+            return roundDown / 10 + right + 1;
+        } else {
+            return roundUp / 10;
+        }
+    }
 }

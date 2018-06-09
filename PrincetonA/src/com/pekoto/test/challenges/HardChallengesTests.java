@@ -44,4 +44,9 @@ public class HardChallengesTests {
             System.out.println();
         }
     }
+    
+    @Test
+    public void testGetNumOf2s() {
+        assertEquals(1, HardChallenges.getNumOf2s(12));
+    }
 }
