@@ -1,6 +1,8 @@
 package com.pekoto.challenges;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -202,4 +204,82 @@ public class HardChallenges {
         
         return sum;
     }
+    
+    /*
+     * Returns the maximum subsequence, where each element in the sequence
+     * contains 2 items and each item must be less than its successor's items.
+     * 
+     * The items here are height and weight.
+     * 
+     * 1. Sort the array, this leaves us with a relative order for the longest subsequence
+     * 2. For each element in the array... 
+     *  2.1 Check if we can add it to a previous subsequence (is last element in subsequence < this)
+     *  2.2 If we can, check if this subsequence is longer than the previous subsequence we could append
+     *      this element on to, and if so set this subsequence as longest. Thus finding the longest
+     *      subsequence for this element.
+     *  2.3 Return the longest subsequence for this element
+     * 3. If the longest subsequence for this element is longer than the longest found so far,
+     *    update the longest subsequence to be this subsequence.
+     * 
+     * (CTCI 17.8: Circus Tower)
+     * 
+     * Performance: O(n^2)
+     */
+    public static ArrayList<HeightWeight> getLongestIncreasingSubsequence(ArrayList<HeightWeight> arr) {
+        Collections.sort(arr);
+        
+        ArrayList<ArrayList<HeightWeight>> subsequences = new ArrayList<ArrayList<HeightWeight>>();
+        ArrayList<HeightWeight> longestSequence = null;
+        
+        for(int i = 0; i < arr.size(); i++) {
+            ArrayList<HeightWeight> longestAtIndex = getLongestAtIndex(arr, subsequences, i);
+            subsequences.add(i, longestAtIndex);
+            longestSequence = max(longestSequence, longestAtIndex);
+        }
+        
+        return longestSequence;
+    }
+    
+    private static ArrayList<HeightWeight> getLongestAtIndex(ArrayList<HeightWeight> arr, ArrayList<ArrayList<HeightWeight>> solutions, int index) {
+        HeightWeight heightWeight = arr.get(index);
+        
+        ArrayList<HeightWeight> longestSequence = new ArrayList<HeightWeight>();
+        
+        for(int i = 0; i < index; i++) {
+            ArrayList<HeightWeight> solution = solutions.get(i);
+            if(canAppend(solution, heightWeight)) {
+                longestSequence = max(solution, longestSequence);
+            }
+        }
+        
+        ArrayList<HeightWeight> best = (ArrayList<HeightWeight>) longestSequence.clone();
+        best.add(heightWeight);
+        
+        return best;
+    }
+    
+    private static boolean canAppend(ArrayList<HeightWeight> solution, HeightWeight value) {
+        if(solution == null) {
+            return false;
+        }
+        
+        if(solution.size() == 0) {
+            return true;
+        }
+        
+        HeightWeight last = solution.get(solution.size()-1);
+        return last.canComeBefore(value);
+    }
+    
+    private static ArrayList<HeightWeight> max(ArrayList<HeightWeight> seq1, ArrayList<HeightWeight> seq2) {
+        if(seq1 == null) {
+            return seq2;
+        } else if (seq2 == null) {
+            return seq1;
+        }
+        
+        return seq1.size() > seq2.size() ? seq1 : seq2;
+    }
+    
+    
 }

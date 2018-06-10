@@ -2,12 +2,14 @@ package com.pekoto.test.challenges;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import org.junit.Test;
 
 import com.pekoto.challenges.HardChallenges;
+import com.pekoto.challenges.HeightWeight;
 
 /*
  * Unit tests for the HardChallenges class
@@ -77,5 +79,23 @@ public class HardChallengesTests {
         assertEquals(Integer.valueOf(4), trueFrequencies.get("Kris"));
         assertEquals(Integer.valueOf(4), trueFrequencies.get("Carleton"));
         assertEquals(Integer.valueOf(10), trueFrequencies.get("Jonathan"));
+    }
+    
+    @Test
+    public void testGetLongestIncreasingSubsequence() {
+        ArrayList<HeightWeight> arr = new ArrayList<HeightWeight>();
+        
+        arr.add(new HeightWeight(65, 60));
+        arr.add(new HeightWeight(70, 150));
+        arr.add(new HeightWeight(56, 90));
+        arr.add(new HeightWeight(60,  95));
+        arr.add(new HeightWeight(68, 110));
+        arr.add(new HeightWeight(35, 65));
+        arr.add(new HeightWeight(40, 60));
+        arr.add(new HeightWeight(45, 63));
+        
+        ArrayList<HeightWeight> longest = HardChallenges.getLongestIncreasingSubsequence(arr);
+        
+        assertEquals(6, longest.size());
     }
 }
