@@ -98,4 +98,11 @@ public class HardChallengesTests {
         
         assertEquals(6, longest.size());
     }
+    
+    @Test
+    public void testFindMajorityElement() {
+        int[] arr = {0, 0, 1, 2, 2, 0, 1, 0, 1, 1, 1, 1, 1};
+    
+        assertEquals(1, HardChallenges.findMajorityElement(arr));
+    }
 }

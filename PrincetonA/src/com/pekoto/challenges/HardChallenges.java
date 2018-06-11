@@ -281,5 +281,49 @@ public class HardChallenges {
         return seq1.size() > seq2.size() ? seq1 : seq2;
     }
     
+    /*
+     * Finds the majority element (occurs > half elements) in an array
+     * in O(n) time and O(1) space.
+     */
+    public static int findMajorityElement(int [] arr) {
+        int candidate = getCandidate(arr);
+        
+        if(isValid(arr, candidate)) {
+            return candidate;
+        } else {
+            return -1;
+        }
+    }
+    
+    private static int getCandidate(int [] arr) {
+        int majority = 0;
+        int count = 0;
+        
+        for(int n: arr) {
+            if(count == 0) {
+                majority = n;
+            }
+            
+            if(n == majority) {
+                count++;
+            } else {
+                count--;
+            }
+        }
+        
+        return majority;
+    }
+    
+    private static boolean isValid(int [] arr, int candidate) {
+        int count = 0;
+        
+        for(int n: arr) {
+            if(n == candidate) {
+                count++;
+            }
+        }
+        
+        return count > arr.length / 2;
+    }
     
 }
