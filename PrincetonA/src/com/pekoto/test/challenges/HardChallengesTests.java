@@ -104,5 +104,9 @@ public class HardChallengesTests {
         int[] arr = {0, 0, 1, 2, 2, 0, 1, 0, 1, 1, 1, 1, 1};
     
         assertEquals(1, HardChallenges.findMajorityElement(arr));
+    
+        int[] arr2 = {0, 1, 0, 1, 0};
+        
+        assertEquals(0, HardChallenges.findMajorityElement(arr2));
     }
 }

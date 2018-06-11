@@ -284,6 +284,10 @@ public class HardChallenges {
     /*
      * Finds the majority element (occurs > half elements) in an array
      * in O(n) time and O(1) space.
+     * 
+     * Works by using a kind of greedy approach -- assuming the element
+     * that appears the most in a given "subarray" will be the majority element,
+     * then runs through the array again to validate this.
      */
     public static int findMajorityElement(int [] arr) {
         int candidate = getCandidate(arr);
@@ -299,12 +303,16 @@ public class HardChallenges {
         int majority = 0;
         int count = 0;
         
-        for(int n: arr) {
+        for(int arrElement: arr) {
             if(count == 0) {
-                majority = n;
+                // Either no majority element set
+                // or majority element offset in subarray by mismatching elements
+                // (In this case, the mismatching elements are also not the majority in that subarray)
+                majority = arrElement;
             }
             
-            if(n == majority) {
+            if(arrElement == majority) {
+                // Element matches our majority so far
                 count++;
             } else {
                 count--;
