@@ -8,7 +8,9 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.pekoto.challenges.BiNode;
 import com.pekoto.challenges.HardChallenges;
+import com.pekoto.challenges.HardChallenges.NodePair;
 import com.pekoto.challenges.HeightWeight;
 
 /*
@@ -108,5 +110,26 @@ public class HardChallengesTests {
         int[] arr2 = {0, 1, 0, 1, 0};
         
         assertEquals(0, HardChallenges.findMajorityElement(arr2));
+    }
+    
+    @Test
+    public void testConvertToLinkedList() {
+       
+        BiNode[] nodes = new BiNode[7];
+        
+        for (int i = 0; i < nodes.length; i++) {
+            nodes[i] = new BiNode(i);
+        }
+        
+        nodes[4].node1 = nodes[2];
+        nodes[4].node2 = nodes[5];
+        nodes[2].node1 = nodes[1];
+        nodes[2].node2 = nodes[3];
+        nodes[5].node2 = nodes[6];
+        nodes[1].node1 = nodes[0];
+        
+        NodePair result = HardChallenges.convertToLinkedList(nodes[4]);
+        
+        result.printLinkedListTree(result.head);
     }
 }

@@ -308,6 +308,8 @@ public class HardChallenges {
                 // Either no majority element set
                 // or majority element offset in subarray by mismatching elements
                 // (In this case, the mismatching elements are also not the majority in that subarray)
+                // Even though this means we discard the majority element at one point, we will find it again
+                // later on if it exists.
                 majority = arrElement;
             }
             
@@ -334,4 +336,54 @@ public class HardChallenges {
         return count > arr.length / 2;
     }
     
+    /*
+     * BiNode: Convert a node with 2 child nodes
+     * from a binary tree to a linked list.
+     */
+    public static NodePair convertToLinkedList(BiNode root) {
+        if(root == null) {
+            return null;
+        }
+        
+        NodePair part1 = convertToLinkedList(root.node1);
+        NodePair part2 = convertToLinkedList(root.node2);
+        
+        if(part1 != null) {
+            concat(part1.tail, root);
+        }
+        
+        if(part2 != null) {
+            concat(root, part2.head);
+        }
+        
+        return new NodePair(part1 == null ? root : part1.head, 
+                            part2 == null ? root : part2.tail);
+    }
+    
+    private static void concat(BiNode x, BiNode y) {
+        x.node2 = y;
+        y.node1 = x;
+    }
+    
+    public static class NodePair {
+        public BiNode head;
+        public BiNode tail;
+        
+        NodePair(BiNode head, BiNode tail) {
+            this.head = head;
+            this.tail = tail;
+        }
+        
+
+        public void printLinkedListTree(BiNode n) {
+            for (BiNode node = n; node != null; node = node.node2) {
+                if (node.node2 != null && node.node2.node1 != node) {
+                    System.out.print("inconsistent node: " + node);
+                }
+                
+                System.out.print(node.data + "->");
+            }
+            System.out.println();
+        }
+    }
 }
