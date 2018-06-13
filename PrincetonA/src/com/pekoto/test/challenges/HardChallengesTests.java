@@ -130,6 +130,6 @@ public class HardChallengesTests {
         
         NodePair result = HardChallenges.convertToLinkedList(nodes[4]);
         
-        result.printLinkedListTree(result.head);
+        result.printLinkedListTree(result.next);
     }
 }

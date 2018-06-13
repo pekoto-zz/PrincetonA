@@ -349,15 +349,15 @@ public class HardChallenges {
         NodePair part2 = convertToLinkedList(root.node2);
         
         if(part1 != null) {
-            concat(part1.tail, root);
+            concat(part1.previous, root);
         }
         
         if(part2 != null) {
-            concat(root, part2.head);
+            concat(root, part2.next);
         }
         
-        return new NodePair(part1 == null ? root : part1.head, 
-                            part2 == null ? root : part2.tail);
+        return new NodePair(part1 == null ? root : part1.next, 
+                            part2 == null ? root : part2.previous);
     }
     
     private static void concat(BiNode x, BiNode y) {
@@ -366,12 +366,12 @@ public class HardChallenges {
     }
     
     public static class NodePair {
-        public BiNode head;
-        public BiNode tail;
+        public BiNode next;
+        public BiNode previous;
         
-        NodePair(BiNode head, BiNode tail) {
-            this.head = head;
-            this.tail = tail;
+        NodePair(BiNode next, BiNode previous) {
+            this.next = next;
+            this.previous = previous;
         }
         
 
