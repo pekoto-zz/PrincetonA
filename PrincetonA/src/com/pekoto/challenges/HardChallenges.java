@@ -386,4 +386,9 @@ public class HardChallenges {
             System.out.println();
         }
     }
+    
+    /*
+     * Prints the longest word that can be made out of other words in a list.
+     * 1. Sort the words by length
+     */
 }

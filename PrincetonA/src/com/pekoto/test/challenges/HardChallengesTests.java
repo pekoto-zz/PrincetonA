@@ -3,6 +3,7 @@ package com.pekoto.test.challenges;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import com.pekoto.challenges.BiNode;
 import com.pekoto.challenges.HardChallenges;
 import com.pekoto.challenges.HardChallenges.NodePair;
 import com.pekoto.challenges.HeightWeight;
+import com.pekoto.challenges.LengthComparator;
 
 /*
  * Unit tests for the HardChallenges class
@@ -131,5 +133,16 @@ public class HardChallengesTests {
         NodePair result = HardChallenges.convertToLinkedList(nodes[4]);
         
         result.printLinkedListTree(result.next);
+    }
+    
+    @Test
+    public void testSortStringsByLength() {
+        String [] arr = { "1", "22", "333" };
+        
+        Arrays.sort(arr, new LengthComparator());
+        
+        assertEquals("333", arr[0]);
+        assertEquals("22", arr[1]);
+        assertEquals("1", arr[2]);
     }
 }
