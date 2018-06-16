@@ -145,4 +145,19 @@ public class HardChallengesTests {
         assertEquals("22", arr[1]);
         assertEquals("1", arr[2]);
     }
+    
+    @Test
+    public void testGetLongestWordFromList() {
+        String [] arr = {
+                "dog",
+                "cat",
+                "walker",
+                "dogwalker",
+                "sun",
+                "dress",
+                "sundress"
+        };
+        
+        assertEquals("dogwalker", HardChallenges.getLongestWordFromList(arr));
+    }
 }

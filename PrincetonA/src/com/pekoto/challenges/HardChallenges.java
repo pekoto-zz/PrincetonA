@@ -2,6 +2,7 @@ package com.pekoto.challenges;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -389,6 +390,60 @@ public class HardChallenges {
     
     /*
      * Prints the longest word that can be made out of other words in a list.
-     * 1. Sort the words by length
+     * 
+     * 1. Add all words to a map
+     * 2. Sort the words by length (so we can get the longest one and break early)
+     * 3. For each of our words, check if we can build it from other words:
+     *  3.1 Get the left substring from 0...i
+     *  3.2 Get the right substring from i...string.length
+     *  3.3 If the map contains the left substring...
+     *  3.4 Check if we can build the right substring using the same process(recursive call)
+     *  3.5 If we can return true
+     * 4. Return this word, as it's the longest
+     * 
+     * Note: We can't build a word from itself.
+     *       If we can't build a word, we set a 'false'
+     *       value in the map to effectively memoize if
+     *       we can build the same word or not.
+     *       To stop this memoization catching the original word,
+     *       we have a flag to check we are not checking the original word.
      */
+    public static String getLongestWordFromList(String [] arr) {
+        HashMap<String, Boolean> map = new HashMap<String, Boolean>();
+        
+        for(String str: arr) {
+            map.put(str, true);
+        }
+        
+        Arrays.sort(arr, new LengthComparator());
+        
+        for(String str: arr) {
+            if(canBuildWord(str, true, map)) {
+                return str;
+            }
+        }
+        
+        return "";
+    }
+    
+    private static boolean canBuildWord(String str, boolean isOriginalWord, HashMap<String, Boolean> map) {
+        if(!isOriginalWord && map.containsKey(str)) {
+            return map.get(str);
+        }
+        
+        for(int i = 1; i < str.length(); i++) {
+            String left = str.substring(0, i);
+            String right = str.substring(i, str.length());
+            
+            // Note order of params is important here:
+            // We won't recurse until left half makes a word
+            // Essentially, wait until we can build the left half, then check the right half, repeat
+            if(map.containsKey(left) && map.get(left) && canBuildWord(right, false, map)) {
+                return true;
+            }
+        }
+        
+        map.put(str, false);
+        return false;
+    }
 }
