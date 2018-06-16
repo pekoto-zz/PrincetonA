@@ -160,4 +160,11 @@ public class HardChallengesTests {
         
         assertEquals("dogwalker", HardChallenges.getLongestWordFromList(arr));
     }
+    
+    @Test
+    public void testGetMaxSumNonAdjacent() {
+        int [] arr = { 30, 15, 60, 75, 45, 15, 15, 45 };
+        
+        assertEquals(180, HardChallenges.getMaxSumNonAdjacent(arr));
+    }
 }

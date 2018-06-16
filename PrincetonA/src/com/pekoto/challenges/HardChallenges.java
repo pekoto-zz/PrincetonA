@@ -446,4 +446,30 @@ public class HardChallenges {
         map.put(str, false);
         return false;
     }
+    
+    /* Max sum non-adjacent (CTCI 17.16)
+     * Returns the max sum from an array, where you can't take adjacent elements.
+     * 
+     * Point:
+     * Since the elements can't be adjacent, the max sum for any given element
+     * will either be this element + the element 1 away, or the max sum of the adjacent
+     * element (the element 1 away).
+     * 
+     * Performance: O(n)
+     * Space: O(1)
+     */
+    public static int getMaxSumNonAdjacent(int [] arr) {
+        int oneAway = 0;
+        int twoAway = 0;
+        
+        for(int i = arr.length-1; i >= 0; i--) {
+            int bestWith = arr[i] + twoAway;
+            int bestWithout = oneAway;
+            int current = Math.max(bestWith, bestWithout);
+            twoAway = oneAway;
+            oneAway = current;
+        }
+        
+        return oneAway;
+    }
 }
