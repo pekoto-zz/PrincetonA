@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
 
+import com.pekoto.test.challenges.Trie;
+import com.pekoto.test.challenges.TrieNode;
+
 public class HardChallenges {
     
     /*
@@ -447,7 +450,8 @@ public class HardChallenges {
         return false;
     }
     
-    /* Max sum non-adjacent (CTCI 17.16)
+    /* 
+     * Max sum non-adjacent (CTCI 17.16)
      * Returns the max sum from an array, where you can't take adjacent elements.
      * 
      * Point:
@@ -471,5 +475,68 @@ public class HardChallenges {
         }
         
         return oneAway;
+    }
+    
+    /*
+     * Find several smaller strings within a larger string.
+     * 
+     * 1. Create a trie from the smaller strings O(largest_s*num_of_s)
+     * 2. Search the trie with the larger string O(largest_s*size_of_larger_string)
+     * 
+     */
+    public static HashMap<String, ArrayList<Integer>> searchAll(String big, String[] smalls) {
+        HashMap<String, ArrayList<Integer>> lookup = new HashMap<String, ArrayList<Integer>>();
+        
+        TrieNode root = createTrieFromStrings(smalls, big.length()).getRoot();
+    
+        for(int i = 0; i < big.length(); i++) {
+            ArrayList<String> strings = findStringsAtLocation(root, big, i);
+            insertIntoHashMap(strings, lookup, i);
+        }
+        
+        return lookup;
+    }
+    
+    public static Trie createTrieFromStrings(String[] smalls, int maxSize) {
+        Trie trie = new Trie();
+        
+        for(String s: smalls) {
+            if(s.length() <= maxSize) {
+                trie.insertString(s, 0);
+            }
+        }
+        
+        return trie;
+    }
+    
+    
+    public static void insertIntoHashMap(ArrayList<String> strings, HashMap<String, ArrayList<Integer>> map, int index) {
+        for(String s: strings) {
+            if(!map.containsKey(s)) {
+                map.put(s, new ArrayList<Integer>());
+            }
+            map.get(s).add(index);
+        }
+    }
+    
+    public static ArrayList<String> findStringsAtLocation(TrieNode root, String big, int start) {
+        ArrayList<String> strings = new ArrayList<String>();
+        
+        int index = start;
+        while(index < big.length()) {
+            root = root.getChild(big.charAt(index));
+            
+            if(root == null) {
+                break;
+            }
+            
+            if(root.terminates()) {
+                strings.add(big.substring(start, index+1));
+            }
+            
+            index++;
+        }
+        
+        return strings;
     }
 }
