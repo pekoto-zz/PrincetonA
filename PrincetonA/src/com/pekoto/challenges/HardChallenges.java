@@ -9,9 +9,6 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
 
-import com.pekoto.test.challenges.Trie;
-import com.pekoto.test.challenges.TrieNode;
-
 public class HardChallenges {
     
     /*
@@ -481,12 +478,27 @@ public class HardChallenges {
      * Find several smaller strings within a larger string.
      * 
      * 1. Create a trie from the smaller strings O(largest_s*num_of_s)
+     * 	1.1 For each smaller string
+     * 	1.2. If it's < big string size, add it to trie
      * 2. Search the trie with the larger string O(largest_s*size_of_larger_string)
-     * 
+     *	2.1 For each index of the larger string 0...i, take that as the start
+     *		3.1 Take the char at this start index from the larger string
+     *		3.2 Try to get this child by searching the root trie node's children using this char as key
+     *		3.3 If the child is null, return
+     *		3.4 If the child terminates, add this string to a list of strings -- we found it!
+     *		3.5 Move to the next char in the big string, and update root to be the child
+     *	2.2 Add all of these strings to a HashMap, which lists the string and a list of indices where it
+     *		was found (use the start index from 2.1)
+     * 3. Pass back the list of strings and their starting indices 
+     *
+     *	Performance: O(largest_s*num_of_s + largest_s*size_of_larger_string)
+     *	Memory: O(largest_s*num_of_s) (for trie)
      */
-    public static HashMap<String, ArrayList<Integer>> searchAll(String big, String[] smalls) {
+    public static HashMap<String, ArrayList<Integer>> searchBigStringForSmalls(String big, String[] smalls) {
         HashMap<String, ArrayList<Integer>> lookup = new HashMap<String, ArrayList<Integer>>();
         
+        // The big.length() check is just a sanity check:
+        // If a small is bigger than the big string, it can't possible be contained in the big string
         TrieNode root = createTrieFromStrings(smalls, big.length()).getRoot();
     
         for(int i = 0; i < big.length(); i++) {
@@ -502,21 +514,11 @@ public class HardChallenges {
         
         for(String s: smalls) {
             if(s.length() <= maxSize) {
-                trie.insertString(s, 0);
+                trie.insertString(s);
             }
         }
         
         return trie;
-    }
-    
-    
-    public static void insertIntoHashMap(ArrayList<String> strings, HashMap<String, ArrayList<Integer>> map, int index) {
-        for(String s: strings) {
-            if(!map.containsKey(s)) {
-                map.put(s, new ArrayList<Integer>());
-            }
-            map.get(s).add(index);
-        }
     }
     
     public static ArrayList<String> findStringsAtLocation(TrieNode root, String big, int start) {
@@ -538,5 +540,14 @@ public class HardChallenges {
         }
         
         return strings;
+    }
+    
+    public static void insertIntoHashMap(ArrayList<String> strings, HashMap<String, ArrayList<Integer>> map, int index) {
+        for(String s: strings) {
+            if(!map.containsKey(s)) {
+                map.put(s, new ArrayList<Integer>());
+            }
+            map.get(s).add(index);
+        }
     }
 }

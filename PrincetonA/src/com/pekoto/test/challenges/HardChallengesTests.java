@@ -167,4 +167,24 @@ public class HardChallengesTests {
         
         assertEquals(180, HardChallenges.getMaxSumNonAdjacent(arr));
     }
+    
+    @Test
+    public void testSearchBigStringForSmalls() {
+    	String big = "mississippi";
+    	String [] smalls = { "is", "ppi", "hi", "sis", "i" };
+    
+    	HashMap<String, ArrayList<Integer>> locations = HardChallenges.searchBigStringForSmalls(big, smalls);
+    	
+    	assertEquals(Integer.valueOf(8), locations.get("ppi").get(0));
+    	
+    	assertEquals(Integer.valueOf(1), locations.get("i").get(0));
+    	assertEquals(Integer.valueOf(4), locations.get("i").get(1));
+    	assertEquals(Integer.valueOf(7), locations.get("i").get(2));
+    	assertEquals(Integer.valueOf(10), locations.get("i").get(3));
+    	
+    	assertEquals(Integer.valueOf(1), locations.get("is").get(0));
+    	assertEquals(Integer.valueOf(4), locations.get("is").get(1));
+    	
+    	assertEquals(Integer.valueOf(3), locations.get("sis").get(0));
+    }
 }

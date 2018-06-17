@@ -1,18 +1,17 @@
-package com.pekoto.test.challenges;
+package com.pekoto.challenges;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class TrieNode {
     private HashMap<Character, TrieNode> children;
-    private ArrayList<Integer> indices;
     
     public TrieNode() {
         children = new HashMap<Character, TrieNode>();
-        indices = new ArrayList<Integer>();
     }
     
-    public void insertString(String s, int index) {
+    // To avoid creating new strings,
+    // could also pass in index and get char at index
+    public void insertString(String s) {
         if(s == null) {
             return;
         }
@@ -30,24 +29,10 @@ public class TrieNode {
             }
             
             String remainder = s.substring(1);
-            child.insertString(remainder,  index + 1);
+            child.insertString(remainder);
         } else {
             children.put('\0', null);
         }
-    }
-    
-    public ArrayList<Integer> search(String s) {
-        if (s == null || s.length() == 0) {
-            return indices;
-        } else {
-            char first = s.charAt(0);
-            if(children.containsKey(first)) {
-                String remainder = s.substring(1);
-                return children.get(first).search(remainder);
-            }
-        }
-        
-        return null;
     }
     
     public boolean terminates() {
