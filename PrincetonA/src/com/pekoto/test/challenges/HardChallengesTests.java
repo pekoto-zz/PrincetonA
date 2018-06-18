@@ -14,6 +14,7 @@ import com.pekoto.challenges.HardChallenges;
 import com.pekoto.challenges.HardChallenges.NodePair;
 import com.pekoto.challenges.HeightWeight;
 import com.pekoto.challenges.LengthComparator;
+import com.pekoto.challenges.RunningMedian;
 
 /*
  * Unit tests for the HardChallenges class
@@ -186,5 +187,26 @@ public class HardChallengesTests {
     	assertEquals(Integer.valueOf(4), locations.get("is").get(1));
     	
     	assertEquals(Integer.valueOf(3), locations.get("sis").get(0));
+    }
+    
+    @Test
+    public void testRunningMedian() {
+        RunningMedian runningMedian = new RunningMedian();
+        
+        runningMedian.add(1);
+        assertEquals(1.0, runningMedian.getMedian(), 0.1);
+        
+        runningMedian.add(2);
+        assertEquals(1.5, runningMedian.getMedian(), 0.1);
+        
+        runningMedian.add(3);
+        assertEquals(2.0, runningMedian.getMedian(), 0.1);
+        
+        runningMedian.add(4);
+        assertEquals(2.5, runningMedian.getMedian(), 0.1);
+
+        runningMedian.add(5);
+        assertEquals(3.0, runningMedian.getMedian(), 0.1);
+
     }
 }
