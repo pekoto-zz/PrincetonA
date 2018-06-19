@@ -188,25 +188,4 @@ public class HardChallengesTests {
     	
     	assertEquals(Integer.valueOf(3), locations.get("sis").get(0));
     }
-    
-    @Test
-    public void testRunningMedian() {
-        RunningMedian runningMedian = new RunningMedian();
-        
-        runningMedian.add(1);
-        assertEquals(1.0, runningMedian.getMedian(), 0.1);
-        
-        runningMedian.add(2);
-        assertEquals(1.5, runningMedian.getMedian(), 0.1);
-        
-        runningMedian.add(3);
-        assertEquals(2.0, runningMedian.getMedian(), 0.1);
-        
-        runningMedian.add(4);
-        assertEquals(2.5, runningMedian.getMedian(), 0.1);
-
-        runningMedian.add(5);
-        assertEquals(3.0, runningMedian.getMedian(), 0.1);
-
-    }
 }
