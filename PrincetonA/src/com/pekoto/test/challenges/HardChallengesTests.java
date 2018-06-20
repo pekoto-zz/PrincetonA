@@ -14,7 +14,6 @@ import com.pekoto.challenges.HardChallenges;
 import com.pekoto.challenges.HardChallenges.NodePair;
 import com.pekoto.challenges.HeightWeight;
 import com.pekoto.challenges.LengthComparator;
-import com.pekoto.challenges.RunningMedian;
 
 /*
  * Unit tests for the HardChallenges class
