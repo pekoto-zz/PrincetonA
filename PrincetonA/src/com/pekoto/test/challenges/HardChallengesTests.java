@@ -14,6 +14,7 @@ import com.pekoto.challenges.HardChallenges;
 import com.pekoto.challenges.HardChallenges.NodePair;
 import com.pekoto.challenges.HeightWeight;
 import com.pekoto.challenges.LengthComparator;
+import com.pekoto.challenges.Submatrix;
 
 /*
  * Unit tests for the HardChallenges class
@@ -186,5 +187,22 @@ public class HardChallengesTests {
     	assertEquals(Integer.valueOf(4), locations.get("is").get(1));
     	
     	assertEquals(Integer.valueOf(3), locations.get("sis").get(0));
+    }
+    
+    @Test
+    public void testGetMaxSubmatrix() {
+        int [][] matrix = {
+                {1, 2, 3},
+                {4, 5, 6},
+                {7, 8, 9}
+        };
+        
+        Submatrix submatrix = HardChallenges.getMaxSubmatrix(matrix);
+        
+        assertEquals(45, submatrix.sum());
+        assertEquals(0, submatrix.startCol());
+        assertEquals(0, submatrix.startRow());
+        assertEquals(2, submatrix.endRow());
+        assertEquals(2, submatrix.endCol());        
     }
 }

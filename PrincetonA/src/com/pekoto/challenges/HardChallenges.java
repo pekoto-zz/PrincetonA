@@ -550,4 +550,42 @@ public class HardChallenges {
             map.get(s).add(index);
         }
     }
+    
+    /* 
+     * Returns the max submatrix from an NxN matrix
+     * 
+     * Performance: O(N^6) -- O(N^4) submatrices + O(N^2) time to compute the area for each
+     */
+    public static Submatrix getMaxSubmatrix(int[][] matrix) {
+        
+        Submatrix max = null;
+        
+        for(int startRow = 0; startRow < matrix.length; startRow++) {
+            for(int endRow = startRow; endRow < matrix.length; endRow++) {
+                for(int startCol = 0; startCol < matrix[0].length; startCol++) {
+                   for(int endCol = startCol; endCol < matrix[0].length; endCol++) {
+                       int sum = getSubmatrixSum(matrix, startRow, endRow, startCol, endCol);
+                       
+                       if(max == null || sum > max.sum()) {
+                           max = new Submatrix(startRow, endRow, startCol, endCol, sum);
+                       }
+                   }
+                }
+            }
+        }
+        
+        return max;
+    }
+    
+    private static int getSubmatrixSum(int[][] matrix, int startRow, int endRow, int startCol, int endCol) {
+        int sum = 0;
+        
+        for(int row = startRow; row <= endRow; row++) {
+            for(int col = startCol; col <= endCol; col++) {
+                sum += matrix[row][col];
+            }
+        }
+        
+        return sum;
+    }
 }
