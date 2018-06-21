@@ -555,6 +555,10 @@ public class HardChallenges {
      * Returns the max submatrix from an NxN matrix
      * 
      * Performance: O(N^6) -- O(N^4) submatrices + O(N^2) time to compute the area for each
+     * 
+     * (There is a more optimal solution using the maximum subarray approach, but I added this
+     *  as a reference to show how to brute-force generate all submatrices from a matrix)
+     * 
      */
     public static Submatrix getMaxSubmatrix(int[][] matrix) {
         
