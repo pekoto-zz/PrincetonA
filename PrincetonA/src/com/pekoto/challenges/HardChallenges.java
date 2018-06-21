@@ -554,6 +554,15 @@ public class HardChallenges {
     /* 
      * Returns the max submatrix from an NxN matrix
      * 
+     * 1. Starting from every row...
+     *      2. From that row until the end of the matrix...
+     *          3. Starting from every column...
+     *              4. From that column until the end of the matrix...
+     *                 - Iterate over from start row to end row, and start col to end col, to generate that submatrix.
+     *                 
+     * Will generate submatrices from top-left only, top-left > col+1, top-left > col > col+n...etc.
+     * Then top left to row+1, top left to row+1 > col+1, etc.
+     * 
      * Performance: O(N^6) -- O(N^4) submatrices + O(N^2) time to compute the area for each
      * 
      * (There is a more optimal solution using the maximum subarray approach, but I added this
