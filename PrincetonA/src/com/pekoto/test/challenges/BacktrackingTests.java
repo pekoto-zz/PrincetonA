@@ -22,4 +22,13 @@ public class BacktrackingTests {
         assertEquals("10", variations.get(2));
         assertEquals("11", variations.get(3));
     }
+    
+    @Test
+    public void testGetDecimal() {
+        ArrayList<String> variations = Backtracking.getDecimal(2);
+        
+        assertEquals(100, variations.size());
+        assertEquals("00", variations.get(0));
+        assertEquals("99", variations.get(99));
+    }
 }
