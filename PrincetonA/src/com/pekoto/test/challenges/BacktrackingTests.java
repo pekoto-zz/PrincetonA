@@ -31,4 +31,19 @@ public class BacktrackingTests {
         assertEquals("00", variations.get(0));
         assertEquals("99", variations.get(99));
     }
+    
+    @Test
+    public void testDiceSum() {
+        ArrayList<ArrayList<Integer>> variations = Backtracking.diceSum(2, 4);
+        
+        assertEquals(3, variations.size());
+        assertEquals(Integer.valueOf(1), variations.get(0).get(0));
+        assertEquals(Integer.valueOf(3), variations.get(0).get(1));
+        
+        assertEquals(Integer.valueOf(2), variations.get(1).get(0));
+        assertEquals(Integer.valueOf(2), variations.get(1).get(1));
+        
+        assertEquals(Integer.valueOf(3), variations.get(2).get(0));
+        assertEquals(Integer.valueOf(1), variations.get(2).get(1));
+    }
 }
