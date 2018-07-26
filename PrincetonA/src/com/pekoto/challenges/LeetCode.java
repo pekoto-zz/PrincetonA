@@ -48,7 +48,7 @@ public class LeetCode {
                 right = nums1Partition-1;
             } else {
                 // The larger array's LHS max is > smaller array's RHS min, so move the smaller array's partition right
-                right = nums1Partition+1;
+                left = nums1Partition+1;
             }
         }
 
