@@ -12,10 +12,17 @@ import com.pekoto.challenges.LeetCode;
 public class LeetCodeTests {
     
     @Test
-    public void testMedianSortedArrays() {
-        int [] arr1 = {1, 3};
-        int [] arr2 = {2};
+    public void testLengthOfLongestSubstring() {
+        String s = "abcbadcab";
         
-        assertEquals(2.0, LeetCode.findMedianSortedArrays(arr1, arr2), 0.1);
+        assertEquals(4, LeetCode.lengthOfLongestSubstring(s));
+    }
+    
+    @Test
+    public void testMedianSortedArrays() {
+        int [] arr1 = {1, 2};
+        int [] arr2 = {3, 4};
+        
+        assertEquals(2.5, LeetCode.findMedianSortedArrays(arr1, arr2), 0.1);
     }
 }
