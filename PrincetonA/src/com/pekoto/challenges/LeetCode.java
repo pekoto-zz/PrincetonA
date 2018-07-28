@@ -69,4 +69,29 @@ public class LeetCode {
         // Error, arrays were unsorted
         return -1.0;
     }
+    
+    /*
+     * Returns nearest integer square root
+     */
+    public static int mySqrt(int x) {
+        if (x == 0) {
+            return 0;             
+        }
+        
+        int left = 1;
+        int right = x;
+        
+        while (true) {
+            int mid = left + (right - left)/2;
+            
+            if (mid > x/mid) {
+                // Sqrt must be <= x/sqrt
+                right = mid - 1;
+            } else if (mid + 1 > x/(mid + 1)) {
+                return mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+    }
 }

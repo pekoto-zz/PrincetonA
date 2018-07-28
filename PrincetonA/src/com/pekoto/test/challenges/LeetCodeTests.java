@@ -25,4 +25,10 @@ public class LeetCodeTests {
         
         assertEquals(2.5, LeetCode.findMedianSortedArrays(arr1, arr2), 0.1);
     }
+    
+    @Test
+    public void testMySqrt() {
+        assertEquals(2, LeetCode.mySqrt(8));
+        assertEquals(3, LeetCode.mySqrt(9));
+    }
 }
