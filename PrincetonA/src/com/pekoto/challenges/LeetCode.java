@@ -94,4 +94,58 @@ public class LeetCode {
             }
         }
     }
+    
+    /*
+     *  RegEx matcher using bottom-up dynamic programming.
+     *  * = 0 or move chars
+     *  . = any single char
+     *  
+     *  Uses a boolean table to check if the string matches the pattern
+     *  at each point. The pattern is the rows, and the string is the column.
+     */
+    public static boolean isMatch(String s, String p) {
+        boolean [][] matches = new boolean[s.length()+1][p.length()+1];
+        
+        // An empty string matches and empty pattern
+        matches[0][0] = true;
+        
+        // Set up the first row. This deals with patterns where
+        // we could potentially match the empty string at various points
+        // e.g., a* or a*b* or a*b*c*
+        for(int i = 1; i < matches[0].length; i++) {
+            // Remember we have a 1 offset before the pattern starts
+            //  a  *  b  *
+            // [ ] a  *  b  *
+            //  T, F, T, F, T
+            //  0, 1, 2, 3, 4
+            if(p.charAt(i-1) == '*') {
+                matches[0][i] = matches[0][i-2];
+            }
+        }
+        
+        for(int row = 1; row < matches.length; row++) {
+            for(int col = 1; col < matches[0].length; col++) {
+                if(p.charAt(col-1) == '.' || p.charAt(col-1) == s.charAt(row-1)) {
+                    // If the two chars match, or if the pattern is a .,
+                    // then we can imagine just removing these 2 from the string and pattern
+                    // -- i.e., use the value in the upper left.
+                    matches[row][col] = matches[row-1][col-1];
+                } else if(p.charAt (col-1) == '*') {
+                    
+                    // Can we match by just not taking any of the preceding character
+                    matches[row][col] = matches[row][col-2];
+                    
+                    // If the char to match is a ., or if it matches the char in the string,
+                    // We could also match by checking the row above --
+                    if(p.charAt(col-2) == '.' || p.charAt(col-2) == s.charAt(row-1)) {
+                        matches[row][col] = matches[row][col] || matches[row-1][col];
+                    }
+                } else {
+                    matches[row][col] = false;
+                }
+            }
+        }
+        
+        return matches[s.length()][p.length()];
+    }
 }

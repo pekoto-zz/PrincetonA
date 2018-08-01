@@ -1,6 +1,7 @@
 package com.pekoto.test.challenges;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -30,5 +31,10 @@ public class LeetCodeTests {
     public void testMySqrt() {
         assertEquals(2, LeetCode.mySqrt(8));
         assertEquals(3, LeetCode.mySqrt(9));
+    }
+    
+    @Test
+    public void testIsMatch() {
+        assertTrue(LeetCode.isMatch("aaa", "a*"));
     }
 }
