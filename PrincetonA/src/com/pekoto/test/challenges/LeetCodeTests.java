@@ -3,6 +3,9 @@ package com.pekoto.test.challenges;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 
 import com.pekoto.challenges.LeetCode;
@@ -36,5 +39,19 @@ public class LeetCodeTests {
     @Test
     public void testIsMatch() {
         assertTrue(LeetCode.isMatch("aaa", "a*"));
+    }
+    
+    @Test
+    public void testMerge() {
+        
+        List<Interval> intervals = new ArrayList<Interval>();
+        
+        intervals.add(new Interval(1, 4));
+        intervals.add(new Interval(0, 2));
+        intervals.add(new Interval(3, 5));
+        
+        List<Interval> merged = LeetCode.merge(intervals);
+        
+        assertTrue(true);
     }
 }

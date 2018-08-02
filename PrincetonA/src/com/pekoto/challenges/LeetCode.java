@@ -1,6 +1,13 @@
 package com.pekoto.challenges;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+
+import com.pekoto.test.challenges.Interval;
 
 public class LeetCode {
 
@@ -143,5 +150,50 @@ public class LeetCode {
         }
 
         return matches[s.length()][p.length()];
+    }
+    
+    /*
+     * Merge overlapping intervals
+     * Sort the intervals and then check of the start is after the end.
+     * 
+     * Input:  [[1,3],[2,6],[8,10],[15,18]]
+     * Output: [[1,6],[8,10],[15,18]]
+     */
+    public static List<Interval> merge(List<Interval> intervals) {
+        if(intervals == null || intervals.size() == 0) {
+            return new ArrayList<Interval>();
+        }
+        
+        LinkedList<Interval> merged = new LinkedList<Interval>();
+        
+        Collections.sort(intervals, new IntervalComparator());
+        
+        for(Interval interval: intervals) {
+            // If the end comes before the start, add this
+            if(merged.isEmpty() || merged.getLast().end < interval.start) {
+                merged.add(interval);
+            } else {
+                // Otherwise it ends after the next element starts, so we have an overlap (remember intervals are sorted y first element)
+                // -- set the end of the last element to be the max of the two elements
+                merged.getLast().end = Math.max(merged.getLast().end, interval.end);
+            }
+        }
+        
+        return merged;
+    }
+    
+    private static class IntervalComparator implements Comparator<Interval> {
+
+        @Override
+        public int compare(Interval arg0, Interval arg1) {
+            if(arg0.start < arg1.start) {
+                return -1;
+            } else if (arg0.start == arg1.start) {
+                return 0;
+            } else {
+                return 1;
+            }
+        }
+        
     }
 }
