@@ -194,6 +194,44 @@ public class LeetCode {
                 return 1;
             }
         }
+    }
+    
+    /* 
+     * Quickly computers the power of x^n using the fast power method
+     * 
+     * This is based on the power property: X^2n = (X^n)^2
+     * So if we have X^n/2, how do we get X^n?
+     * 
+     * Well, if n is even, we can use (X^n)^2 = X^2*n
+     * If n is odd, we can use (X^n)^2  = X^n-1 = (X^n/2)^2 * x 
+     * 
+     * Since we are halving n each time...
+     * Performance: O(log n)
+     * Space: O(log n) -- for recursive calls (store the result of x^n/2 O(log n) times
+     * 
+     */
+    public static double myPow(double x, int n) {
+        long N = n;
         
+        if(N < 0) {
+            x = 1/x;
+            N = -N;
+        }
+        
+        return fastPow(x, N);
+    }
+    
+    private static double fastPow(double x, long n) {
+        if (n == 0) {
+            return 1.0;
+        }
+        
+        double half = fastPow(x, n/2);
+        
+        if(n % 2 == 0) {
+            return half * half;
+        } else {
+            return half * half * x;
+        }
     }
 }

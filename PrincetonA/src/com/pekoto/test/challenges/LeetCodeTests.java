@@ -54,4 +54,10 @@ public class LeetCodeTests {
         
         assertTrue(true);
     }
+    
+    @Test
+    public void testFastPow() {
+        assertEquals(16.0, LeetCode.myPow(2.0, 4), 0.1);
+        assertEquals(0.25, LeetCode.myPow(2.0, -2), 0.1);
+    }
 }
