@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import com.pekoto.test.challenges.Interval;
 
@@ -233,5 +235,47 @@ public class LeetCode {
         } else {
             return half * half * x;
         }
+    }
+    
+    /*
+     * Returns the length of the longest consecutive sequence
+     * Runtime: O(n)
+     * 
+     * Note: This looks like quadratic time, but look carefully at the for loop.
+     * We only start iterating our while loop from the lowest number in a sequence,
+     * so each element should only get checked once, giving us an O(2N) runtime.     * 
+     */
+    public static int longestConsecutive(int[] nums) {
+        
+        if(nums.length == 0) {
+            return 0;
+        }
+        
+        Set<Integer> numSet = new HashSet<Integer>();
+        
+        for(int num: nums) {
+            numSet.add(num);
+        }
+        
+        int maxSequence = 1;
+        
+        for(int num: numSet) {
+            // This ensures we only examine every
+            // number once, starting from the lowest
+            // element in the sequence
+            if(!numSet.contains(num-1)) {
+                int sequenceLength = 1;
+                int currentNum = num;
+                
+                while(numSet.contains(currentNum+1)) {
+                    currentNum++;
+                    sequenceLength++;
+                }
+                
+                maxSequence = Math.max(maxSequence, sequenceLength);
+            }
+        }
+        
+        return maxSequence;
     }
 }
