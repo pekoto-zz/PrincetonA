@@ -278,4 +278,103 @@ public class LeetCode {
         
         return maxSequence;
     }
+    
+    /*
+     * Iterates through a matrix in spiral order
+     */
+    public static List<Integer> spiralOrder(int[][] matrix) {
+    	if(matrix.length == 0) {
+    		return new ArrayList<Integer>();
+    	}
+    	
+    	List<Integer> spiralOrder = new ArrayList<Integer>();
+    	
+    	int startRow = 0;
+    	int endRow = matrix.length-1;
+    	int startCol = 0;
+    	int endCol = matrix[0].length-1;
+    	
+    	while(startRow <= endRow && startCol <= endCol) {
+    		
+    		// Add the top row
+    		for(int col = startCol; col <= endCol; col++) {
+    			spiralOrder.add(matrix[startRow][col]);
+    		}
+    		
+    		// Add the right col
+    		for(int row = startRow+1; row <= endRow; row++) {
+    			spiralOrder.add(matrix[row][endCol]);
+    			
+    		}
+    		
+    		// If the start and end rows are the same,
+    		// or start and end columns are the same, then we've already
+    		// added these elements.
+    		if(startRow < endRow && startCol < endCol) {
+    			
+    			// Add the bottom row
+    			for(int col = endCol-1; col > startCol; col--) {
+    				spiralOrder.add(matrix[endRow][col]);
+    			}
+    			
+    			// Add left col
+    			for(int row = endRow; row > startRow; row--) {
+    				spiralOrder.add(matrix[row][startCol]);
+    			}
+    		}
+    		
+    		startRow++;
+    		endRow--;
+    		startCol++;
+    		endCol--;
+    	}
+    	
+    	return spiralOrder;
+    }
+    
+    /*
+     * Finds the next permutation that is the next
+     * lexagraphical ordering of numbers
+     */
+    public void nextPermutation(int[] nums) {
+    	if(nums.length == 0) {
+    		return;
+    	}
+    	
+    	int firstSmallerNum = nums.length-2;
+    	
+    	while(firstSmallerNum >= 0 && nums[firstSmallerNum+1] <= nums[firstSmallerNum]) {
+    		firstSmallerNum--;
+    	}
+    
+    	if(firstSmallerNum >= 0) {
+    		int j = nums.length-1;
+    		while(j >= 0 && nums[j] <= nums[firstSmallerNum]) {
+    			j--;
+    		}
+    		
+    		swap(nums, firstSmallerNum, j);
+    	}
+    	// else nums are reverse sorted, there is
+    	// no next permutation, so we return the sorted array
+    	
+    	reverse(nums, firstSmallerNum+1);
+    }
+    
+    private void reverse(int [] nums, int start) {
+    	int i = start;
+    	int j = nums.length-1;
+    	
+    	while(i < j) {
+    		swap(nums, i, j);
+    		i++;
+    		j--;
+    	}
+    }
+    
+    private void swap(int[] nums, int a, int b) {
+    	int temp = nums[a];
+    	nums[a] = nums[b];
+    	nums[b] = temp;
+    }
 }
