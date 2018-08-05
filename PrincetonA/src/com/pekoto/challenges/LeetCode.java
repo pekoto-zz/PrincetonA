@@ -281,6 +281,7 @@ public class LeetCode {
     
     /*
      * Iterates through a matrix in spiral order
+     * 
      */
     public static List<Integer> spiralOrder(int[][] matrix) {
     	if(matrix.length == 0) {
@@ -334,7 +335,13 @@ public class LeetCode {
     
     /*
      * Finds the next permutation that is the next
-     * lexagraphical ordering of numbers
+     * lexagraphical ordering of numbers.
+     * 
+     * 1. Find the smallest element starting from left (e.g., 1231 -- first smallest is 2)
+     * 2. Go from the right, and find the first element larger than this (e.g., 1231 -- next largest is 3)
+     * 3. Swap these 2 elements (e.g., 1321)
+     * 4. Now to make it so it's the NEXT smallest permutation, sort everything after the swap position
+     *    (e.g., 1312)
      */
     public void nextPermutation(int[] nums) {
     	if(nums.length == 0) {
@@ -348,12 +355,12 @@ public class LeetCode {
     	}
     
     	if(firstSmallerNum >= 0) {
-    		int j = nums.length-1;
-    		while(j >= 0 && nums[j] <= nums[firstSmallerNum]) {
-    			j--;
+    		int nextLargerNum = nums.length-1;
+    		while(nextLargerNum >= 0 && nums[nextLargerNum] <= nums[firstSmallerNum]) {
+    			nextLargerNum--;
     		}
     		
-    		swap(nums, firstSmallerNum, j);
+    		swap(nums, firstSmallerNum, nextLargerNum);
     	}
     	// else nums are reverse sorted, there is
     	// no next permutation, so we return the sorted array
