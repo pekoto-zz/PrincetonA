@@ -1,6 +1,7 @@
 package com.pekoto.challenges;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -281,7 +282,6 @@ public class LeetCode {
     
     /*
      * Iterates through a matrix in spiral order
-     * 
      */
     public static List<Integer> spiralOrder(int[][] matrix) {
     	if(matrix.length == 0) {
@@ -384,4 +384,34 @@ public class LeetCode {
     	nums[a] = nums[b];
     	nums[b] = temp;
     }
+    
+    /*
+     * Finds the minimum number of perfect squares that can
+     * be used to make n.
+     * 
+     * Build up an array of the min perfect squares that can be used to build up
+     * every element in the array.
+     * 
+     * Take away the number squared, and add the minimum number of ways we can make the remainder,
+     * which we already calculated dynamically.
+     * 
+     * Dynamic programming approach.
+     */
+    public static int numSquares(int n) {
+    	int [] numOfSquares = new int[n+1];
+    	
+    	Arrays.fill(numOfSquares, Integer.MAX_VALUE);
+    	numOfSquares[0] = 0;
+    	
+    	for(int target = 1; target <= n; target++) {
+    		for(int square = 1; square*square <= target; square++) {
+    			// Think about it: +1 for square^2, and then + the number of ways we can make
+    			// whatever is left over. Hence we derive target-(square*square)-1
+    			numOfSquares[target] = Math.min(numOfSquares[target], numOfSquares[target-square*square]+1);
+    		}
+    	}
+    	
+    	return numOfSquares[n];
+    }
+    
 }
