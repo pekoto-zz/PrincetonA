@@ -60,4 +60,9 @@ public class LeetCodeTests {
         assertEquals(16.0, LeetCode.myPow(2.0, 4), 0.1);
         assertEquals(0.25, LeetCode.myPow(2.0, -2), 0.1);
     }
+    
+    @Test
+    public void testRemoveDuplicateLetters() {
+        assertEquals("bac", LeetCode.removeDuplicateLetters("bbacac"));
+    }
 }

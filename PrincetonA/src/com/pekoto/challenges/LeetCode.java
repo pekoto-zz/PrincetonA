@@ -234,4 +234,55 @@ public class LeetCode {
             return half * half * x;
         }
     }
+    
+    /* 
+     * Returns the set of unique letters in a string
+     * with the lowest lexicographical order
+     * 
+     * The String S contains all of the unique characters
+     * We find the leftmost index of the lowest character, and take the substring
+     * of the remaining characters.
+     * 
+     * To make sure we don't cut off the substring and lose characters, we decrement
+     * the count of each character. Once the count for a character hits 0, we break out.
+     * 
+     * This gives us the position of the smallest character we can take, while leaving
+     * a substring the contains the remaining unique characters.
+     * 
+     * Examples:
+     * abbcab > bbcb > c
+     * abcabc > bcbc > cc
+     * 
+     * O(n) -- recurse 26*n, where n is the number of letters in the string
+     */
+    public static String removeDuplicateLetters(String s) {
+        
+        if(s.length() == 0) {
+            // base case
+            return "";
+        }
+        
+        int[] counts = new int[26];
+        int posOfSmallest = 0;  // Position of the smallest char in the string
+        
+        // Get the counts for each letter
+        for (int i = 0; i < s.length(); i++) {
+            counts[s.charAt(i) - 'a']++;
+        }
+        
+        for (int i = 0; i < s.length(); i++) {
+            
+            if (s.charAt(i) < s.charAt(posOfSmallest)) {
+                posOfSmallest = i;
+            }
+            
+            counts[s.charAt(i) - 'a']--;
+            if (counts[s.charAt(i) - 'a'] == 0) {
+                break;
+            }
+        }
+        
+        String restOfStringWithCharRemoved = s.substring(posOfSmallest + 1).replaceAll("" + s.charAt(posOfSmallest), "");
+        return s.charAt(posOfSmallest) + removeDuplicateLetters(restOfStringWithCharRemoved);
+    }
 }
