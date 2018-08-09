@@ -1,11 +1,15 @@
 package com.pekoto.challenges;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+import java.util.Stack;
 
 import com.pekoto.test.challenges.Interval;
 
@@ -282,7 +286,258 @@ public class LeetCode {
             }
         }
         
+        List<ArrayList<Integer>> list = new ArrayList<ArrayList<Integer>>();
+        
+        
+        
         String restOfStringWithCharRemoved = s.substring(posOfSmallest + 1).replaceAll("" + s.charAt(posOfSmallest), "");
         return s.charAt(posOfSmallest) + removeDuplicateLetters(restOfStringWithCharRemoved);
+    }
+
+    /*
+     * Returns the length of the longest consecutive sequence
+     * Runtime: O(n)
+     * 
+     * Note: This looks like quadratic time, but look carefully at the for loop.
+     * We only start iterating our while loop from the lowest number in a sequence,
+     * so each element should only get checked once, giving us an O(2N) runtime.     * 
+     */
+    public static int longestConsecutive(int[] nums) {
+        
+        if(nums.length == 0) {
+            return 0;
+        }
+        
+        Set<Integer> numSet = new HashSet<Integer>();
+        
+        for(int num: nums) {
+            numSet.add(num);
+        }
+        
+        int maxSequence = 1;
+        
+        for(int num: numSet) {
+            // This ensures we only examine every
+            // number once, starting from the lowest
+            // element in the sequence
+            if(!numSet.contains(num-1)) {
+                int sequenceLength = 1;
+                int currentNum = num;
+                
+                while(numSet.contains(currentNum+1)) {
+                    currentNum++;
+                    sequenceLength++;
+                }
+                
+                maxSequence = Math.max(maxSequence, sequenceLength);
+            }
+        }
+        
+        return maxSequence;
+    }
+    
+    /*
+     * Iterates through a matrix in spiral order
+     */
+    public static List<Integer> spiralOrder(int[][] matrix) {
+    	if(matrix.length == 0) {
+    		return new ArrayList<Integer>();
+    	}
+    	
+    	List<Integer> spiralOrder = new ArrayList<Integer>();
+    	
+    	int startRow = 0;
+    	int endRow = matrix.length-1;
+    	int startCol = 0;
+    	int endCol = matrix[0].length-1;
+    	
+    	while(startRow <= endRow && startCol <= endCol) {
+    		
+    		// Add the top row
+    		for(int col = startCol; col <= endCol; col++) {
+    			spiralOrder.add(matrix[startRow][col]);
+    		}
+    		
+    		// Add the right col
+    		for(int row = startRow+1; row <= endRow; row++) {
+    			spiralOrder.add(matrix[row][endCol]);
+    			
+    		}
+    		
+    		// If the start and end rows are the same,
+    		// or start and end columns are the same, then we've already
+    		// added these elements.
+    		if(startRow < endRow && startCol < endCol) {
+    			
+    			// Add the bottom row
+    			for(int col = endCol-1; col > startCol; col--) {
+    				spiralOrder.add(matrix[endRow][col]);
+    			}
+    			
+    			// Add left col
+    			for(int row = endRow; row > startRow; row--) {
+    				spiralOrder.add(matrix[row][startCol]);
+    			}
+    		}
+    		
+    		startRow++;
+    		endRow--;
+    		startCol++;
+    		endCol--;
+    	}
+    	
+    	return spiralOrder;
+    }
+    
+    /*
+     * Finds the next permutation that is the next
+     * lexagraphical ordering of numbers.
+     * 
+     * 1. Find the smallest element starting from left (e.g., 1231 -- first smallest is 2)
+     * 2. Go from the right, and find the first element larger than this (e.g., 1231 -- next largest is 3)
+     * 3. Swap these 2 elements (e.g., 1321)
+     * 4. Now to make it so it's the NEXT smallest permutation, sort everything after the swap position
+     *    (e.g., 1312)
+     */
+    public void nextPermutation(int[] nums) {
+    	if(nums.length == 0) {
+    		return;
+    	}
+    	
+    	int firstSmallerNum = nums.length-2;
+    	
+    	while(firstSmallerNum >= 0 && nums[firstSmallerNum+1] <= nums[firstSmallerNum]) {
+    		firstSmallerNum--;
+    	}
+    
+    	if(firstSmallerNum >= 0) {
+    		int nextLargerNum = nums.length-1;
+    		while(nextLargerNum >= 0 && nums[nextLargerNum] <= nums[firstSmallerNum]) {
+    			nextLargerNum--;
+    		}
+    		
+    		swap(nums, firstSmallerNum, nextLargerNum);
+    	}
+    	// else nums are reverse sorted, there is
+    	// no next permutation, so we return the sorted array
+    	
+    	reverse(nums, firstSmallerNum+1);
+    }
+    
+    private void reverse(int [] nums, int start) {
+    	int i = start;
+    	int j = nums.length-1;
+    	
+    	while(i < j) {
+    		swap(nums, i, j);
+    		i++;
+    		j--;
+    	}
+    }
+    
+    private void swap(int[] nums, int a, int b) {
+    	int temp = nums[a];
+    	nums[a] = nums[b];
+    	nums[b] = temp;
+    }
+    
+    /*
+     * Finds the minimum number of perfect squares that can
+     * be used to make n.
+     * 
+     * Build up an array of the min perfect squares that can be used to build up
+     * every element in the array.
+     * 
+     * Take away the number squared, and add the minimum number of ways we can make the remainder,
+     * which we already calculated dynamically.
+     * 
+     * Dynamic programming approach.
+     */
+    public static int numSquares(int n) {
+    	int [] numOfSquares = new int[n+1];
+    	
+    	Arrays.fill(numOfSquares, Integer.MAX_VALUE);
+    	numOfSquares[0] = 0;
+    	
+    	for(int target = 1; target <= n; target++) {
+    		for(int square = 1; square*square <= target; square++) {
+    			// Think about it: +1 for square^2, and then + the number of ways we can make
+    			// whatever is left over. Hence we derive target-(square*square)-1
+    			numOfSquares[target] = Math.min(numOfSquares[target], numOfSquares[target-square*square]+1);
+    		}
+    	}
+    	
+    	return numOfSquares[n];
+    }
+    
+    /* 
+     * Evaluates a string as an arithmetic expression
+     * 
+     * We can get away with using a single stack if we evaluate the expression at each point,
+     * and just keep track of the sign instead of a stack of operators.
+     * 
+     * 1 + 3 = 1 + (1*3)  = 4 (sign = 1)
+     * 1 - 3 = 1 + (-1*3) = -2 (sign = -1)
+     */
+    public static int calculator(String s) {
+        if(s == null || s.length() == 0) {
+            return 0;
+        }
+        
+        int result = 0;
+        int sumSoFar = 0;
+        int sign = 1;
+        Stack<Integer> stack = new Stack<Integer>();
+        
+        for(int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            
+            if(Character.isDigit(c)) {
+                // If we have a number, add it on to our current number
+                sumSoFar = sumSoFar * 10 + (int)(c - '0');
+            } else if (c == '+') {
+                // If we have a plus, add on our sum so far * sign, then reset them
+                result += sumSoFar * sign;
+                
+                sign = 1;
+                sumSoFar = 0;
+            } else if (c == '-') {
+                // If we have a minus, add on our sum so far * sign, then set sign to -1
+                // so next number will be subtracted
+                result += sumSoFar * sign;
+                
+                sign = -1;
+                sumSoFar = 0;
+            } else if (c == '(') {
+                // If we have a left bracket, push on the result and sign (saving sum we got before
+                // this expression, then reset the result and sign)
+                
+                stack.push(result);
+                stack.push(sign);
+                
+                result = 0;
+                sign = 1;
+            } else if (c == ')') {
+                // Once we get to the end of the expression,
+                // add on the last value
+                // reset the sum so far and sign
+                // multiply it by the sign before this expression
+                // add the result to the sign before this expression
+                result += sumSoFar * sign;
+                
+                sign = 1;
+                sumSoFar = 0;
+                
+                result *= stack.pop();
+                result += stack.pop();
+            }
+        }
+        
+        // Deal with the last digits, if we have any
+        if(sumSoFar != 0) {
+            result += sumSoFar * sign;
+        }
+        
+        return result;
     }
 }

@@ -65,4 +65,19 @@ public class LeetCodeTests {
     public void testRemoveDuplicateLetters() {
         assertEquals("bac", LeetCode.removeDuplicateLetters("bbacac"));
     }
+    
+    public void testLongestConsecutive() {
+    	assertEquals(4, LeetCode.longestConsecutive(new int[] {100, 2, 200, 4, 1, 3}));
+    }
+    
+    @Test
+    public void testNumSquares() {
+    	assertEquals(3, LeetCode.numSquares(12));
+    	assertEquals(2, LeetCode.numSquares(13));
+    }
+    
+    @Test
+    public void testCalculator() {
+        assertEquals(23, LeetCode.calculator("(1+(4+5+2)-3)+(6+8)"));
+    }
 }
