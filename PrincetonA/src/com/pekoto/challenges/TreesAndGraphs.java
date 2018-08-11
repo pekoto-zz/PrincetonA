@@ -93,7 +93,7 @@ public class TreesAndGraphs {
 		} 
 		
 		LinkedList<Integer> prefix = new LinkedList<Integer>();
-		prefix.add(node.data);
+		prefix.add(node.val);
 		
 		/* Recurse on left and right subtrees. */
 		ArrayList<LinkedList<Integer>> leftSeq = allSequences(node.left);
@@ -164,7 +164,7 @@ public class TreesAndGraphs {
 			return 0; // Base case
 		}
 		
-		runningSum += node.data;
+		runningSum += node.val;
 		
 		/* Count paths with sum ending at the current node. */
 		int subtractToMakeTarget = runningSum - targetSum;

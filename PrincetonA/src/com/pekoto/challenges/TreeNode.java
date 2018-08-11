@@ -4,14 +4,14 @@ package com.pekoto.challenges;
  * CTCI TreeNode class
  */
 public class TreeNode {
-    public int data;      
+    public int val;      
     public TreeNode left;    
     public TreeNode right; 
     public TreeNode parent;
     private int size = 0;
 
     public TreeNode(int d) {
-        data = d;
+        val = d;
         size = 1;
     }
 
@@ -35,6 +35,6 @@ public class TreeNode {
     
     @Override
     public String toString() {
-        return data+"";
+        return val+"";
     }
 }
