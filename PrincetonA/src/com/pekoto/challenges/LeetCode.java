@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
@@ -539,5 +540,71 @@ public class LeetCode {
         }
         
         return result;
+    }
+    
+    /*
+     * Returns a string representing a decimal number
+     * given two integers representing a fraction
+     * 
+     * 1. If either number (not both) are -ve, append '-' to the StringBuilder
+     * 2. Convert both numbers to the absolute long value
+     * 3. Append the number before the decimal part
+     * 4. If the remainder is 0, just return
+     * 5. Otherwise set up a map of remainder to position in fractional part
+     * 		-- if we get a repeating remainder, surround it by () and return
+     * 6. While the remainder != 0
+     * 		-- Put it in the map
+     * 		-- Multiply it by 10
+     * 		-- Append the new remainder / denominator
+     * 		-- Set the remainder to be the new remainder
+     */
+    public static String fractionToDecimal(int numerator, int denominator) {
+        if (numerator == 0) {
+            return "0";
+        }
+        
+        StringBuilder stringBuilder = new StringBuilder();
+        
+        // If either one is negative (not both)
+        // then the result will be -ve
+        if (numerator < 0 || denominator < 0) {
+            stringBuilder.append("-");
+        }
+        
+        // Convert to Long or else abs(-2147483648) overflows
+        // Also, since we already checked for -ve, make them positive.
+        long longNumerator = Math.abs(Long.valueOf(numerator));
+        long longDenominator = Math.abs(Long.valueOf(denominator));
+        
+        // Append the part before the decimal point
+        stringBuilder.append(String.valueOf(longNumerator / longDenominator));
+        
+        long remainder = longNumerator % longDenominator;
+        
+        if (remainder == 0) {
+            return stringBuilder.toString();
+        }
+        
+        stringBuilder.append(".");
+        
+        // Map of remainder to position in fractional part
+        Map<Long, Integer> map = new HashMap<>();
+        
+        while (remainder != 0) {
+            
+        	if (map.containsKey(remainder)) {
+        		// We have a repeating fraction -- this already exists
+                stringBuilder.insert(map.get(remainder), "(");
+                stringBuilder.append(")");
+                break;
+            }
+        	
+            map.put(remainder, stringBuilder.length());
+            remainder *= 10;
+            stringBuilder.append(String.valueOf(remainder / longDenominator));
+            remainder %= longDenominator;
+        }
+        
+        return stringBuilder.toString();
     }
 }

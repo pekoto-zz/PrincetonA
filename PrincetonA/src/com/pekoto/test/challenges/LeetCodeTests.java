@@ -107,4 +107,9 @@ public class LeetCodeTests {
         assertEquals(4, deserialized.right.left.val);
         assertEquals(5, deserialized.right.right.val);
     }
+    
+    @Test
+    public void testFractionToDecimal() {
+    	assertEquals("0.(012)", LeetCode.fractionToDecimal(4, 333));
+    }
 }
