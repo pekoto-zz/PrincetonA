@@ -567,7 +567,7 @@ public class LeetCode {
         
         // If either one is negative (not both)
         // then the result will be -ve
-        if (numerator < 0 || denominator < 0) {
+        if (numerator < 0 ^ denominator < 0) {
             stringBuilder.append("-");
         }
         
