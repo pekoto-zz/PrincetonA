@@ -114,4 +114,9 @@ public class LeetCodeTests {
 
         assertEquals(3, lc.firstMissingPositive(new int[] {2, 1, 0}));
     }
+    
+    @Test
+    public void testFractionToDecimal() {
+    	assertEquals("0.(012)", LeetCode.fractionToDecimal(4, 333));
+    }
 }
