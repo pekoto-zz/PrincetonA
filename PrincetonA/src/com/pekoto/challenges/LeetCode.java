@@ -540,4 +540,37 @@ public class LeetCode {
         
         return result;
     }
+    
+    /*
+     * Finds the first missing positive integer
+     * 
+     * This solution is very similar to the "mark using negatives" solution pattern.
+     * Except since we already have negatives in the array, we shift each element into
+     * its "correct" (i-1) place. So 1 goes into element 0, 2 goes into element 1, etc.
+     * 
+     * Then we check through the array. The first element not to equal i+1 is the missing element.
+     * 
+     * Time: O(N) 1, 2, 0
+     * Space: O(1)
+     */
+    public int firstMissingPositive(int [] arr) {
+        for(int i = 0; i < arr.length; i++) {
+            while(arr[i] > 0 && arr[i] <= arr.length && arr[arr[i]-1] != arr[i]) {
+                // arr[i] > 0 : can we shift this element into 0+ index (remember it will be swapped with i-1)
+                // arr[i] <= arr.length : can we shift this element into an index < length of the array
+                // arr[arr[i]-1] != arr[i] : is this number already in the correct place?
+                // Because of this last condition, we will swap at most n times.
+                swap(arr, i, arr[i]-1);
+            }
+        }
+        
+        for(int i = 0; i < arr.length; i++) {
+            if(arr[i] != i + 1) {
+                return i + 1;
+            }
+        }
+        
+        // Everything is sorted -- missing is off the end of the array
+        return arr.length+1;
+    }
 }

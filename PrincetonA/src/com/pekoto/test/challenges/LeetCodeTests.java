@@ -107,4 +107,11 @@ public class LeetCodeTests {
         assertEquals(4, deserialized.right.left.val);
         assertEquals(5, deserialized.right.right.val);
     }
+    
+    @Test
+    public void testFirstMissingPositve() {
+        LeetCode lc = new LeetCode();
+
+        assertEquals(3, lc.firstMissingPositive(new int[] {2, 1, 0}));
+    }
 }
