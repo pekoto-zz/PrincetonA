@@ -124,4 +124,11 @@ public class LeetCodeTests {
     public void testCountPrimes() {
         assertEquals(4, LeetCode.countPrimes(10));
     }
+    
+    @Test
+    public void testNumDecodings() {
+    	assertEquals(1, LeetCode.numDecodings("10"));
+    	assertEquals(3, LeetCode.numDecodings("226"));
+    	assertEquals(0, LeetCode.numDecodings("230"));
+    }
 }

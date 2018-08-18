@@ -659,4 +659,42 @@ public class LeetCode {
         
         return count;
     }
+    
+    /*
+     * Returns the number of possible mappings for
+     * a numerical string representing a series
+     * of letters mapped to numbers. (A > 1, B > 2, etc.)
+     * 
+     * Input: "12"
+	 * Output: 2
+	 * Explanation: It could be decoded as "AB" (1 2) or "L" (12).
+	 * 
+	 * Basically we will use a dynamic programming approach starting from the back of the string.
+     */
+    public static int numDecodings(String s) {
+    	if(s == null || s.length() == 0) {
+    		return 0;
+    	}
+    	
+    	int [] memo = new int[s.length()+1];
+    	
+    	memo[s.length()] = 1;
+    	
+    	// If the last char is 0, there are 0 ways to make this taking only 1
+    	// char at a time. Otherwise we can get there taking 1 char at a time.
+    	memo[s.length()-1] = s.charAt(s.length()-1) == '0' ? 0 : 1;
+    	
+    	for(int i = s.length()-2; i >= 0; i--) {
+    		if(s.charAt(i) == '0') {
+    			// We can't start/break from 0
+    			continue;
+    		}
+    		
+    		// If the substring between i and i+1 is <= 26, we will be able to make it in 2 ways (e.g., 2+2 or 22)
+    		// Otherwise there is only one way we can make it (e.g., 3 + 3)
+    		memo[i] = Integer.parseInt(s.substring(i, i+2)) <= 26 ? memo[i+1] + memo[i+2] : memo[i+1];
+    	}
+    	
+    	return memo[0];
+    }
 }
