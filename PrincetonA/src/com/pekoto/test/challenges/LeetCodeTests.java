@@ -119,4 +119,9 @@ public class LeetCodeTests {
     public void testFractionToDecimal() {
     	assertEquals("0.(012)", LeetCode.fractionToDecimal(4, 333));
     }
+    
+    @Test
+    public void testCountPrimes() {
+        assertEquals(4, LeetCode.countPrimes(10));
+    }
 }

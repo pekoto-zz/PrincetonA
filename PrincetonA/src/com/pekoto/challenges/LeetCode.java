@@ -634,4 +634,29 @@ public class LeetCode {
 
         return stringBuilder.toString();
     }
+    
+    /*
+     * Counts the number of prime numbers less than n
+     */
+    public static int countPrimes(int n) {
+        boolean [] notPrime = new boolean[n];
+        
+        int count = 0;
+        
+        for(int i = 2; i < n; i++) {
+            if(!notPrime[i]) {
+                // I.e., is prime...
+                count++;
+            }
+            
+            for(int j = 2; i*j < n; j++) {
+                // Since we make make this index by multiplying i*j
+                // it can't be prime. This results in some duplicate
+                // work but is quicker than checking from scratch.
+                notPrime[i*j] = true;
+            }
+        }
+        
+        return count;
+    }
 }
