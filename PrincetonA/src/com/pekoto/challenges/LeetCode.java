@@ -697,4 +697,67 @@ public class LeetCode {
     	
     	return memo[0];
     }
+    
+    /*
+     * Conway's Game of Life simulation
+     * https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
+     * 
+     * 1: Live
+     * 2: Dead
+     * 
+     * So we can use 2 bits to represent [next state/current state]
+     * 00 (dead < dead)
+     * 01 (dead < live)
+     * 10 (live < dead)
+     * 11 (live < live)
+     * 
+     * current state & 1 = current state
+     * current state >> 1 = next state
+     */
+    public void gameOfLife(int[][] board) {
+        if(board == null || board.length == 0) {
+            return;
+        }
+        
+        // First, iterate through the board
+        // and set the second bit
+        for(int row = 0; row < board.length; row++) {
+            for(int col = 0; col < board[0].length; col++) {
+               
+                // Get the number of live neighbours
+                int liveNeighbours = getLiveNeighbours(board, row, col);
+            
+                // To start, every 2nd bit is 0.
+                // We only need to worry worry when it becomes 1.
+                if(board[row][col] == 1 && liveNeighbours >= 2 && liveNeighbours <= 3) {
+                    board[row][col] = 3;    // Second bit 1 (01 > 11)
+                }
+                
+                if(board[row][col] == 0 && liveNeighbours == 3) {
+                    board[row][col] = 2;    // Second bit 1 (00 > 10)
+                }
+            }
+        }
+        
+        for (int row = 0; row < board.length; row++) {
+            for(int col = 0; col < board[0].length; col++) {
+                board[row][col] >>= 1;  // Get the next state
+            }
+        }
+    }
+    
+    public int getLiveNeighbours(int[][] board, int row, int col) {
+        int liveNeighbours = 0;
+        
+        // The max/min checks here are to check for out of bounds
+        for(int neighbourRow = Math.max(row-1, 0); neighbourRow <= Math.min(row+1,  board.length-1); neighbourRow++) {
+            for(int neighbourCol = Math.max(col-1, 0); neighbourCol <= Math.min(col+1, board[0].length-1); neighbourCol++) {
+                liveNeighbours += board[neighbourRow][neighbourCol] & 1;   // & 1 = Get current state
+            }
+        }
+        
+        liveNeighbours -= board[row][col] & 1;
+        
+        return liveNeighbours;
+    }
 }
