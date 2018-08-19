@@ -746,7 +746,7 @@ public class LeetCode {
         }
     }
     
-    public int getLiveNeighbours(int[][] board, int row, int col) {
+    private int getLiveNeighbours(int[][] board, int row, int col) {
         int liveNeighbours = 0;
         
         // The max/min checks here are to check for out of bounds
@@ -760,4 +760,36 @@ public class LeetCode {
         
         return liveNeighbours;
     }
+    
+    /*
+     * Returns the permutations for an integer array
+     */
+    public static List<List<Integer>> getPermutations(int [] nums) {
+    	List<List<Integer>> results = new ArrayList<List<Integer>>();
+    	
+    	if(nums.length == 0) {
+    		return results;
+    	}
+    	
+    	getPermutations(nums, results, new ArrayList<Integer>(), 0);
+    	
+    	return results;
+    }
+    
+    private static void getPermutations(int [] nums, List<List<Integer>> permutations, List<Integer> permutation, int index) {
+    	if(permutation.size() == nums.length) {
+    		permutations.add(permutation);
+    		return;
+    	}
+    	
+    	// For each position in this permutation
+    	for(int insertPosition = 0; insertPosition <= permutation.size(); insertPosition++) {
+    		List<Integer> newPermutation = new ArrayList<Integer>(permutation);
+    		// Insert the next number in every position
+    		newPermutation.add(insertPosition, nums[index]);
+    		// Recurse until we hit the size of the original array
+    		getPermutations(nums, permutations, newPermutation, index+1);
+    	}
+    }
+    
 }

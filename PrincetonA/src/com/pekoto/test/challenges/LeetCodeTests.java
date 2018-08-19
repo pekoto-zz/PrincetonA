@@ -131,4 +131,9 @@ public class LeetCodeTests {
     	assertEquals(3, LeetCode.numDecodings("226"));
     	assertEquals(0, LeetCode.numDecodings("230"));
     }
+    
+    @Test
+    public void testPermute() {
+    	LeetCode.getPermutations(new int[] {1, 2, 3});
+    }
 }
