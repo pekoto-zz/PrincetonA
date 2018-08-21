@@ -792,4 +792,73 @@ public class LeetCode {
     	}
     }
     
+    /*
+     * Generate String permutations recursively
+     * (Non-base case and build method)
+     * 
+     * We can think of this like, take a prefix (E.g., A)
+     * and then append every variant of the suffix (BC/CB) to it.
+     * Then move on to the next prefix.
+     * 
+     * Backtracking -- pick a char, remove it from your string and recurse
+     */
+    public static List<String> getPermutations(String s) {
+        
+        List<String> results = new ArrayList<String>();
+     
+        getPermutations("", s, results);
+        
+        return results;
+    }
+    
+    private static void getPermutations(String prefix, String suffix, List<String> results) {
+        if(suffix.length() == 0) {
+            results.add(prefix);
+            return;
+        }
+        
+        for(int i = 0; i < suffix.length(); i++) {
+            getPermutations(prefix + suffix.charAt(i), suffix.substring(0, i) + suffix.substring(i+1, suffix.length()), results);
+        }
+    }
+    
+    /*
+     * Get permutations of array using a simpler backtracking method
+     * Like before, we take an element as a prefix, and then generate
+     * the permutations of the suffix. Because we are using an array,
+     * we have to clone it, and we swap elements.
+     * 
+     * 1. Swap the start and i...
+     * 2. Generate permutations
+     * 3. Swap start and i back
+     */
+    public static List<int[]> permutations(int [] arr) {
+        List<int[]> results = new ArrayList<int[]>();
+        
+        permutations(arr, 0, results);
+        
+        return results;
+    }
+    
+    private static void permutations(int [] arr, int start, List<int[]> results) {
+        if(start == arr.length) {
+            // Remember we have to clone the array to stop it being
+            // modified after we add it
+            results.add(arr.clone());
+            return;
+        }
+        
+        for(int i = start; i < arr.length; i++) {
+            swapStatic(arr, start, i);
+            permutations(arr, start+1, results);
+            swapStatic(arr, start, i);
+        }
+    }
+    
+    private static void swapStatic(int[] arr, int i, int j) {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+    
 }

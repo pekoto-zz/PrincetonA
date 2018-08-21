@@ -136,4 +136,14 @@ public class LeetCodeTests {
     public void testPermute() {
     	LeetCode.getPermutations(new int[] {1, 2, 3});
     }
+    
+    @Test
+    public void testGetPermutations() {
+        LeetCode.getPermutations("ABC");
+    }
+    
+    @Test
+    public void testPermutations() {
+        LeetCode.permutations(new int [] {1, 2, 3});
+    }
 }
