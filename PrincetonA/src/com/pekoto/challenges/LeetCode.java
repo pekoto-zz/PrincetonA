@@ -861,4 +861,71 @@ public class LeetCode {
         arr[j] = temp;
     }
     
+    /*
+     * Returns the shortest path from a begin word to end word, using a BFS approach
+     * 
+     * 1. Set up a queue
+     * 2. Add our start word to the queue
+     * 3. While the queue is not empty...
+     * 4. Remove the top of the queue...
+     * 5. If it matches our end word, return the distance
+     * 6. Otherwise, generate all permutations of this word
+     * 7. If a permutation is in the dictionary, add it to the queue with distance+1, remove it from the dictionary
+     *
+     *  So the shortest path will be found. 
+     */
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+       Set<String> wordSet = new HashSet<String>();
+       
+       for(String word: wordList) {
+           wordSet.add(word);
+       }
+       
+       return ladderLength(beginWord, endWord, wordSet);
+    }
+    
+    private int ladderLength(String beginWord, String endWord, Set<String> wordSet) {
+        LinkedList<WordDistance> queue = new LinkedList<WordDistance>();
+        
+        queue.add(new WordDistance(beginWord, 1));
+        
+        while(!queue.isEmpty()) {
+            WordDistance top = queue.remove();
+            String word = top.word;
+            
+            if(word.equals(endWord)) {
+                return top.distance;
+            }
+            
+            char[] arr = word.toCharArray();
+            
+            for(int i = 0; i < arr.length; i++) {
+                for(char c = 'a'; c <= 'z'; c++) {
+                    // Swap in the char to the array
+                    char temp = arr[i];
+                    arr[i] = c;
+                    String newWord = new String(arr);
+                    
+                    if(wordSet.contains(newWord)) {
+                        queue.add(new WordDistance(newWord, top.distance+1));
+                        wordSet.remove(newWord);
+                    }
+                    
+                    arr[i] = temp;
+                }
+            }
+        }
+        
+        return 0;
+    }
+    
+    private class WordDistance {
+        String word;
+        int distance;
+        
+        WordDistance(String word, int distance) {
+            this.word = word;
+            this.distance = distance;
+        }
+    }
 }

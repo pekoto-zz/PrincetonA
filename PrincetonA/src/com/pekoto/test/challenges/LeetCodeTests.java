@@ -146,4 +146,19 @@ public class LeetCodeTests {
     public void testPermutations() {
         LeetCode.permutations(new int [] {1, 2, 3});
     }
+    
+    @Test
+    public void testLadderLength() {
+        List<String> dic = new ArrayList<String>();
+        dic.add("hot");
+        dic.add("dot");
+        dic.add("dog");
+        dic.add("lot");
+        dic.add("log");
+        dic.add("cog");
+        
+        LeetCode lt = new LeetCode();
+        
+        assertEquals(5, lt.ladderLength("hit", "cog", dic));
+    }
 }
