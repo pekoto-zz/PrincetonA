@@ -928,4 +928,32 @@ public class LeetCode {
             this.distance = distance;
         }
     }
+    
+    /*
+     * Returns the common ancestor for 2 binary tree nodes
+     * 
+     * If the current subtree contains one of the nodes in the left
+     * and one of the nodes in the right, then the answer is this subtree.
+     * Otherwise the answer must be node that is not null.
+     * 
+     * (We will return from the first node we find, so that node must contain
+     * the other node underneath it, if the other node was not found in the other
+     * subtree)
+     */
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+    	if(root == null || root == p || root == q) {
+    		return root;
+    	}
+    	
+    	TreeNode left = lowestCommonAncestor(root.left, p, q);
+    	TreeNode right = lowestCommonAncestor(root.right, p, q);
+    	
+    	if(left == null) {
+    		return right;
+    	} else if (right == null) {
+    		return left;
+    	} else {
+    		return root;
+    	}
+    }
 }
