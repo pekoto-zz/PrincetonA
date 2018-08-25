@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 
@@ -958,5 +959,50 @@ public class LeetCode {
         }
         
         return currMax;
+    }
+    
+    /*
+     * Traverse a tree, returning the list of node values
+     * at each level. We could also use a recursive approach,
+     * where we create a list for each level, and then index
+     * into that list depending on the level (height) we are at.
+     * 
+     * This is basically like a breadth-first search.
+     */
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> results = new ArrayList<List<Integer>>();
+        
+        if(root == null) {
+            return results;
+        }
+        
+        Queue<TreeNode> queue = new LinkedList<TreeNode>();
+        queue.add(root);
+        
+        while(!queue.isEmpty()) {
+            List<Integer> result = new ArrayList<Integer>();
+            
+            // Have to save this since queue will be modified
+            // in the loop
+            int nodesAtThisLevel = queue.size();
+            
+            for(int i = 0; i < nodesAtThisLevel; i++) {
+                TreeNode node = queue.poll();
+                
+                if(node.left != null) {
+                    queue.add(node.left);
+                }
+                
+                if(node.right != null) {
+                    queue.add(node.right);
+                }
+                
+                result.add(node.val);
+            }
+            
+            results.add(result);
+        }
+        
+        return results;
     }
 }

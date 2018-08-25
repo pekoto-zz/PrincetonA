@@ -9,6 +9,7 @@ import java.util.List;
 import org.junit.Test;
 
 import com.pekoto.challenges.LeetCode;
+import com.pekoto.challenges.MedianFinder;
 import com.pekoto.challenges.TreeCodec;
 import com.pekoto.challenges.TreeNode;
 
@@ -165,5 +166,14 @@ public class LeetCodeTests {
     @Test
     public void testMaxNonAdjacentSum() {
         assertEquals(12, LeetCode.maxNonAdjacentSum(new int[] {2, 7, 9, 3, 1}));
+    }
+    
+    @Test
+    public void testMedianFinder() {
+        MedianFinder mf = new MedianFinder();
+        
+        mf.addNum(2);
+        mf.addNum(3);
+        mf.addNum(4);
     }
 }
