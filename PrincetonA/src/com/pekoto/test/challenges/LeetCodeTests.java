@@ -176,4 +176,29 @@ public class LeetCodeTests {
         mf.addNum(3);
         mf.addNum(4);
     }
+    
+    public void testLowestCommonAncestor() {
+    	TreeNode root = new TreeNode(3);
+    	TreeNode one = new TreeNode(1);
+    	TreeNode five = new TreeNode(5);
+    	TreeNode six = new TreeNode(6);
+    	TreeNode two = new TreeNode(2);
+    	TreeNode seven = new TreeNode(7);
+    	TreeNode four = new TreeNode(4);
+    	TreeNode zero = new TreeNode(0);
+    	TreeNode eight = new TreeNode(8);
+    	
+    	root.setLeftChild(five);
+    	root.setRightChild(one);
+    	one.setLeftChild(zero);
+    	one.setRightChild(eight);
+    	five.setLeftChild(six);
+    	five.setRightChild(two);
+    	two.setLeftChild(seven);
+    	two.setRightChild(four);
+    	
+    	LeetCode lt = new LeetCode();
+    	
+    	lt.lowestCommonAncestor(root, five, four);
+    }
 }
