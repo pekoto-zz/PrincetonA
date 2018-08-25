@@ -161,4 +161,9 @@ public class LeetCodeTests {
         
         assertEquals(5, lt.ladderLength("hit", "cog", dic));
     }
+    
+    @Test
+    public void testMaxNonAdjacentSum() {
+        assertEquals(12, LeetCode.maxNonAdjacentSum(new int[] {2, 7, 9, 3, 1}));
+    }
 }

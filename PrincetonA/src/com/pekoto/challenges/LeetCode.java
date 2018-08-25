@@ -928,4 +928,35 @@ public class LeetCode {
             this.distance = distance;
         }
     }
+    
+    /*
+     * Finds the max sum where elements cannot be adjacent
+     * 
+     * This is basically a dynamic programming question,
+     * but since we only need to look at i-1 and i-2, we
+     * can do it using just two variables.
+     * 
+     * 1. At nums[i], the max f(i) must be nums[i] (something is better than nothing)
+     * 2. At nums[i+1], the max f(i) is either nums[i-1], or nums[i]
+     * 3. Therefore, at nums[x], the max f(x) is Math.max(f(i-2) + nums[i], f(i-1))
+     * 
+     * Ex. [2, 7, 9, 3, 1]
+     * 
+     */
+    public static int maxNonAdjacentSum(int [] nums) {
+        if(nums == null || nums.length == 0) {
+            return 0;
+        }
+        
+        int prevMax = 0;        
+        int currMax = 0;
+
+        for(int i = 0; i < nums.length; i++) {
+            int temp = currMax;
+            currMax = Math.max(prevMax+nums[i], currMax);
+            prevMax = temp;
+        }
+        
+        return currMax;
+    }
 }
