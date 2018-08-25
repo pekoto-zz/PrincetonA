@@ -1032,4 +1032,49 @@ public class LeetCode {
     		return root;
     	}
     }
+    
+    /*
+     * DFS a matrix for a string
+     */
+    public boolean exists(char[][] board, String word) {
+    	if(word == null || word.length() == 0) {
+    		return false;
+    	}
+    	
+    	boolean[][] visited = new boolean[board.length][board[0].length];
+    	
+    	for(int row = 0; row < board.length; row++) {
+    		for(int col = 0; col < board[0].length; col++) {
+    			if(board[row][col] == word.charAt(0) && search(board, row, col, visited, word, 0)) {
+    				return true;
+    			}
+    		}
+    	}
+    	
+    	return false;
+    }
+    
+    public boolean search(char[][] board, int row, int col, boolean[][] visited, String word, int index) {
+    	if(index == word.length()) {
+    		return true;
+    	}
+    	
+    	if(row < 0 || row >= board.length || col < 0 || col >= board[0].length 
+    			|| visited[row][col] || board[row][col] != word.charAt(index)) {
+    		return false;
+    	}
+    	
+    	visited[row][col] = true;
+    	
+    	if(search(board, row-1, col, visited, word, index+1)
+    			|| search(board, row, col+1, visited, word, index+1)
+    			|| search(board, row, col-1, visited, word, index+1)
+    			|| search(board, row+1, col, visited, word, index+1)) {
+    		return true;
+    	}
+    	
+    	visited[row][col] = false;
+    	
+    	return false;
+     }
 }

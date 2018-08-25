@@ -177,6 +177,7 @@ public class LeetCodeTests {
         mf.addNum(4);
     }
     
+    @Test
     public void testLowestCommonAncestor() {
     	TreeNode root = new TreeNode(3);
     	TreeNode one = new TreeNode(1);
@@ -200,5 +201,17 @@ public class LeetCodeTests {
     	LeetCode lt = new LeetCode();
     	
     	lt.lowestCommonAncestor(root, five, four);
+    }
+    
+    @Test
+    public void testExists() {
+    	char[][] board = {
+    			{'a', 'b'},
+    			{'c', 'd'}
+    	};
+    	
+    	LeetCode lc = new LeetCode();
+    	
+    	assertTrue(lc.exists(board, "acdb"));
     }
 }
