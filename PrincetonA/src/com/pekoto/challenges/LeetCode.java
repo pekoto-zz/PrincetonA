@@ -635,446 +635,495 @@ public class LeetCode {
 
         return stringBuilder.toString();
     }
-    
+
     /*
      * Counts the number of prime numbers less than n
      */
     public static int countPrimes(int n) {
-        boolean [] notPrime = new boolean[n];
-        
+        boolean[] notPrime = new boolean[n];
+
         int count = 0;
-        
-        for(int i = 2; i < n; i++) {
-            if(!notPrime[i]) {
+
+        for (int i = 2; i < n; i++) {
+            if (!notPrime[i]) {
                 // I.e., is prime...
                 count++;
             }
-            
-            for(int j = 2; i*j < n; j++) {
+
+            for (int j = 2; i * j < n; j++) {
                 // Since we make make this index by multiplying i*j
                 // it can't be prime. This results in some duplicate
                 // work but is quicker than checking from scratch.
-                notPrime[i*j] = true;
+                notPrime[i * j] = true;
             }
         }
-        
+
         return count;
     }
-    
+
     /*
-     * Returns the number of possible mappings for
-     * a numerical string representing a series
-     * of letters mapped to numbers. (A > 1, B > 2, etc.)
+     * Returns the number of possible mappings for a numerical string representing a
+     * series of letters mapped to numbers. (A > 1, B > 2, etc.)
      * 
-     * Input: "12"
-	 * Output: 2
-	 * Explanation: It could be decoded as "AB" (1 2) or "L" (12).
-	 * 
-	 * Basically we will use a dynamic programming approach starting from the back of the string.
+     * Input: "12" Output: 2 Explanation: It could be decoded as "AB" (1 2) or "L"
+     * (12).
+     * 
+     * Basically we will use a dynamic programming approach starting from the back
+     * of the string.
      */
     public static int numDecodings(String s) {
-    	if(s == null || s.length() == 0) {
-    		return 0;
-    	}
-    	
-    	int [] memo = new int[s.length()+1];
-    	
-    	memo[s.length()] = 1;
-    	
-    	// If the last char is 0, there are 0 ways to make this taking only 1
-    	// char at a time. Otherwise we can get there taking 1 char at a time.
-    	memo[s.length()-1] = s.charAt(s.length()-1) == '0' ? 0 : 1;
-    	
-    	for(int i = s.length()-2; i >= 0; i--) {
-    		if(s.charAt(i) == '0') {
-    			// We can't start/break from 0
-    			continue;
-    		}
-    		
-    		// If the substring between i and i+1 is <= 26, we will be able to make it in 2 ways (e.g., 2+2 or 22)
-    		// Otherwise there is only one way we can make it (e.g., 3 + 3)
-    		memo[i] = Integer.parseInt(s.substring(i, i+2)) <= 26 ? memo[i+1] + memo[i+2] : memo[i+1];
-    	}
-    	
-    	return memo[0];
+        if (s == null || s.length() == 0) {
+            return 0;
+        }
+
+        int[] memo = new int[s.length() + 1];
+
+        memo[s.length()] = 1;
+
+        // If the last char is 0, there are 0 ways to make this taking only 1
+        // char at a time. Otherwise we can get there taking 1 char at a time.
+        memo[s.length() - 1] = s.charAt(s.length() - 1) == '0' ? 0 : 1;
+
+        for (int i = s.length() - 2; i >= 0; i--) {
+            if (s.charAt(i) == '0') {
+                // We can't start/break from 0
+                continue;
+            }
+
+            // If the substring between i and i+1 is <= 26, we will be able to make it in 2
+            // ways (e.g., 2+2 or 22)
+            // Otherwise there is only one way we can make it (e.g., 3 + 3)
+            memo[i] = Integer.parseInt(s.substring(i, i + 2)) <= 26 ? memo[i + 1] + memo[i + 2] : memo[i + 1];
+        }
+
+        return memo[0];
     }
-    
+
     /*
      * Conway's Game of Life simulation
      * https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
      * 
-     * 1: Live
-     * 2: Dead
+     * 1: Live 2: Dead
      * 
-     * So we can use 2 bits to represent [next state/current state]
-     * 00 (dead < dead)
-     * 01 (dead < live)
-     * 10 (live < dead)
-     * 11 (live < live)
+     * So we can use 2 bits to represent [next state/current state] 00 (dead < dead)
+     * 01 (dead < live) 10 (live < dead) 11 (live < live)
      * 
-     * current state & 1 = current state
-     * current state >> 1 = next state
+     * current state & 1 = current state current state >> 1 = next state
      */
     public void gameOfLife(int[][] board) {
-        if(board == null || board.length == 0) {
+        if (board == null || board.length == 0) {
             return;
         }
-        
+
         // First, iterate through the board
         // and set the second bit
-        for(int row = 0; row < board.length; row++) {
-            for(int col = 0; col < board[0].length; col++) {
-               
+        for (int row = 0; row < board.length; row++) {
+            for (int col = 0; col < board[0].length; col++) {
+
                 // Get the number of live neighbours
                 int liveNeighbours = getLiveNeighbours(board, row, col);
-            
+
                 // To start, every 2nd bit is 0.
                 // We only need to worry worry when it becomes 1.
-                if(board[row][col] == 1 && liveNeighbours >= 2 && liveNeighbours <= 3) {
-                    board[row][col] = 3;    // Second bit 1 (01 > 11)
+                if (board[row][col] == 1 && liveNeighbours >= 2 && liveNeighbours <= 3) {
+                    board[row][col] = 3; // Second bit 1 (01 > 11)
                 }
-                
-                if(board[row][col] == 0 && liveNeighbours == 3) {
-                    board[row][col] = 2;    // Second bit 1 (00 > 10)
+
+                if (board[row][col] == 0 && liveNeighbours == 3) {
+                    board[row][col] = 2; // Second bit 1 (00 > 10)
                 }
             }
         }
-        
+
         for (int row = 0; row < board.length; row++) {
-            for(int col = 0; col < board[0].length; col++) {
-                board[row][col] >>= 1;  // Get the next state
+            for (int col = 0; col < board[0].length; col++) {
+                board[row][col] >>= 1; // Get the next state
             }
         }
     }
-    
+
     private int getLiveNeighbours(int[][] board, int row, int col) {
         int liveNeighbours = 0;
-        
+
         // The max/min checks here are to check for out of bounds
-        for(int neighbourRow = Math.max(row-1, 0); neighbourRow <= Math.min(row+1,  board.length-1); neighbourRow++) {
-            for(int neighbourCol = Math.max(col-1, 0); neighbourCol <= Math.min(col+1, board[0].length-1); neighbourCol++) {
-                liveNeighbours += board[neighbourRow][neighbourCol] & 1;   // & 1 = Get current state
+        for (int neighbourRow = Math.max(row - 1, 0); neighbourRow <= Math.min(row + 1,
+                board.length - 1); neighbourRow++) {
+            for (int neighbourCol = Math.max(col - 1, 0); neighbourCol <= Math.min(col + 1,
+                    board[0].length - 1); neighbourCol++) {
+                liveNeighbours += board[neighbourRow][neighbourCol] & 1; // & 1 = Get current state
             }
         }
-        
+
         liveNeighbours -= board[row][col] & 1;
-        
+
         return liveNeighbours;
     }
-    
+
     /*
      * Returns the permutations for an integer array
      */
-    public static List<List<Integer>> getPermutations(int [] nums) {
-    	List<List<Integer>> results = new ArrayList<List<Integer>>();
-    	
-    	if(nums.length == 0) {
-    		return results;
-    	}
-    	
-    	getPermutations(nums, results, new ArrayList<Integer>(), 0);
-    	
-    	return results;
+    public static List<List<Integer>> getPermutations(int[] nums) {
+        List<List<Integer>> results = new ArrayList<List<Integer>>();
+
+        if (nums.length == 0) {
+            return results;
+        }
+
+        getPermutations(nums, results, new ArrayList<Integer>(), 0);
+
+        return results;
     }
-    
-    private static void getPermutations(int [] nums, List<List<Integer>> permutations, List<Integer> permutation, int index) {
-    	if(permutation.size() == nums.length) {
-    		permutations.add(permutation);
-    		return;
-    	}
-    	
-    	// For each position in this permutation
-    	for(int insertPosition = 0; insertPosition <= permutation.size(); insertPosition++) {
-    		List<Integer> newPermutation = new ArrayList<Integer>(permutation);
-    		// Insert the next number in every position
-    		newPermutation.add(insertPosition, nums[index]);
-    		// Recurse until we hit the size of the original array
-    		getPermutations(nums, permutations, newPermutation, index+1);
-    	}
+
+    private static void getPermutations(int[] nums, List<List<Integer>> permutations, List<Integer> permutation,
+            int index) {
+        if (permutation.size() == nums.length) {
+            permutations.add(permutation);
+            return;
+        }
+
+        // For each position in this permutation
+        for (int insertPosition = 0; insertPosition <= permutation.size(); insertPosition++) {
+            List<Integer> newPermutation = new ArrayList<Integer>(permutation);
+            // Insert the next number in every position
+            newPermutation.add(insertPosition, nums[index]);
+            // Recurse until we hit the size of the original array
+            getPermutations(nums, permutations, newPermutation, index + 1);
+        }
     }
-    
+
     /*
-     * Generate String permutations recursively
-     * (Non-base case and build method)
+     * Generate String permutations recursively (Non-base case and build method)
      * 
-     * We can think of this like, take a prefix (E.g., A)
-     * and then append every variant of the suffix (BC/CB) to it.
-     * Then move on to the next prefix.
+     * We can think of this like, take a prefix (E.g., A) and then append every
+     * variant of the suffix (BC/CB) to it. Then move on to the next prefix.
      * 
      * Backtracking -- pick a char, remove it from your string and recurse
      */
     public static List<String> getPermutations(String s) {
-        
+
         List<String> results = new ArrayList<String>();
-     
+
         getPermutations("", s, results);
-        
+
         return results;
     }
-    
+
     private static void getPermutations(String prefix, String suffix, List<String> results) {
-        if(suffix.length() == 0) {
+        if (suffix.length() == 0) {
             results.add(prefix);
             return;
         }
-        
-        for(int i = 0; i < suffix.length(); i++) {
-            getPermutations(prefix + suffix.charAt(i), suffix.substring(0, i) + suffix.substring(i+1, suffix.length()), results);
+
+        for (int i = 0; i < suffix.length(); i++) {
+            getPermutations(prefix + suffix.charAt(i),
+                    suffix.substring(0, i) + suffix.substring(i + 1, suffix.length()), results);
         }
     }
-    
+
     /*
-     * Get permutations of array using a simpler backtracking method
-     * Like before, we take an element as a prefix, and then generate
-     * the permutations of the suffix. Because we are using an array,
-     * we have to clone it, and we swap elements.
+     * Get permutations of array using a simpler backtracking method Like before, we
+     * take an element as a prefix, and then generate the permutations of the
+     * suffix. Because we are using an array, we have to clone it, and we swap
+     * elements.
      * 
-     * 1. Swap the start and i...
-     * 2. Generate permutations
-     * 3. Swap start and i back
+     * 1. Swap the start and i... 2. Generate permutations 3. Swap start and i back
      */
-    public static List<int[]> permutations(int [] arr) {
+    public static List<int[]> permutations(int[] arr) {
         List<int[]> results = new ArrayList<int[]>();
-        
+
         permutations(arr, 0, results);
-        
+
         return results;
     }
-    
-    private static void permutations(int [] arr, int start, List<int[]> results) {
-        if(start == arr.length) {
+
+    private static void permutations(int[] arr, int start, List<int[]> results) {
+        if (start == arr.length) {
             // Remember we have to clone the array to stop it being
             // modified after we add it
             results.add(arr.clone());
             return;
         }
-        
-        for(int i = start; i < arr.length; i++) {
+
+        for (int i = start; i < arr.length; i++) {
             swapStatic(arr, start, i);
-            permutations(arr, start+1, results);
+            permutations(arr, start + 1, results);
             swapStatic(arr, start, i);
         }
     }
-    
+
     private static void swapStatic(int[] arr, int i, int j) {
         int temp = arr[i];
         arr[i] = arr[j];
         arr[j] = temp;
     }
-    
+
     /*
      * Returns the shortest path from a begin word to end word, using a BFS approach
      * 
-     * 1. Set up a queue
-     * 2. Add our start word to the queue
-     * 3. While the queue is not empty...
-     * 4. Remove the top of the queue...
-     * 5. If it matches our end word, return the distance
-     * 6. Otherwise, generate all permutations of this word
-     * 7. If a permutation is in the dictionary, add it to the queue with distance+1, remove it from the dictionary
+     * 1. Set up a queue 2. Add our start word to the queue 3. While the queue is
+     * not empty... 4. Remove the top of the queue... 5. If it matches our end word,
+     * return the distance 6. Otherwise, generate all permutations of this word 7.
+     * If a permutation is in the dictionary, add it to the queue with distance+1,
+     * remove it from the dictionary
      *
-     *  So the shortest path will be found. 
+     * So the shortest path will be found.
      */
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-       Set<String> wordSet = new HashSet<String>();
-       
-       for(String word: wordList) {
-           wordSet.add(word);
-       }
-       
-       return ladderLength(beginWord, endWord, wordSet);
+        Set<String> wordSet = new HashSet<String>();
+
+        for (String word : wordList) {
+            wordSet.add(word);
+        }
+
+        return ladderLength(beginWord, endWord, wordSet);
     }
-    
+
     private int ladderLength(String beginWord, String endWord, Set<String> wordSet) {
         LinkedList<WordDistance> queue = new LinkedList<WordDistance>();
-        
+
         queue.add(new WordDistance(beginWord, 1));
-        
-        while(!queue.isEmpty()) {
+
+        while (!queue.isEmpty()) {
             WordDistance top = queue.remove();
             String word = top.word;
-            
-            if(word.equals(endWord)) {
+
+            if (word.equals(endWord)) {
                 return top.distance;
             }
-            
+
             char[] arr = word.toCharArray();
-            
-            for(int i = 0; i < arr.length; i++) {
-                for(char c = 'a'; c <= 'z'; c++) {
+
+            for (int i = 0; i < arr.length; i++) {
+                for (char c = 'a'; c <= 'z'; c++) {
                     // Swap in the char to the array
                     char temp = arr[i];
                     arr[i] = c;
                     String newWord = new String(arr);
-                    
-                    if(wordSet.contains(newWord)) {
-                        queue.add(new WordDistance(newWord, top.distance+1));
+
+                    if (wordSet.contains(newWord)) {
+                        queue.add(new WordDistance(newWord, top.distance + 1));
                         wordSet.remove(newWord);
                     }
-                    
+
                     arr[i] = temp;
                 }
             }
         }
-        
+
         return 0;
     }
-    
+
     private class WordDistance {
         String word;
         int distance;
-        
+
         WordDistance(String word, int distance) {
             this.word = word;
             this.distance = distance;
         }
     }
-    
+
     /*
      * Finds the max sum where elements cannot be adjacent
      * 
-     * This is basically a dynamic programming question,
-     * but since we only need to look at i-1 and i-2, we
-     * can do it using just two variables.
+     * This is basically a dynamic programming question, but since we only need to
+     * look at i-1 and i-2, we can do it using just two variables.
      * 
-     * 1. At nums[i], the max f(i) must be nums[i] (something is better than nothing)
-     * 2. At nums[i+1], the max f(i) is either nums[i-1], or nums[i]
-     * 3. Therefore, at nums[x], the max f(x) is Math.max(f(i-2) + nums[i], f(i-1))
+     * 1. At nums[i], the max f(i) must be nums[i] (something is better than
+     * nothing) 2. At nums[i+1], the max f(i) is either nums[i-1], or nums[i] 3.
+     * Therefore, at nums[x], the max f(x) is Math.max(f(i-2) + nums[i], f(i-1))
      * 
      * Ex. [2, 7, 9, 3, 1]
      * 
      */
-    public static int maxNonAdjacentSum(int [] nums) {
-        if(nums == null || nums.length == 0) {
+    public static int maxNonAdjacentSum(int[] nums) {
+        if (nums == null || nums.length == 0) {
             return 0;
         }
-        
-        int prevMax = 0;        
+
+        int prevMax = 0;
         int currMax = 0;
 
-        for(int i = 0; i < nums.length; i++) {
+        for (int i = 0; i < nums.length; i++) {
             int temp = currMax;
-            currMax = Math.max(prevMax+nums[i], currMax);
+            currMax = Math.max(prevMax + nums[i], currMax);
             prevMax = temp;
         }
-        
+
         return currMax;
     }
-    
+
     /*
-     * Traverse a tree, returning the list of node values
-     * at each level. We could also use a recursive approach,
-     * where we create a list for each level, and then index
-     * into that list depending on the level (height) we are at.
+     * Traverse a tree, returning the list of node values at each level. We could
+     * also use a recursive approach, where we create a list for each level, and
+     * then index into that list depending on the level (height) we are at.
      * 
      * This is basically like a breadth-first search.
      */
     public List<List<Integer>> levelOrder(TreeNode root) {
         List<List<Integer>> results = new ArrayList<List<Integer>>();
-        
-        if(root == null) {
+
+        if (root == null) {
             return results;
         }
-        
+
         Queue<TreeNode> queue = new LinkedList<TreeNode>();
         queue.add(root);
-        
-        while(!queue.isEmpty()) {
+
+        while (!queue.isEmpty()) {
             List<Integer> result = new ArrayList<Integer>();
-            
+
             // Have to save this since queue will be modified
             // in the loop
             int nodesAtThisLevel = queue.size();
-            
-            for(int i = 0; i < nodesAtThisLevel; i++) {
+
+            for (int i = 0; i < nodesAtThisLevel; i++) {
                 TreeNode node = queue.poll();
-                
-                if(node.left != null) {
+
+                if (node.left != null) {
                     queue.add(node.left);
                 }
-                
-                if(node.right != null) {
+
+                if (node.right != null) {
                     queue.add(node.right);
                 }
-                
+
                 result.add(node.val);
             }
-            
+
             results.add(result);
         }
-        
+
         return results;
-        }
-    
-     /* Returns the common ancestor for 2 binary tree nodes
+    }
+
+    /*
+     * Returns the common ancestor for 2 binary tree nodes
      * 
-     * If the current subtree contains one of the nodes in the left
-     * and one of the nodes in the right, then the answer is this subtree.
-     * Otherwise the answer must be node that is not null.
+     * If the current subtree contains one of the nodes in the left and one of the
+     * nodes in the right, then the answer is this subtree. Otherwise the answer
+     * must be node that is not null.
      * 
-     * (We will return from the first node we find, so that node must contain
-     * the other node underneath it, if the other node was not found in the other
+     * (We will return from the first node we find, so that node must contain the
+     * other node underneath it, if the other node was not found in the other
      * subtree)
      */
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-    	if(root == null || root == p || root == q) {
-    		return root;
-    	}
-    	
-    	TreeNode left = lowestCommonAncestor(root.left, p, q);
-    	TreeNode right = lowestCommonAncestor(root.right, p, q);
-    	
-    	if(left == null) {
-    		return right;
-    	} else if (right == null) {
-    		return left;
-    	} else {
-    		return root;
-    	}
+        if (root == null || root == p || root == q) {
+            return root;
+        }
+
+        TreeNode left = lowestCommonAncestor(root.left, p, q);
+        TreeNode right = lowestCommonAncestor(root.right, p, q);
+
+        if (left == null) {
+            return right;
+        } else if (right == null) {
+            return left;
+        } else {
+            return root;
+        }
     }
-    
+
     /*
      * DFS a matrix for a string
      */
     public boolean exists(char[][] board, String word) {
-    	if(word == null || word.length() == 0) {
-    		return false;
-    	}
-    	
-    	boolean[][] visited = new boolean[board.length][board[0].length];
-    	
-    	for(int row = 0; row < board.length; row++) {
-    		for(int col = 0; col < board[0].length; col++) {
-    			if(board[row][col] == word.charAt(0) && search(board, row, col, visited, word, 0)) {
-    				return true;
-    			}
-    		}
-    	}
-    	
-    	return false;
+        if (word == null || word.length() == 0) {
+            return false;
+        }
+
+        boolean[][] visited = new boolean[board.length][board[0].length];
+
+        for (int row = 0; row < board.length; row++) {
+            for (int col = 0; col < board[0].length; col++) {
+                if (board[row][col] == word.charAt(0) && search(board, row, col, visited, word, 0)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public boolean search(char[][] board, int row, int col, boolean[][] visited, String word, int index) {
+        if (index == word.length()) {
+            return true;
+        }
+
+        if (row < 0 || row >= board.length || col < 0 || col >= board[0].length || visited[row][col]
+                || board[row][col] != word.charAt(index)) {
+            return false;
+        }
+
+        visited[row][col] = true;
+
+        if (search(board, row - 1, col, visited, word, index + 1)
+                || search(board, row, col + 1, visited, word, index + 1)
+                || search(board, row, col - 1, visited, word, index + 1)
+                || search(board, row + 1, col, visited, word, index + 1)) {
+            return true;
+        }
+
+        visited[row][col] = false;
+
+        return false;
     }
     
-    public boolean search(char[][] board, int row, int col, boolean[][] visited, String word, int index) {
-    	if(index == word.length()) {
-    		return true;
-    	}
-    	
-    	if(row < 0 || row >= board.length || col < 0 || col >= board[0].length 
-    			|| visited[row][col] || board[row][col] != word.charAt(index)) {
-    		return false;
-    	}
-    	
-    	visited[row][col] = true;
-    	
-    	if(search(board, row-1, col, visited, word, index+1)
-    			|| search(board, row, col+1, visited, word, index+1)
-    			|| search(board, row, col-1, visited, word, index+1)
-    			|| search(board, row+1, col, visited, word, index+1)) {
-    		return true;
-    	}
-    	
-    	visited[row][col] = false;
-    	
-    	return false;
-     }
+    /*
+     * Rotates a 2D matrix
+     * 
+     * There are a few ways to do this. Rotating the corners
+     * is probably the most efficient, but this might be the easiest
+     * way to keep in your head.
+     * 
+     * Transpose > Flip horizontally
+     * 
+     */
+    public void rotate(int[][] matrix) {
+        if(matrix == null || matrix.length == 0) {
+            return;
+        }
+        
+        /*
+         * First, transpose:
+         * 1 2 3
+         * 4 5 6
+         * 7 8 9
+         * 
+         * -->
+         * 
+         * 1 4 7
+         * 2 5 8
+         * 3 6 9
+         */
+        for(int row = 0; row < matrix.length; row++) {
+            for(int col = row; col < matrix[0].length; col++) {
+                int temp = matrix[row][col];
+                matrix[row][col] = matrix[col][row];
+                matrix[col][row] = temp;
+            }
+        }
+        
+        /*
+         * Next, flip horizontally:
+         * 
+         * 1 4 7
+         * 2 5 8
+         * 3 6 9
+         * 
+         * -->
+         * 
+         * 7 4 1
+         * 8 5 2
+         * 9 6 3
+         */
+        for(int row = 0; row < matrix.length; row++) {
+            for(int col = 0; col < matrix[0].length/2; col++) {
+                int temp = matrix[row][col];
+                matrix[row][col] = matrix[row][matrix.length-1-col];
+                matrix[row][matrix.length-1-col] = temp;
+            }
+        }
+    }
 }
