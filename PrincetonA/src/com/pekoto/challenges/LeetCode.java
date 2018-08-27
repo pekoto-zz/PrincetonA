@@ -1126,4 +1126,34 @@ public class LeetCode {
             }
         }
     }
+    
+
+    
+    /*
+     * Binary tree inorder traversal (iterative)
+     */
+    public List<Integer> inorderTraversal(TreeNode root) {
+    
+        List<Integer> results = new ArrayList<Integer>();
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        
+        TreeNode current = root;
+        
+        while(current != null || !stack.isEmpty()) {
+            
+            // Go down to the left of the current tree
+            while(current != null) {
+                stack.push(current);
+                current = current.left;
+            }
+            
+            current = stack.pop();
+            results.add(current.val);
+            
+            // Now check the right subtree
+            current = current.right;
+        }
+        
+        return results;
+    }
 }
