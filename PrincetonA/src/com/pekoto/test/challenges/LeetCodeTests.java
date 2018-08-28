@@ -214,4 +214,14 @@ public class LeetCodeTests {
     	
     	assertTrue(lc.exists(board, "acdb"));
     }
+    
+    @Test
+    public void testMaxProduct() {
+        
+        int[] nums = { 2, 3, -2, 4};
+        
+        LeetCode lc = new LeetCode();
+        
+        assertEquals(6, lc.maxProduct(nums));
+    }
 }

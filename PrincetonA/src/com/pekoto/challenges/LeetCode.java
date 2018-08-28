@@ -1069,91 +1069,125 @@ public class LeetCode {
 
         return false;
     }
-    
+
     /*
      * Rotates a 2D matrix
      * 
-     * There are a few ways to do this. Rotating the corners
-     * is probably the most efficient, but this might be the easiest
-     * way to keep in your head.
+     * There are a few ways to do this. Rotating the corners is probably the most
+     * efficient, but this might be the easiest way to keep in your head.
      * 
      * Transpose > Flip horizontally
      * 
      */
     public void rotate(int[][] matrix) {
-        if(matrix == null || matrix.length == 0) {
+        if (matrix == null || matrix.length == 0) {
             return;
         }
-        
+
         /*
-         * First, transpose:
-         * 1 2 3
-         * 4 5 6
-         * 7 8 9
+         * First, transpose: 1 2 3 4 5 6 7 8 9
          * 
          * -->
          * 
-         * 1 4 7
-         * 2 5 8
-         * 3 6 9
+         * 1 4 7 2 5 8 3 6 9
          */
-        for(int row = 0; row < matrix.length; row++) {
-            for(int col = row; col < matrix[0].length; col++) {
+        for (int row = 0; row < matrix.length; row++) {
+            for (int col = row; col < matrix[0].length; col++) {
                 int temp = matrix[row][col];
                 matrix[row][col] = matrix[col][row];
                 matrix[col][row] = temp;
             }
         }
-        
+
         /*
          * Next, flip horizontally:
          * 
-         * 1 4 7
-         * 2 5 8
-         * 3 6 9
+         * 1 4 7 2 5 8 3 6 9
          * 
          * -->
          * 
-         * 7 4 1
-         * 8 5 2
-         * 9 6 3
+         * 7 4 1 8 5 2 9 6 3
          */
-        for(int row = 0; row < matrix.length; row++) {
-            for(int col = 0; col < matrix[0].length/2; col++) {
+        for (int row = 0; row < matrix.length; row++) {
+            for (int col = 0; col < matrix[0].length / 2; col++) {
                 int temp = matrix[row][col];
-                matrix[row][col] = matrix[row][matrix.length-1-col];
-                matrix[row][matrix.length-1-col] = temp;
+                matrix[row][col] = matrix[row][matrix.length - 1 - col];
+                matrix[row][matrix.length - 1 - col] = temp;
             }
         }
     }
-    
 
-    
     /*
      * Binary tree inorder traversal (iterative)
      */
     public List<Integer> inorderTraversal(TreeNode root) {
-    
+
         List<Integer> results = new ArrayList<Integer>();
         Stack<TreeNode> stack = new Stack<TreeNode>();
-        
+
         TreeNode current = root;
-        
-        while(current != null || !stack.isEmpty()) {
-            
+
+        while (current != null || !stack.isEmpty()) {
+
             // Go down to the left of the current tree
-            while(current != null) {
+            while (current != null) {
                 stack.push(current);
                 current = current.left;
             }
-            
+
             current = stack.pop();
             results.add(current.val);
-            
+
             // Now check the right subtree
             current = current.right;
         }
-        
+
         return results;
+    }
+
+    /*
+     * Returns the max product from a subarray
+     * 
+     * We store the maximum and minimum value so far,
+     * which can be defined by either the previous max/min * this number,
+     * or this number itself. (Similar to Kadane's algorithm)
+     * 
+     * If a number is less than 0, we swap the maximum and minimum.
+     * Why? Well, think about it: multiplying the larger number by a negative
+     * will give you a smaller number.
+     * 
+     * E.g., if you had 2 and 4:
+     * 2 * -1 = -2
+     * 4 * -1 = -4
+     * 
+     * So then 2 becomes your max so far.
+     * 
+     */
+    public int maxProduct(int[] nums) {
+        if (nums.length == 0) {
+            return 0;
+        }
+
+        int max = nums[0];
+        int maxSoFar = nums[0];
+        int minSoFar = nums[0];
+        
+        for (int i = 1; i < nums.length; i++) {
+            
+            if (nums[i] < 0) {
+                int temp = maxSoFar;
+                maxSoFar = minSoFar;
+                minSoFar = temp;
+            }
+
+            // Max/min product for the current number is either the current number itself
+            // or the max/min by the previous number times the current one
+            maxSoFar = Math.max(nums[i], maxSoFar * nums[i]);
+            minSoFar = Math.min(nums[i], minSoFar * nums[i]);
+
+            max = Math.max(max, maxSoFar);
+        }
+        
+        return max;
     }
 }
