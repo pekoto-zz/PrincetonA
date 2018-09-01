@@ -1148,17 +1148,15 @@ public class LeetCode {
     /*
      * Returns the max product from a subarray
      * 
-     * We store the maximum and minimum value so far,
-     * which can be defined by either the previous max/min * this number,
-     * or this number itself. (Similar to Kadane's algorithm)
+     * We store the maximum and minimum value so far, which can be defined by either
+     * the previous max/min * this number, or this number itself. (Similar to
+     * Kadane's algorithm)
      * 
-     * If a number is less than 0, we swap the maximum and minimum.
-     * Why? Well, think about it: multiplying the larger number by a negative
-     * will give you a smaller number.
+     * If a number is less than 0, we swap the maximum and minimum. Why? Well, think
+     * about it: multiplying the larger number by a negative will give you a smaller
+     * number.
      * 
-     * E.g., if you had 2 and 4:
-     * 2 * -1 = -2
-     * 4 * -1 = -4
+     * E.g., if you had 2 and 4: 2 * -1 = -2 4 * -1 = -4
      * 
      * So then 2 becomes your max so far.
      * 
@@ -1171,9 +1169,9 @@ public class LeetCode {
         int max = nums[0];
         int maxSoFar = nums[0];
         int minSoFar = nums[0];
-        
+
         for (int i = 1; i < nums.length; i++) {
-            
+
             if (nums[i] < 0) {
                 int temp = maxSoFar;
                 maxSoFar = minSoFar;
@@ -1187,7 +1185,84 @@ public class LeetCode {
 
             max = Math.max(max, maxSoFar);
         }
-        
+
         return max;
+    }
+
+    /*
+     * Search a matrix for words
+     */
+    public List<String> findWords(char[][] board, String[] words) {
+
+        Set<String> results = new HashSet<String>();
+
+        TrieNode root = buildTrie(words);
+
+        boolean[][] visited = new boolean[board.length][board[0].length];
+
+        for (int row = 0; row < board.length; row++) {
+            for (int col = 0; col < board[0].length; col++) {
+                dfs(board, row, col, root, visited, results);
+            }
+        }
+
+        return new ArrayList<String>(results);
+    }
+
+    private void dfs(char[][] board, int row, int col, TrieNode node, boolean[][] visited, Set<String> results) {
+        if (row < 0 || row >= board.length || col < 0 || col >= board[0].length || visited[row][col]) {
+            return;
+        }
+
+        char c = board[row][col];
+        int childIndex = c - 'a';
+
+        // Check to see if the trie contains a node for this char
+        if (node.children[childIndex] == null) {
+            return;
+        }
+
+        TrieNode next = node.children[childIndex];
+
+        if (next.word != null) {
+            results.add(next.word);
+        }
+
+        visited[row][col] = true;
+
+        dfs(board, row - 1, col, next, visited, results);
+        dfs(board, row, col + 1, next, visited, results);
+        dfs(board, row + 1, col, next, visited, results);
+        dfs(board, row, col - 1, next, visited, results);
+
+        visited[row][col] = false;
+    }
+
+    private TrieNode buildTrie(String[] words) {
+        TrieNode root = new TrieNode();
+
+        for (String word : words) {
+            TrieNode node = root;
+
+            for (char c : word.toCharArray()) {
+
+                int index = c - 'a';
+
+                if (node.children[index] == null) {
+                    node.children[index] = new TrieNode();
+                }
+
+                node = node.children[index];
+            }
+
+            node.word = word;
+        }
+
+        return root;
+    }
+
+    private class TrieNode {
+        TrieNode[] children = new TrieNode[26];
+        String word;
     }
 }

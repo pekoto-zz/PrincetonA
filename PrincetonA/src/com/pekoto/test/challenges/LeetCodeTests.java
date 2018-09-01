@@ -224,4 +224,25 @@ public class LeetCodeTests {
         
         assertEquals(6, lc.maxProduct(nums));
     }
+    
+    @Test
+    public void testFindWords() {
+        String [] dict = {
+                "oath",
+                "pea",
+                "eat",
+                "rain"
+        };
+        
+        char [][] board = {
+                {'o','a','a','n'},
+                {'e','t','a','e'},
+                {'i','h','k','r'},
+                {'i','f','l','v'}
+        };
+        
+        LeetCode lc = new LeetCode();
+        
+        assertEquals(2, lc.findWords(board, dict).size());
+    }
 }
