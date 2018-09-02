@@ -256,4 +256,13 @@ public class LeetCodeTests {
         
         assertEquals(4, results.size());
     }
+    
+    @Test
+    public void testSortColors() {
+        int [] nums = {2, 0, 2, 1, 1, 0};
+        
+        LeetCode lc = new LeetCode();
+        
+        lc.sortColors(nums);
+    }
 }

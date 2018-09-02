@@ -1392,4 +1392,50 @@ public class LeetCode {
             indices[i] = sortedIndices[i-left];
         }
     }
+    
+    /*
+     * This is essentially an example of the
+     * 'Dutch flag' problem -- a 3-way quicksort
+     *  partition
+     *  
+     *  1. Set up, left, right and array pointers
+     *  2. If the pointer is < partition,
+     *      - Swap it with left
+     *      - Increment left and pointer
+     *  3. If the pointer is > partition,
+     *      - Swap it with right
+     *      - Decrement right
+     *  4. If the pointer == partition,
+     *      - Increment pointer
+     */
+    public void sortColors(int [] nums) {
+        
+        int left = 0;
+        int right = nums.length-1;
+        int pointer = 0;
+        
+        while(pointer <= right) {
+            if(nums[pointer] == 0) {
+                // Swap left
+                int temp = nums[pointer];
+                nums[pointer] = nums[left];
+                nums[left] = temp;   // 0
+                
+                left++;
+                pointer++;
+            } else if (nums[pointer] == 2) {
+                // Swap right
+                int temp = nums[pointer];
+                nums[pointer] = nums[right];
+                nums[right] = temp; // 2
+                
+                // Note we don't increment pointer --
+                // it could still be < partition
+                right--;
+            } else if(nums[pointer] == 1) {
+                // Continue
+                pointer++;
+            }
+        }
+    }
 }
