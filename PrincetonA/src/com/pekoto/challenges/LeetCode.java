@@ -1379,7 +1379,6 @@ public class LeetCode {
         }
         
         while(rightIndex <= right) {
-            // For some reason we don't increment right count here?
             sortedIndices[sortedIndex] = indices[rightIndex];
             
             // Increment array indices
