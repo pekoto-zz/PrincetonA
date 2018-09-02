@@ -1265,4 +1265,132 @@ public class LeetCode {
         TrieNode[] children = new TrieNode[26];
         String word;
     }
+    
+    /*
+     * Returns an array where each element counts the number
+     * of smaller elements to the right.
+     * 
+     * The idea is that we do a merge sort, but we keep track of the indices
+     * and order those instead. When we move something from right to left,
+     * we increment rightCount -- something is smaller to the right.
+     * Then when moving in the left array parts to sorted order,
+     * we increment count by this right count.
+     * 
+     * Example:
+     * 5 2 6 1 > 
+     * >> Sort 5-2
+     * >> Move 2 into sorted position (right count + 1)
+     * >> Move 5 into sorted position (increment count by right count (1))
+     * >> -- there was 1 element greater than 5 in right half
+     * 
+     * >> Sort 6-1
+     * >> Move 1 into sorted position (right count + 1)
+     * >> Move 6 into sorted position (increment count by right count (1))
+     * 
+     * Now we have:
+     * 
+     * 2 5 6 1
+     * 1 0 1 0 (counts)
+     * 
+     * >> Sort 2 5 1 6
+     * >> Move 1 into sorted position (right count + 1)
+     * >> Move 2 into sorted position (increment count by right count (1)), count = 2 0 1 0
+     * >> Move 5 into sorted position (increment count by right count (1)), count = 2 1 1 0
+     * >> Move 6 into sorted position (right count + 1)
+     * 
+     * etc.
+     *
+     */
+    public List<Integer> countSmaller(int [] nums) {
+        List<Integer> results = new ArrayList<Integer>();
+        
+        int [] counts = new int[nums.length];
+        int [] indices = new int[nums.length];
+        
+        // Initialise indices
+        for(int i = 0; i < nums.length; i++) {
+            indices[i] = i;
+        }
+        
+        mergeSort(nums, indices, counts, 0, nums.length-1);
+        
+        for(int i = 0; i < counts.length; i++) {
+            results.add(counts[i]);
+        }
+        
+        return results;
+    }
+    
+    private void mergeSort(int [] nums, int [] indices, int [] counts, int left, int right) {
+        if(right <= left) {
+            return;
+        }
+        
+        int mid = left + (right-left)/2;
+        
+        mergeSort(nums, indices, counts, left, mid);
+        mergeSort(nums, indices, counts, mid+1, right);
+        
+        merge(nums, indices, counts, left, right);
+    }
+    
+    private void merge(int [] nums, int [] indices, int [] counts, int left, int right) {
+        int mid = left + (right-left)/2;
+        
+        int leftIndex = left;
+        int rightIndex = mid+1;
+        
+        // This keeps track of the number of elements that will be moved to the
+        // left (i.e., elements in the sorted right part that are smaller than
+        // the current left part element.)
+        int rightCount = 0;
+        
+        int [] sortedIndices = new int [right-left+1];
+        int sortedIndex = 0;
+        
+        while(leftIndex <= mid && rightIndex <= right) {
+            if(nums[indices[rightIndex]] < nums[indices[leftIndex]]) {
+                sortedIndices[sortedIndex] = indices[rightIndex];
+                rightCount++;
+                
+                // Increment array indices
+                rightIndex++;
+                sortedIndex++;
+            } else {
+                sortedIndices[sortedIndex] = indices[leftIndex];
+                
+                // The number of elements that were smaller than this index
+                counts[indices[leftIndex]] += rightCount;
+                
+                // Increment array indices
+                leftIndex++;
+                sortedIndex++;
+            }
+        }
+        
+        // Take elements from the untraversed array
+        while(leftIndex <= mid) {
+            sortedIndices[sortedIndex] = indices[leftIndex];
+            counts[indices[leftIndex]] += rightCount;
+            
+            // Increment array indices
+            leftIndex++;
+            sortedIndex++;            
+        }
+        
+        while(rightIndex <= right) {
+            // For some reason we don't increment right count here?
+            sortedIndices[sortedIndex] = indices[rightIndex];
+            
+            // Increment array indices
+            rightIndex++;
+            sortedIndex++;
+        }
+        
+        // Copy the sorted indices back into the main index array
+        // (we could optimise this)
+        for(int i = left; i <= right; i++) {
+            indices[i] = sortedIndices[i-left];
+        }
+    }
 }

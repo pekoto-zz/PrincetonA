@@ -245,4 +245,15 @@ public class LeetCodeTests {
         
         assertEquals(2, lc.findWords(board, dict).size());
     }
+    
+    @Test
+    public void testCountSmaller() {
+        int [] nums = {5, 2, 6, 1};
+        
+        LeetCode lc = new LeetCode();
+        
+        List<Integer> results = lc.countSmaller(nums);
+        
+        assertEquals(4, results.size());
+    }
 }
