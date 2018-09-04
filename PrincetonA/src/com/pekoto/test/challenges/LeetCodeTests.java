@@ -277,4 +277,11 @@ public class LeetCodeTests {
         assertTrue(lc.canJump(possible));
         assertFalse(lc.canJump(impossible));
     }
+    
+    @Test
+    public void testMissingNumber() {
+        LeetCode lc = new LeetCode();
+        
+        assertEquals(2, lc.missingNumber(new int [] {3, 0, 1}));
+    }
 }

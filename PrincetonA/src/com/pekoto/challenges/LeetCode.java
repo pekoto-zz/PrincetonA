@@ -1469,4 +1469,22 @@ public class LeetCode {
         
         return lastElement == 0;
     }
+    
+    /*
+     * Returns the missing number in linear time
+     * using constant space.
+     * 
+     * We could also do this using XORs.
+     */
+    public int missingNumber(int[] nums) {
+
+        int expected = nums.length * (nums.length+1) / 2;
+        int actual = 0;
+        
+        for(int i = 0; i < nums.length; i++) {
+            actual += nums[i];
+        }
+        
+        return expected-actual;
+    }
 }
