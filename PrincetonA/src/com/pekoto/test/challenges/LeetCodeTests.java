@@ -284,4 +284,13 @@ public class LeetCodeTests {
         
         assertEquals(2, lc.missingNumber(new int [] {3, 0, 1}));
     }
+    
+    @Test
+    public void testLargestNumber() {
+        LeetCode lc = new LeetCode();
+        
+        int [] nums = {3,30,34};
+        
+        assertEquals("34330", lc.largestNumber(nums));
+    }
 }

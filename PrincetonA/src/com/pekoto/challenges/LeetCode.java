@@ -1487,4 +1487,55 @@ public class LeetCode {
         
         return expected-actual;
     }
+    
+    /*
+     * Creates the largest possible number from
+     * an array of numbers.
+     * 
+     * To find out which number is larger, we implement a custom comparator.
+     * By sticking the numbers together both ways, and then checking which is larger.
+     * 
+     * E.g., if you had 34 (a) and 3 (b):
+     * 343 (a + b)
+     * 334 (b + a)
+     * 
+     * Then 334.compareTo(343) would return -1, since 334 is smaller,
+     * so 34 (first argument) would come first in a sort.
+     * 
+     */
+    public String largestNumber(int[] nums) {
+    
+        String [] numStrs = new String[nums.length];
+        
+        for(int i = 0; i < nums.length; i++) {
+            numStrs[i] = nums[i]+"";
+        }
+        
+        Arrays.sort(numStrs, new largerComparator());
+        
+        if(numStrs[0].equals("0")) {
+            return "0";
+        }
+        
+        StringBuffer sb = new StringBuffer();
+        
+        for(String s : numStrs) {
+            sb.append(s);
+        }
+        
+        return sb.toString();
+    }
+    
+    private class largerComparator implements Comparator<String> {
+
+        @Override
+        public int compare(String arg0, String arg1) {
+            
+           String order1 = arg0 + arg1;
+           String order2 = arg1 + arg0;
+           
+           return order2.compareTo(order1);
+        }
+        
+    }
 }
