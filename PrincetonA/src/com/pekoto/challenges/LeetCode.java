@@ -1438,4 +1438,35 @@ public class LeetCode {
             }
         }
     }
+    
+    /*
+     * Returns true if the last element in the array
+     * can be reached by jumping from 1-n steps denoted
+     * by the value in the array element.
+     * 
+     * Performance: O(n)
+     * Space: O(1)
+     * 
+     * There are also recursive (bottom-up), memoization,
+     * and dynamic programming solutions.
+     * 
+     * Thinking about this solution, we're essentially saying,
+     * can we reach the last element from this element? If so, then
+     * set this element to be the element that we need to reach next.
+     * 
+     */
+    public boolean canJump(int[] nums) {
+        // The last element we can reach
+        int lastElement = nums.length-1;
+        
+        for(int i = nums.length-2; i >= 0; i--) {
+            // If we can reach the last element from this position,
+            // set this to be the last element
+            if(i + nums[i] >= lastElement) {
+                lastElement = i;
+            }
+        }
+        
+        return lastElement == 0;
+    }
 }

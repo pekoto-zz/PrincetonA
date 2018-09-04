@@ -1,6 +1,7 @@
 package com.pekoto.test.challenges;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -264,5 +265,16 @@ public class LeetCodeTests {
         LeetCode lc = new LeetCode();
         
         lc.sortColors(nums);
+    }
+    
+    @Test
+    public void testCanJump() {
+        int [] possible = {2, 3, 1, 1, 4};
+        int [] impossible = {3, 2, 1, 0, 4};
+        
+        LeetCode lc = new LeetCode();
+        
+        assertTrue(lc.canJump(possible));
+        assertFalse(lc.canJump(impossible));
     }
 }
