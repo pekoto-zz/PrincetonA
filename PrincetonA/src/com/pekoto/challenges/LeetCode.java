@@ -15,6 +15,8 @@ import java.util.Stack;
 
 import com.pekoto.test.challenges.Interval;
 
+import javafx.scene.Node;
+
 public class LeetCode {
 
     /**
@@ -1604,5 +1606,40 @@ public class LeetCode {
     	} else {
     		return new int[0];
     	}
+    }
+    
+    /*
+     * Returns the inorder successor of a BST
+     * 
+     *     2
+     *    /  \
+     *   1    3 
+     *  
+     * Searching for 1 will return 2, etc.
+     *  
+     * Time: O(n) if the tree is not balanced,
+     * but O(h) if the tree is balanced, since it basically
+     * works like a binary search and cuts the tree in half
+     * each time.
+     *    
+     */  
+    public TreeNode inorderSuccessor(TreeNode root, TreeNode p) {
+    	TreeNode successor = null;
+    	
+    	TreeNode node = root;
+    	
+    	while(node != null) {
+    		if(p.val < node.val) {
+    			successor = node;
+    			node = node.left;
+    		} else {
+    			// In an in-order traversal, the successor will be
+    			// when we move back up to the right. So we only
+    			// update the successor when we move to the left.
+    			node = node.right;
+    		}
+    	}
+    	
+    	return successor;
     }
 }

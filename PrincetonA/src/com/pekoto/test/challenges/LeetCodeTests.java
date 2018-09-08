@@ -307,4 +307,18 @@ public class LeetCodeTests {
     	assertEquals(0, result[0]);
     	assertEquals(1, result[1]);
     }
+    
+    @Test
+    public void testInorderSuccessor() {
+    	TreeNode root = new TreeNode(2);
+    	TreeNode one = new TreeNode(1);
+    	TreeNode three = new TreeNode(3);
+    	
+    	root.left = one;
+    	root.right = three;
+    	
+    	LeetCode lc = new LeetCode();
+    	
+    	assertEquals(root, lc.inorderSuccessor(root, one));
+    }
 }
