@@ -293,4 +293,18 @@ public class LeetCodeTests {
         
         assertEquals("34330", lc.largestNumber(nums));
     }
+    
+    @Test
+    public void testFindOrder() {
+    	int [][] nums = {
+    			{1, 0}
+    	};
+    	
+    	LeetCode lc = new LeetCode();
+    	
+    	int [] result = lc.findOrder(2, nums);
+    	
+    	assertEquals(0, result[0]);
+    	assertEquals(1, result[1]);
+    }
 }

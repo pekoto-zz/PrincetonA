@@ -1536,6 +1536,73 @@ public class LeetCode {
            
            return order2.compareTo(order1);
         }
-        
+    }
+    
+    /*
+     * Essentially a BFS topological sort
+     * 
+     * Dependencies are given in the form
+     * [1, 0], where 0 is a prerequisite of 1.
+     * 
+     * This isn't particularly efficient. To make it better
+     * we could hold a set of element that haven't been processed yet
+     * and only process them instead of checking every prerequisite
+     * every time.
+     * 
+     */
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+    	if(numCourses == 0) {
+    		return new int[0];
+    	}
+    	
+    	int [] inDegree = new int[numCourses];
+    	int [] order = new int[numCourses];
+    	int index = 0;
+    	
+    	for(int i = 0; i < prerequisites.length; i++) {
+    		// For each prerequisite, count the number
+    		// of courses you need to complete before
+    		// taking this course (the in-degree)
+    		inDegree[prerequisites[i][0]]++;
+    	}
+    	
+    	Queue<Integer> queue = new LinkedList<Integer>();
+    	
+    	// Add the courses with no prerequisites to the queue
+    	for(int i = 0; i < numCourses; i++) {
+    		if(inDegree[i] == 0) {
+    			// Add this to the order
+    			order[index] = i;
+    			index++;
+    			
+    			// Then add it to the queue
+    			queue.add(i);
+    		}
+    	}
+    	
+    	while(!queue.isEmpty()) {
+    		int prerequisite = queue.poll();
+    		
+    		for(int i = 0; i < prerequisites.length; i++) {
+    			
+    			// Now decrement the in-degree for all the
+    			// courses for which this is a prerequisite
+    			if(prerequisites[i][1] == prerequisite) {
+    				inDegree[prerequisites[i][0]]--;
+    				
+    				if(inDegree[prerequisites[i][0]] == 0) {
+    					order[index] = prerequisites[i][0];
+    					index++;
+    					queue.add(prerequisites[i][0]);
+    				}
+    			}
+    		}
+    	}
+    	
+    	if(index == numCourses) {
+    		return order;
+    	} else {
+    		return new int[0];
+    	}
     }
 }
