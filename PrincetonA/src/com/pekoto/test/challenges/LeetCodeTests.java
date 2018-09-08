@@ -321,4 +321,31 @@ public class LeetCodeTests {
     	
     	assertEquals(root, lc.inorderSuccessor(root, one));
     }
+    
+    @Test
+    public void testInorderPredecessor() {
+    	TreeNode root = new TreeNode(5);
+    	TreeNode one = new TreeNode(1);
+    	TreeNode two = new TreeNode(2);
+    	TreeNode three = new TreeNode(3);
+    	TreeNode four = new TreeNode(4);
+    	TreeNode six = new TreeNode(6);
+    	
+    	root.right = six;
+    	root.left = three;
+    	three.left = two;
+    	three.right = four;
+    	two.left = one;
+
+    	LeetCode lc = new LeetCode();
+    	
+    	assertEquals(null, lc.inorderPredecessor(root, one));
+    	assertEquals(one, lc.inorderPredecessor(root, two));
+    	assertEquals(two, lc.inorderPredecessor(root, three));
+    	assertEquals(three, lc.inorderPredecessor(root, four));
+    	assertEquals(four, lc.inorderPredecessor(root, root));
+    	assertEquals(root, lc.inorderPredecessor(root, six));
+
+
+    }
 }

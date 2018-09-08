@@ -1642,4 +1642,35 @@ public class LeetCode {
     	
     	return successor;
     }
+    
+    /*
+     * Returns the inorder predecessor of a BST
+     * 
+     *     2
+     *    /  \
+     *   1    3 
+     *  
+     * Searching for 2 will return 1, etc.
+     *  
+     * Time: O(n) if the tree is not balanced,
+     * but O(h) if the tree is balanced, since it basically
+     * works like a binary search and cuts the tree in half
+     * each time.
+     *    
+     */  
+    public TreeNode inorderPredecessor(TreeNode root, TreeNode p) {
+    	TreeNode predecessor = null;
+    	TreeNode node = root;
+    	
+    	while(node != null) {
+    		if(p.val <= node.val) {
+    			node = node.left;
+    		} else {
+    			predecessor = node;
+    			node = node.right;
+    		}
+    	}
+    	
+    	return predecessor;
+    }
 }
