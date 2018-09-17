@@ -1673,4 +1673,59 @@ public class LeetCode {
     	
     	return predecessor;
     }
+    
+    /*
+     * Finds the kth smallest number in an array
+     * sorted horizontally and vertically.
+     * 
+     * Think of it like this: we can count the number
+     * of numbers less than k, then we can find k.
+     * We can find this number using a binary search.
+     * 
+     * 1. Take a mid point.
+     * 2. Start in the top left.
+     * 3. Move left until the number is <= the mid point
+     * 4. Count the number of this column + 1 (numbers less than k)
+     * 5. Move to the next row and repeat
+     * 6. If the count is less than k, move mid up (we need more numbers -- numbers are in a lower range)
+     * 7. Otherwise move high down (we need fewer numbers, numbers lie in a higher range)
+     * 
+     * Think about the number in a range:
+     * 1, 5, 9, 10, 11, 12, 13, 13, 15
+     * 
+     * We start of with 8 (1-16 midpoint)
+     * 2 numbers are <= 8, so move low up
+     * 9-16, mid is 12, 6 are <= 8, so move low up
+     * 13-16, mid is 14, 8 are <= 14, so move low down
+     * 13-14, mid is 13, 8 are <= 13, so move low up
+     * low = high, so break, and we have our answer
+     * 
+     */
+    public int kthSmallest(int[][] matrix, int k) {
+    	int low = matrix[0][0];
+    	int high = matrix[matrix.length-1][matrix[0].length-1]+1;
+    	
+    	while(low < high) {
+    		int mid = low + (high-low)/2;
+    		
+    		int count = 0;
+    		int col = matrix[0].length-1;
+    		
+    		for(int row = 0; row < matrix.length; row++) {
+    			while(col >= 0 && matrix[row][col] > mid) {
+    				col--;
+    			}
+    			
+    			count += col+1;
+    		}
+
+    		if(count < k) {
+    			low = mid + 1;
+    		} else {
+    			high = mid;
+    		}
+    	}
+    	
+    	return low;
+    }
 }

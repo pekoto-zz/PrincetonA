@@ -345,7 +345,18 @@ public class LeetCodeTests {
     	assertEquals(three, lc.inorderPredecessor(root, four));
     	assertEquals(four, lc.inorderPredecessor(root, root));
     	assertEquals(root, lc.inorderPredecessor(root, six));
-
-
+    }
+    
+    @Test
+    public void testKthSmallest() {
+    	int[][] matrix = {
+    			{1, 5, 9},
+    			{10, 11, 13},
+    			{12, 13, 15}
+    	};
+    	
+    	LeetCode lc = new LeetCode();
+    	
+    	assertEquals(13, lc.kthSmallest(matrix, 8));
     }
 }
