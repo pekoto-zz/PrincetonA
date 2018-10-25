@@ -1728,4 +1728,48 @@ public class LeetCode {
     	
     	return low;
     }
+    
+    /*
+     * Find and return 4 elements that sum to the target value s,
+     * or return an empty array if no target exists.
+     * 
+     * Similar to 3sum.
+     * 1. Sort the array.
+     * 2. Take two values at the start
+     * 3. Work out the target we need by subtracting the two values from 2)
+     * 4. Set up low and pointers, and move them to try to find our target
+     * 
+     * Time: O(n^3)
+     */
+    public int [] findArrayQuadruplet(int [] nums, int s) {
+    	if(nums.length < 4) {
+    		return new int[0];
+    	}
+    	
+    	Arrays.sort(nums);
+    	
+    	for(int i = 0; i < nums.length-3; i++) {
+    		for(int j = i+1; j < nums.length-2; j++) {
+    			
+    			int target = s-(nums[i] + nums[j]);
+    			int low = j+1;
+    			int high = nums.length-1;
+    			
+    			while(low < high) {
+    				
+    				if(nums[low] + nums[high] < target) {
+    					low++;
+    				} else if (nums[low] + nums[high] > target) {
+    					high--;
+    				} else {
+    					return new int[] {nums[i], nums[j], nums[low], nums[high]};
+    				}
+    				
+    			}
+    		}
+    	}
+    	
+    	return new int[0];
+    	
+    }
 }

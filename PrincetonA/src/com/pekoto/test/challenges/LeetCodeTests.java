@@ -359,4 +359,24 @@ public class LeetCodeTests {
     	
     	assertEquals(13, lc.kthSmallest(matrix, 8));
     }
+    
+    @Test
+    public void testFindArrayQuadruplet() {
+    	int [] nums = {2, 7, 4, 9, 5, 1, 3};
+    	
+    	LeetCode lc = new LeetCode();
+    	
+    	int [] result = lc.findArrayQuadruplet(nums, 20);
+    	
+    	assertEquals(4, result.length);
+    	assertEquals(1, result[0]);
+    	assertEquals(3, result[1]);
+    	assertEquals(7, result[2]);
+    	assertEquals(9, result[3]);
+    	
+    	int [] noResult = lc.findArrayQuadruplet(nums, 102);
+    	
+    	assertEquals(0, noResult.length);
+    	
+    }
 }
