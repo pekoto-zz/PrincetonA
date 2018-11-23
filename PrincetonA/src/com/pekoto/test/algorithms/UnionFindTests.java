@@ -5,6 +5,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import com.pekoto.algorithms.UnionFind;
+
 /*
  * Unit tests for the UnionFind class
  */
