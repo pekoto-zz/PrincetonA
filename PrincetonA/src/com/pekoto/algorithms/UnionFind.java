@@ -64,7 +64,7 @@ public class UnionFind {
 	 */
 	private int getRoot(int i) {
 		
-		while(i == parent[i]) {
+		while(i != parent[i]) {
 			// Simple path compression: id[i] = id[id[i]]
 			// (set every other node to point to its grandparent)
 			i = parent[i];
