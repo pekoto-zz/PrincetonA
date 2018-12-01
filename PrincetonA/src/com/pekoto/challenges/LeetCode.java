@@ -1769,7 +1769,89 @@ public class LeetCode {
     		}
     	}
     	
-    	return new int[0];
+    	return new int[0];	
+    }
+    
+    /*
+     * Returns the number of possible unlock patterns
+     * on a typical handset
+     * 
+     * m = min pattern length
+     * n = max pattern length
+     * 
+     * 1 2 3
+     * 4 5 6
+     * 7 8 9
+     * 
+     * Time: O(n!) where n is the max pattern length
+     * Space: O(n) where n is the max pattern length (recursive stack depth)
+     */
+    public int getNumPatterns(int m, int n) {
+    	boolean [] visited = new boolean[10];
+    	int [][] requiredToJump = new int[10][10];
+
+    	// horizontal jumps
+    	requiredToJump[1][3] = requiredToJump[3][1] = 2;
+    	requiredToJump[4][6] = requiredToJump[6][4] = 5;
+    	requiredToJump[7][9] = requiredToJump[9][7] = 8;
+
+    	// vertical jumps
+    	requiredToJump[1][7] = requiredToJump[7][1] = 4;
+    	requiredToJump[2][8] = requiredToJump[8][2] = 5;
+    	requiredToJump[3][9] = requiredToJump[9][3] = 6;
+
+    	// diagonal jumps
+    	requiredToJump[1][9] = requiredToJump[9][1] = 5;
+    	requiredToJump[7][3] = requiredToJump[3][7] = 5;
+
+    	int count = 0;
     	
+    	// Count from corners
+    	// *4 = 1 3 7 9 are symmetrical
+    	count += jumpDfs(1, 1, 0, m, n, requiredToJump, visited) * 4;
+    	
+    	// Count from middle elements
+    	// *4 = 2 4 6 8 are symmetrical
+    	count += jumpDfs(2, 1, 0, m, n, requiredToJump, visited) * 4;
+    	
+    	// Count from centre
+    	count += jumpDfs(5, 1, 0, m, n, requiredToJump, visited);
+    	
+    	return count;
+    }
+    
+    // 1. If the current pattern >= min, exceed count
+    // 2. Increment length, and check if we go over max (if we do return)
+    // 		(this is a kind of lookahead -- we're getting the length of the next pattern)
+    // 3. Mark the node as visited
+    // 4. Try to jump to every other node
+    // 5. Unvisit this node
+    // In terms of count, it gets stored at every call node -- so every call from 2 will have count 2, coming from 1, etc.
+    private int jumpDfs(int currentNum, int length, int count, int min, int max, int[][] requiredToJump, boolean[] visited) {
+    	if(length >= min) {
+    		count++;
+    	}
+    	
+    	length++;
+    	
+    	if(length > max) {
+    		return count;
+    	}
+    	
+    	visited[currentNum] = true;
+    	
+    	// Try visiting all the other keys
+    	for(int nextNum = 1; nextNum <= 9; nextNum++) {
+    		int jump = requiredToJump[currentNum][nextNum];
+    		
+    		if(!visited[nextNum] && (jump == 0 || visited[jump])) {
+    			count = jumpDfs(nextNum, length, count, min, max, requiredToJump, visited);
+    		}
+    	}
+    	
+    	// backtrack
+    	visited[currentNum] = false;
+    
+    	return count;
     }
 }

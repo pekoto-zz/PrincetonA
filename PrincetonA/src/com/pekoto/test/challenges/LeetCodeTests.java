@@ -377,6 +377,12 @@ public class LeetCodeTests {
     	int [] noResult = lc.findArrayQuadruplet(nums, 102);
     	
     	assertEquals(0, noResult.length);
+    }
+    
+    @Test
+    public void testGetNumPatterns() {
+    	LeetCode lc = new LeetCode();
     	
+    	assertEquals(9096, lc.getNumPatterns(3, 5));
     }
 }
