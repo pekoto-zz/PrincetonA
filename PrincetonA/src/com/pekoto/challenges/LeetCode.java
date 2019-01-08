@@ -1854,4 +1854,102 @@ public class LeetCode {
     
     	return count;
     }
+    
+    /*
+     * The general idea is to move all variables to one side and all numbers to the other.
+     * E.g.,
+     * "x+5-3+x=6+x-2"
+     * > x + x - x = 6-2-5+3
+     * > x = 6-2-2 (addition first)
+     * > x = 2
+     * 
+     * If both sides turn to 0, there are infinite solutions.
+     * x+1=x+1
+     * x-x=1-1
+     * 0=0
+     * 
+     * If there is no solution, the x side turns to 0, but the rhs has a number
+     * x=x+2
+     * x-x=2
+     * 0=2
+     * 
+     * 1. Split the equation into LHS and RHS
+     * 2. Read the parts of each side into a list
+     * 3. 
+     * 
+     */
+    public String solveEquation(String equation) {
+        String[] leftAndRightParts = equation.split("=");
+        
+        List<String> leftParts = getParts(leftAndRightParts[0]);
+        List<String> rightParts = getParts(leftAndRightParts[1]);
+        
+        int lhs = 0;
+        int rhs = 0;
+        
+        // If we have an x, we increment how many we have on the left
+        // If we have a number, we add the negative of it to the right
+        for(String part : leftParts) {
+        	if(part.contains("x")) {
+        		lhs += Integer.parseInt(getCoefficient(part));
+        	} else {
+        		rhs -= Integer.parseInt(part);
+        	}
+        }
+        
+        // Now we do the inverse with the RHS
+        for(String part : rightParts) {
+        	if(part.contains("x")) {
+        		lhs -= Integer.parseInt(getCoefficient(part));
+        	} else {
+        		rhs += Integer.parseInt(part);
+        	}
+        }
+        
+        if(lhs == 0 && rhs == 0) {
+        	return "Infinite solutions";
+        } else if (lhs == 0 && rhs != 0) {
+        	return "No solution";
+        } else {
+        	return "x=" + rhs/lhs;
+        }
+    }
+    
+    private String getCoefficient(String part) {
+    	
+    	// E.g. 6x = 2-2 = 0 (first numerical index)
+    	// -6x = 3-2 = 1 (first numerical index)
+    	int coefficientIndex = part.length()-2;
+    	
+    	// If there is a coefficient, remove x
+    	if(part.length() > 1 && part.charAt(coefficientIndex) >= '0' && part.charAt(coefficientIndex) <= '9') {
+    		return part.replace("x", "");
+    	}
+    	
+    	// Otherwise just replace with 1 (we need to replace so we can keep -)
+    	return part.replace("x", "1");
+    }
+    
+    private List<String> getParts(String equationSide){
+    	List<String> parts = new ArrayList<>();
+    
+    	String part = "";
+    	
+    	for(int i = 0; i < equationSide.length(); i++) {
+    		// When we hit a side, add the part we parsed so far and add the sign
+    		if(equationSide.charAt(i) == '+' || equationSide.charAt(i) == '-') {
+    			if(part.length() > 0) {
+    				parts.add(part);
+    			}
+    			
+    			part = "" + equationSide.charAt(i);
+    		} else {
+    			part += equationSide.charAt(i);
+    		}
+    	}
+    	
+    	parts.add(part);
+    	
+    	return parts;
+    }
 }

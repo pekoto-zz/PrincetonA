@@ -385,4 +385,11 @@ public class LeetCodeTests {
     	
     	assertEquals(9096, lc.getNumPatterns(3, 5));
     }
+    
+    @Test
+    public void testSolveEquation() {
+    	LeetCode lc = new LeetCode();
+    	
+    	assertEquals("x=2", lc.solveEquation("x+5-3+x=6+x-2"));
+    }
 }
