@@ -74,4 +74,62 @@ public class LeetCodeTwo {
 		arr[a] = arr[b];
 		arr[b] = temp;
 	}
+	
+	/*
+	 * Returns the min number of swaps required so that "couples"
+	 * (i>i+1) are next to each other.
+	 * 
+	 * This is very similar to the problem above, but the conditions are different.
+	 * Instead of breaking when the value at the index matches the index, we want to break
+	 * when the partner is in the correct position.
+	 * 
+	 * There would be another way to do this: break the array into cyclic components
+	 * using union find. Then sum of the (size of each component-1).
+	 * 
+	 */
+	public int minSwapsCouples(int[] row) {
+		
+		// First we'll build up a map of what each element's
+		// partner should be, and where it is in the position array
+		//            0 1 2 3
+		// row:      [0 2 1 3]
+		//            0 1 2 3
+		// partner:  [1 0 3 2]
+		//            0 1 2 3
+		// position: [0 2 1 3]
+		
+		int [] partners = new int[row.length];
+		int [] positions = new int[row.length];
+		
+		for(int i = 0; i < row.length; i++) {
+			partners[i] = i % 2 == 0 ? i+1 : i-1;
+			positions[row[i]] = i;
+		}
+		
+		int swaps = 0;
+		
+		for(int firstPartner=0; firstPartner < row.length; firstPartner++) {
+			// Get this person's target partner
+			int targetPartner = partners[row[firstPartner]];
+			// Get the position of this partner
+			int targetPartnerPos = positions[targetPartner];
+			// Get the partner next to the target partner
+			int targetPartnerPartner = partners[targetPartnerPos];
+			
+			// Now, while the first partner isn't sitting next to his target partner
+			// let's swap him with the person who is sitting there
+			while(firstPartner != targetPartnerPartner) {
+				swaps++;
+				swap(row, firstPartner, targetPartnerPartner);
+				swap(positions, row[firstPartner], row[targetPartnerPartner]);
+				
+				targetPartner = partners[row[firstPartner]];
+				targetPartnerPos = positions[targetPartner];
+				targetPartnerPartner = partners[targetPartnerPos];
+			}
+			
+		}
+		
+		return swaps;
+	}
 }

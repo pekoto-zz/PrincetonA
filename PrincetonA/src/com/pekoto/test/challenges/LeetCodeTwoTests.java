@@ -17,4 +17,12 @@ public class LeetCodeTwoTests {
 		assertEquals(1, lct.minSwapsToSort(nums));
 	}
 	
+	@Test
+	public void testMinSwapsCouples() {
+		LeetCodeTwo lct = new LeetCodeTwo();
+		
+		int[] nums = {0, 2, 1, 3};
+		
+		assertEquals(1, lct.minSwapsCouples(nums));
+	}
 }
