@@ -13,6 +13,9 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 
+import com.pekoto.datastructures.DirectedEdge;
+import com.pekoto.datastructures.DirectedGraph;
+import com.pekoto.datastructures.EdgeWeightedDirectedGraph;
 import com.pekoto.test.challenges.Interval;
 
 import javafx.scene.Node;
@@ -1951,5 +1954,138 @@ public class LeetCode {
     	parts.add(part);
     	
     	return parts;
+    }
+    
+    /*
+     * Finds the longest path in a directed, weighted, acyclic graph
+     * (I.e., like finding the critical path)
+     * 
+     * 1. First, get a topological sorting
+     * 2. Next, do a kind of inverse Dijkstra:
+     * 	2.1 Set distances to all vertices to -inf, set source to 0
+     * 	2.2 Then go through our topostack
+     * 	2.3 For each neighbouring vertex, if the distance to our current vertex
+     * 		+ distance to neighbour > distance to neighbour, then update the neighbour's
+     * 		distance.
+     * 3. Finally just return the vertex with the maximum distance
+     * 
+     * Time: O(V+E)
+     * Space: O(V)
+     * 
+     * Sample graph:
+     *     5
+     *   0 ---> 1
+     * 4 |    |1
+     *   |    |
+     *   2 ---> 4
+     *      10
+     * 
+     * Longest path = 0 > 2 > 4 (4+10 = 14)
+     * 
+     */
+    public double getLongestPathInWeightedDAG(EdgeWeightedDirectedGraph graph) {
+    	
+    	boolean[] visited = new boolean[graph.numOfVertices()];
+    	Stack<Integer> stack = new Stack<Integer>();
+    	
+    	for(int vertex = 0; vertex < graph.numOfVertices(); vertex++) {
+    		if(!visited[vertex]) {
+    	    	topologicalSort(graph, vertex, visited, stack);    			
+    		}
+    	}
+    	
+    	// Initialize distance to all vertices as -inf
+    	double[] distances = new double[graph.numOfVertices()];
+    	
+    	for(int i = 0; i < distances.length; i++) {
+    		distances[i] = Integer.MIN_VALUE;
+    	}
+    	
+    	// Initialize distance to source as 0
+    	distances[0] = 0;
+    	
+    	double maxDistance = Double.MIN_VALUE;
+    	
+    	// Similar to Dijkstra: check all the neighbours for each vertex
+    	// If their distance is < the distance to this vertex + weight
+    	// set their distance to be this distance
+    	while(!stack.isEmpty()) {
+    		int vertex = stack.pop();
+    		
+    		if(distances[vertex] != Integer.MIN_VALUE) {
+    			for(DirectedEdge neighbour : graph.adjacentVertices(vertex)) {
+    				if(distances[neighbour.to()] < distances[neighbour.from()] + neighbour.weight()) {
+    					distances[neighbour.to()] = distances[neighbour.from()] + neighbour.weight();
+    					
+    					maxDistance = Math.max(maxDistance, distances[neighbour.to()]);
+    				}
+    			}
+    		}
+    	}
+    	
+    	return maxDistance;
+    }
+    
+    private void topologicalSort(EdgeWeightedDirectedGraph graph, int vertex, boolean[] visited, Stack<Integer> stack) {
+    	visited[vertex] = true;
+    	
+    	for(DirectedEdge neighbour : graph.adjacentVertices(vertex)) {
+    		if(!visited[neighbour.to()]) {
+    			topologicalSort(graph, neighbour.to(), visited, stack);
+    		}
+    	}
+    	
+    	stack.push(vertex);
+    }
+    
+    /*
+     * Returns the longest path in a directed, unweighted, acyclic graph
+     * Do a DFS from each vertex.
+     * (We could optimize this by checking the max distance already during the DFS)
+     * 
+     *	1. Set up a distances array
+     *	2. DFS from each vertex if we haven't met it already
+     *		(if we did meet it already -- it must have a longer distance)
+     *	3. Once we get to a terminal vertex, set the distance to max of the distance using
+     *		this path or previous distance
+     * 
+     * Sample graph:
+     * 0 -> 1
+     * |
+     * 2 -> 3 -> 4
+     * ^
+     * |
+     * 6 <- 5
+     * 
+     * (then longest path is 5, 6, 2, 3, 4)
+     * 
+     */
+    
+    public int getLongestPathInUnweightedDAG(DirectedGraph graph) {
+    		
+    	int [] distances = new int[graph.numOfVertices()];
+    	
+    	for(int vertex = 0; vertex < graph.numOfVertices(); vertex++) {
+    		if(distances[vertex] == 0) {
+        		dfs(graph, vertex, 1, distances);    			
+    		}
+    	}
+    	
+    	int max = 0;
+    	
+    	for(int i = 0; i < distances.length; i++) {
+    		max = Math.max(max, distances[i]);
+    	}
+    	
+    	return max;
+    }
+    
+    private void dfs(DirectedGraph graph, int vertex, int distance, int [] distances) {
+    	
+    	for(int neighbour : graph.adjacentVertices(vertex)) {
+    		dfs(graph, neighbour, distance+1, distances);
+    	}
+    	
+    	distances[vertex] = Math.max(distances[vertex], distance);
     }
 }

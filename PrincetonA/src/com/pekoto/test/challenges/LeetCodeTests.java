@@ -13,6 +13,9 @@ import com.pekoto.challenges.LeetCode;
 import com.pekoto.challenges.MedianFinder;
 import com.pekoto.challenges.TreeCodec;
 import com.pekoto.challenges.TreeNode;
+import com.pekoto.datastructures.DirectedEdge;
+import com.pekoto.datastructures.DirectedGraph;
+import com.pekoto.datastructures.EdgeWeightedDirectedGraph;
 
 /**
  *  Unit tests for the LeetCode class 
@@ -391,5 +394,35 @@ public class LeetCodeTests {
     	LeetCode lc = new LeetCode();
     	
     	assertEquals("x=2", lc.solveEquation("x+5-3+x=6+x-2"));
+    }
+    
+    @Test
+    public void testGetLongestPathInUnweightedDAG() {
+    	DirectedGraph graph = new DirectedGraph(7);
+    	
+    	graph.addEdge(0, 1);
+    	graph.addEdge(0, 2);
+    	graph.addEdge(2, 3);
+    	graph.addEdge(3, 4);
+    	graph.addEdge(5, 6);
+    	graph.addEdge(6, 2);
+    	
+    	LeetCode lc = new LeetCode();
+    	
+    	assertEquals(5, lc.getLongestPathInUnweightedDAG(graph));
+    }
+    
+    @Test
+    public void testGetLongestPathInWeightedDAG() {
+    	EdgeWeightedDirectedGraph graph = new EdgeWeightedDirectedGraph(4);
+    	
+    	graph.addEdge(new DirectedEdge(0, 1, 5.0));
+    	graph.addEdge(new DirectedEdge(0, 2, 4.0));
+    	graph.addEdge(new DirectedEdge(1, 3, 1.0));
+    	graph.addEdge(new DirectedEdge(2, 3, 10.0));
+    	
+    	LeetCode lc = new LeetCode();
+    	
+    	assertEquals(14.0, lc.getLongestPathInWeightedDAG(graph), 0.1);
     }
 }
