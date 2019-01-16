@@ -25,4 +25,13 @@ public class LeetCodeTwoTests {
 		
 		assertEquals(1, lct.minSwapsCouples(nums));
 	}
+	
+	@Test
+	public void testBashPermutations() {
+		LeetCodeTwo lct = new LeetCodeTwo();
+		
+		String s = "abc{d,e}f{gh,ij}";
+		
+		assertEquals(4, lct.bashPermutations(s).size());
+	}
 }

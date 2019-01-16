@@ -1,5 +1,8 @@
 package com.pekoto.challenges;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class LeetCodeTwo {
 
 	/*
@@ -131,5 +134,50 @@ public class LeetCodeTwo {
 		}
 		
 		return swaps;
+	}
+	
+	/*
+	 * Returns all permutations of a string containing
+	 * optional wildcards.
+	 * 
+	 * E.g.:
+	 * abc{d,e}f{gh,ij}
+	 * [abcdfgh, abcdfij, abcefgh, abcefij]
+	 */
+	public List<String> bashPermutations(String s) {
+		List<String> results = new ArrayList<>();
+		
+		if(s == null || s.length() == 0) {
+			return results;
+		}
+		
+		getPermutations("", s, results);
+		
+		return results;
+	}
+	
+	private void getPermutations(String prefix, String suffix, List<String> results) {
+		if(suffix.length() == 0) {
+			results.add(prefix);
+			return;
+		}
+		
+		StringBuffer sb = new StringBuffer(prefix);
+		
+		for(int i = 0; i < suffix.length(); i++) {
+			if(suffix.charAt(i) != '{') {
+				sb.append(suffix.charAt(i));
+			} else {
+				int end = suffix.indexOf('}');
+				String[] parts = suffix.substring(i+1, end).split(",");
+				
+				for(String part : parts) {
+					getPermutations(sb.toString()+part, suffix.substring(end+1), results);
+				}
+				
+				// The rest of the string will be handled by recursive calls
+				break;
+			}
+		}
 	}
 }
