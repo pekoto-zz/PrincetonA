@@ -3,7 +3,6 @@ package com.pekoto.test.challenges;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Stack;
 
 import org.junit.Test;

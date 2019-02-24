@@ -18,8 +18,6 @@ import com.pekoto.datastructures.DirectedGraph;
 import com.pekoto.datastructures.EdgeWeightedDirectedGraph;
 import com.pekoto.test.challenges.Interval;
 
-import javafx.scene.Node;
-
 public class LeetCode {
 
     /**
@@ -289,8 +287,6 @@ public class LeetCode {
                 break;
             }
         }
-
-        List<ArrayList<Integer>> list = new ArrayList<ArrayList<Integer>>();
 
         String restOfStringWithCharRemoved = s.substring(posOfSmallest + 1).replaceAll("" + s.charAt(posOfSmallest),
                 "");

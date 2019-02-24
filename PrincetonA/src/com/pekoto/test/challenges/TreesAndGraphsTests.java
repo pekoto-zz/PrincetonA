@@ -2,9 +2,6 @@ package com.pekoto.test.challenges;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-
 import org.junit.Test;
 
 import com.pekoto.challenges.TreeNode;
@@ -28,7 +25,7 @@ public class TreesAndGraphsTests {
 		root.setRightChild(node3);
 		node3.setRightChild(node5);
 		
-		ArrayList<LinkedList<Integer>> result = TreesAndGraphs.allSequences(root);
+		TreesAndGraphs.allSequences(root);
 		
 		System.out.println();
 	}

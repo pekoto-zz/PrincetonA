@@ -1,6 +1,7 @@
 package com.pekoto.challenges;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class LeetCodeTwo {
@@ -145,6 +146,7 @@ public class LeetCodeTwo {
 	 * [abcdfgh, abcdfij, abcefgh, abcefij]
 	 */
 	public List<String> bashPermutations(String s) {
+		
 		List<String> results = new ArrayList<>();
 		
 		if(s == null || s.length() == 0) {
@@ -157,6 +159,7 @@ public class LeetCodeTwo {
 	}
 	
 	private void getPermutations(String prefix, String suffix, List<String> results) {
+		
 		if(suffix.length() == 0) {
 			results.add(prefix);
 			return;
@@ -178,6 +181,67 @@ public class LeetCodeTwo {
 				// The rest of the string will be handled by recursive calls
 				break;
 			}
+		}
+	}
+	
+	/*
+	 * Merge two sorted implementations of the list interface.
+	 * Time: O(n+m)
+	 * Space: O(n+m) for merged new list size
+	 * 
+	 * Point: We can't use the normal mergesort process
+	 * 		  because a linked list would take O(n) time to
+	 * 		  get the element at index n.
+	 */
+	public ArrayList<Integer> mergeSortedLists(List<Integer> listOne, List<Integer> listTwo) {
+		ArrayList<Integer> mergedList = new ArrayList<>();
+		
+		if(listOne == null && listTwo == null) {
+			throw new NullPointerException("Lists cannot be null");
+		}
+		
+		if(listOne == null || listOne.size() == 0) {
+			return new ArrayList<Integer>(listTwo);
+		}
+		
+		if(listTwo == null || listTwo.size() == 0) {
+			return new ArrayList<Integer>(listOne);
+		}
+		
+		Iterator<Integer> listOneIter = listOne.iterator();
+		Iterator<Integer> listTwoIter = listTwo.iterator();
+		
+		Integer listOneVal = listOneIter.next();
+		Integer listTwoVal = listTwoIter.next();
+		
+		while(listOneVal != null && listTwoVal != null) {
+			if(listOneVal < listTwoVal) {
+				mergedList.add(listOneVal);
+				listOneVal = nextOrNull(listOneIter);
+			} else {
+				mergedList.add(listTwoVal);
+				listTwoVal = nextOrNull(listTwoIter);
+			}
+		}
+		
+		while(listOneVal != null) {
+			mergedList.add(listOneVal);
+			listOneVal = nextOrNull(listOneIter);
+		}
+		
+		while(listTwoVal != null) {
+			mergedList.add(listTwoVal);
+			listTwoVal = nextOrNull(listTwoIter);
+		}
+		
+		return mergedList;
+	}
+	
+	private Integer nextOrNull(Iterator<Integer> iter) {
+		if(iter.hasNext()) {
+			return iter.next();
+		} else {
+			return null;
 		}
 	}
 }

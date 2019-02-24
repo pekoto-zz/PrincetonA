@@ -57,9 +57,7 @@ public class LeetCodeTests {
         intervals.add(new Interval(0, 2));
         intervals.add(new Interval(3, 5));
         
-        List<Interval> merged = LeetCode.merge(intervals);
-        
-        assertTrue(true);
+        LeetCode.merge(intervals);
     }
     
     @Test
