@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -70,6 +71,23 @@ public class LeetCodeTwoTests {
 		assertEquals(Integer.valueOf(10), mergedList.get(3));
 		assertEquals(Integer.valueOf(11), mergedList.get(4));
 		assertEquals(Integer.valueOf(13), mergedList.get(5));
+	}
+	
+	@Test
+	public void testMinManhattanDistance() {
+		LeetCodeTwo lct = new LeetCodeTwo();
+		
+		int [][] grid = new int[2][2];
+		List<int[]> points = new ArrayList<>();
+		
+		points.add(new int[] {0,0});
+		points.add(new int[] {0,2});
+		points.add(new int[] {2,2});
+		
+		int[] result = lct.minManhattanDistance(grid, points);
+		
+		assertEquals(0, result[0]);
+		assertEquals(2, result[1]);
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.pekoto.challenges;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -243,5 +244,72 @@ public class LeetCodeTwo {
 		} else {
 			return null;
 		}
+	}
+	
+	/*
+	 * Given a grid and points on that grid, find the point on the grid such
+	 * that the sum of the Manhattan distances from that point to the other points
+	 * is minimized.
+	 * 
+	 * (Manhattan distance = distance between 2 points on a grid, given by |x1-x2|+|y1-y2|)
+	 * 
+	 * 0,0------0,1------1,1
+	 *  |        |        |
+	 * 1,0------1,1------1,2
+	 *  |        |        |
+	 * 2,0------2,1------2,2
+	 * 
+	 * Imagine we had points at 0,0 , 0,2 and 2,2, we can get the Manhattan distance sum for each
+	 * coordinate:
+	 * 
+	 * 0,0 = 0 + 2 + 4 = 6
+	 * 0,1 = 1 + 1 + 3 = 5
+	 * 0,2 = 0 + 2 + 2 = 4
+	 * 1,0 = 1 + 3 + 3 = 7
+	 * 1,1 = 2 + 2 + 2 = 6
+	 * 1,2 = 3 + 1 + 1 = 5
+	 * 2,0 = 2 + 4 + 2 = 8
+	 * 2,1 = 3 + 3 + 1 = 7
+	 * 2,2 = 4 + 2 + 0 = 6
+	 * 
+	 * So the best point is 0,2.
+	 * 
+	 * To get the optimum solution we can use a tedious trick that uses the property of Manhattan distance:
+	 * namely, x and y can be separated.
+	 * So simply get the median of the x and y coordinates.
+	 * 
+	 * This gives us O(n log n) time, where n is the number of points.
+	 * (Need to prove this works for even n)
+	 * (Also, we don't even need the grid, assuming the points are valid)
+	 */
+	public int[] minManhattanDistance(int[][] grid, List<int[]> points) {
+		
+		if(grid[0].length <= 1) {
+			return new int[] {0, 0};
+		}
+		
+		List<Integer> xCoords = new ArrayList<>();
+		List<Integer> yCoords = new ArrayList<>();
+		
+		for(int[] point : points) {
+			xCoords.add(point[1]);
+			yCoords.add(point[0]);
+		}
+		
+		Collections.sort(xCoords);
+		Collections.sort(yCoords);
+		
+		int[] result = new int[2];
+		int mid = xCoords.size() / 2;
+		
+		if(xCoords.size() % 2 == 0) {
+			result[0] = (yCoords.get(mid) + yCoords.get(mid+1)) / 2;	
+			result[1] = (xCoords.get(mid) + xCoords.get(mid+1)) / 2;
+		} else {
+			result[0] = yCoords.get(mid);
+			result[1] = xCoords.get(mid);
+		}
+		
+		return result;
 	}
 }
