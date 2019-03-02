@@ -279,7 +279,7 @@ public class LeetCodeTwo {
 	 * So simply get the median of the x and y coordinates.
 	 * 
 	 * This gives us O(n log n) time, where n is the number of points.
-	 * (Need to prove this works for even n)
+	 * (Need to *prove* this works for even n)
 	 * (Also, we don't even need the grid, assuming the points are valid)
 	 */
 	public int[] minManhattanDistance(int[][] grid, List<int[]> points) {
@@ -311,5 +311,45 @@ public class LeetCodeTwo {
 		}
 		
 		return result;
+	}
+	
+	/*
+	 * Gets all permutations of an array, where the array contains duplicates.
+	 * Normally we swap the index on each iteration.
+	 * However, note: if we swap two indices with the same value,
+	 * we would just end up with a duplicate permutation.
+	 * (Except in the case where i == index, which happens when generating
+	 * the permutation containing the initial ordering).
+	 * 
+	 * Formula for permutations with repeats:
+	 * n!/(repeat element 1 count)!*(repeat element 2 count)!...
+	 * 
+	 * E.g., for {1, 1, 2, 3}
+	 * We have 4 elements, and 1 is repeated twice, so:
+	 * 4!/2! = 24/2 = 12 unique permutations
+	 */
+	public List<int[]> getDuplicatePermutations(int [] arr) {
+		List<int[]> permutations = new ArrayList<>();
+		
+		getDuplicatePermutations(arr, 0, permutations);
+		
+		return permutations;
+	}
+	
+	private void getDuplicatePermutations(int [] arr, int index, List<int[]> permutations) {
+		if(index == arr.length) {
+			permutations.add(arr.clone());
+			return;
+		}
+		
+		for(int i = index; i < arr.length; i++) {
+			if(index != i && arr[index] == arr[i]) {
+				continue;
+			}
+			
+			swap(arr, index, i);
+			getDuplicatePermutations(arr, index+1, permutations);
+			swap(arr, index, i);
+		}
 	}
 }

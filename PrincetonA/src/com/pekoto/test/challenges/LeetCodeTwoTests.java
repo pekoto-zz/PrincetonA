@@ -90,4 +90,14 @@ public class LeetCodeTwoTests {
 		assertEquals(2, result[1]);
 	}
 
+	@Test
+	public void testGetDuplicatePermutations() {
+		LeetCodeTwo lct = new LeetCodeTwo();
+		
+		int [] arr = {1, 1, 2, 3};
+		
+		List<int[]> result = lct.getDuplicatePermutations(arr);
+		
+		assertEquals(12, result.size());
+	}
 }
