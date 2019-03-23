@@ -123,6 +123,7 @@ public class LeetCodeTwoTests {
 		System.out.println();
 	}
 	
+	@Test
 	public void testGetAsManyMeetings() {
 		LeetCodeTwo lct = new LeetCodeTwo();
 		
