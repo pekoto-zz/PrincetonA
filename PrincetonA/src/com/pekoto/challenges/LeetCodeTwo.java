@@ -427,4 +427,70 @@ public class LeetCodeTwo {
 
 		return needsToBeCheckedAgain ? candyCrush(board) : board;
 	}
+
+	
+	/*
+	 * Given a number of hours, and a list of integers
+	 * representing the number of hours a meeting takes,
+	 * fill as many hours as you can, AND return the list of those hours.
+	 * 
+	 * This is basically like the knapsack problem, but you have to backtrack
+	 * through the generated matrix to get the hours taken.
+	 */
+	public List<Integer> getAsManyMeetings(int[] meetings, int hours) {
+		List<Integer> results = new ArrayList<>();
+		
+		if(meetings.length == 0 || hours == 0) {
+			return results;
+		}
+		
+		// First use DP to get the max hours taken
+		// The cols represent hours, and rows represent meeting hours
+		int[][] max = new int[meetings.length+1][hours+1];
+		
+		for(int meetingIndex = 1; meetingIndex <= meetings.length; meetingIndex++) {
+			for(int hour = 1; hour <= hours; hour++) {
+				int hoursForThisMeeting = meetings[meetingIndex-1];
+				
+				if(hoursForThisMeeting > hour) {
+					// If this meeting doesn't fit into this hour, just take the value from the row above
+					max[meetingIndex][hour] = max[meetingIndex-1][hour];
+				} else {
+					// Otherwise choose between time of taking this meeting, or not taking this meeting
+					int hoursWithThisMeetingAndPreviousMax = hoursForThisMeeting + max[meetingIndex-1][hour-(meetingIndex-1)];
+					int hoursWithoutThisMeeting = max[meetingIndex-1][hour];
+					
+					if(hoursWithThisMeetingAndPreviousMax > hour) {
+						// If taking this meeting and the previous max > current hours,
+						// then just choose between taking the previous max or this meeting
+						max[meetingIndex][hour] = Math.max(hoursForThisMeeting, hoursWithoutThisMeeting);
+					} else {
+						// Else choose between taking this meeting and previous max, or just previous max
+						max[meetingIndex][hour] = Math.max(hoursWithThisMeetingAndPreviousMax, hoursWithoutThisMeeting);						
+					}
+				}
+			}
+		}
+		
+		// Now we need to backtrack through matrix to get the hours that were taken:
+		// 1. Start in the lower right
+		// 2. If this value is the same as the row above, it came from the row above, move up
+		// 3. Else move left by this value
+		int maxHours = max[max.length-1][max[0].length-1];
+		int hourIndex = max[0].length-1;
+		
+		for(int meetingIndex = max.length-1; meetingIndex > 0; meetingIndex--) {
+			if(maxHours == max[meetingIndex-1][hourIndex]) {
+				// Move up a row -- result came from above
+				continue;
+			} else {
+				// Add this to results and move left by hours taken
+				results.add(meetings[meetingIndex-1]);
+				maxHours -= meetings[meetingIndex-1];
+				hourIndex -= meetings[meetingIndex-1];
+			}
+		}
+		
+		return results;
+	}
 }

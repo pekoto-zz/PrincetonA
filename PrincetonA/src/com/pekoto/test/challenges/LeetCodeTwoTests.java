@@ -122,4 +122,16 @@ public class LeetCodeTwoTests {
 		
 		System.out.println();
 	}
+	
+	public void testGetAsManyMeetings() {
+		LeetCodeTwo lct = new LeetCodeTwo();
+		
+		int[] meetings = {5, 2, 3};
+		
+		List<Integer> result = lct.getAsManyMeetings(meetings, 8);
+		
+		assertEquals(2, result.size());
+		assertEquals(Integer.valueOf(3), result.get(0));
+		assertEquals(Integer.valueOf(5), result.get(1));
+	}
 }
