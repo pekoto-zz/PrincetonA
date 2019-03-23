@@ -2,8 +2,10 @@ package com.pekoto.challenges;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 public class LeetCodeTwo {
 
@@ -351,5 +353,78 @@ public class LeetCodeTwo {
 			getDuplicatePermutations(arr, index+1, permutations);
 			swap(arr, index, i);
 		}
+	}
+	
+	/*
+	 * First do the crushing stage:
+	 * 1. Check horizontal: check if the next two cells match and are not zero
+	 * 1.1 If so, set them all -ve, set flag
+	 * 
+	 * 2. Check vertical: check if next two cells match and are not zero
+	 * 2.1 If so, set them all -ve, set flag
+	 * (Note, don't set to 0 yet -- need to use this in vertical and horizontal)
+	 * 
+	 * 3. Crush:
+	 * 3.1 Set up a write pointer
+	 * 3.2 Iterate through: when the row is +ve, write the val into the write pointer
+	 * 	   and decrement the write pointer (write pointers stops when val -ve)
+	 * 3.3 Finally, increment the space from write pointer to top to be 0
+	 * 
+	 *    9
+	 *    8
+	 *    -4
+	 *    -4
+	 *    -4
+	 *    1
+	 * 
+	 * Time: O(n*m)^2 -- we go over every cell potentially every time
+	 * 
+	 */
+	public int[][] candyCrush(int[][] board) {
+
+		boolean needsToBeCheckedAgain = false;
+		
+		// Go along and check horizontal values
+		for (int row = 0; row < board.length; row++) {
+			for (int col = 0; col + 2 < board[0].length; col++) {
+				int v = Math.abs(board[row][col]);
+				
+				if (v != 0 && v == Math.abs(board[row][col+1]) && v == Math.abs(board[row][col+2])) {
+					board[row][col] = board[row][col+1] = board[row][col+2] = -v;
+					needsToBeCheckedAgain = true;
+				}
+			}
+		}
+		
+		// Go down and check vertical values
+		for (int row = 0; row + 2 < board.length; row++) {
+			for (int col = 0; col < board[0].length; col++) {
+				int v = Math.abs(board[row][col]);
+				if (v != 0 && v == Math.abs(board[row+1][col]) && v == Math.abs(board[row+2][col])) {
+					board[row][col] = board[row+1][col] = board[row+2][col] = -v;
+					needsToBeCheckedAgain = true;
+				}
+			}
+		}
+
+		// Crush down
+		for (int col = 0; col < board[0].length; col++) {
+			int writeRow = board.length - 1;
+			
+			for (int row = board.length-1; row >= 0; row--) {
+				if (board[row][col] > 0) {
+					board[writeRow][col] = board[row][col];	
+					writeRow--;
+				}
+				
+			}
+			
+			while (writeRow >= 0) {
+				board[writeRow][col] = 0;
+				writeRow--;
+			}
+		}
+
+		return needsToBeCheckedAgain ? candyCrush(board) : board;
 	}
 }
